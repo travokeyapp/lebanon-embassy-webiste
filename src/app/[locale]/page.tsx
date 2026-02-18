@@ -52,7 +52,7 @@ export default async function Home({ params }: { params: Promise<{ locale: "en" 
   const t = content[locale] ?? content.en;
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell locale={locale} activeNav="home">
       <section className="heroBlock">
         <div className="welcomePanel">
           <h2>{t.heroTitle}</h2>

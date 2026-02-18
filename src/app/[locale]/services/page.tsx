@@ -1,4 +1,5 @@
 import SiteShell from "@/components/site-shell";
+import { normalizeLocale } from "@/lib/locale";
 
 const text = {
   en: {
@@ -11,9 +12,10 @@ const text = {
   },
 };
 
-export default async function Services({ params }: { params: Promise<{ locale: "en" | "ar" }> }) {
-  const { locale } = await params;
-  const t = text[locale] ?? text.en;
+export default async function Services({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale = normalizeLocale(rawLocale);
+  const t = text[locale];
 
   return (
     <SiteShell locale={locale}>

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+type ActiveNav = "home" | "ambassador" | "consular" | "visas" | "relations" | "contact";
+
 const copy = {
   en: {
     ribbon: "Official Website of the Embassy of the Republic of Lebanon in Islamabad - Pakistan",
@@ -62,16 +64,26 @@ const copy = {
 
 export default function SiteShell({
   locale,
+  activeNav,
   children,
 }: {
   locale: "en" | "ar";
+  activeNav?: ActiveNav;
   children: React.ReactNode;
 }) {
   const t = copy[locale];
   const isArabic = locale === "ar";
+  const navItems: Array<{ key: ActiveNav; href: string; label: string }> = [
+    { key: "home", href: `/${locale}`, label: t.nav.home },
+    { key: "ambassador", href: `/${locale}/ambassador`, label: t.nav.ambassador },
+    { key: "consular", href: `/${locale}/consular`, label: t.nav.consular },
+    { key: "visas", href: `/${locale}/visas`, label: t.nav.visas },
+    { key: "relations", href: `/${locale}/relations`, label: t.nav.relations },
+    { key: "contact", href: `/${locale}/contact`, label: t.nav.contact },
+  ];
 
   return (
-    <main className={isArabic ? "rtl" : ""}>
+    <main className={`sitePage${isArabic ? " rtl" : ""}`}>
       <div className="topRibbon">
         <div className="container ribbonRow">
           <span>{t.ribbon}</span>
@@ -107,34 +119,23 @@ export default function SiteShell({
           <div className="container navRow">
             <input id="menu-toggle" className="menuToggleInput" type="checkbox" />
             <label htmlFor="menu-toggle" className="menuToggleBtn" aria-label={t.menu}>
-              ☰ {t.menu}
+              {t.menu}
             </label>
 
             <ul className="navLinks">
-              <li>
-                <Link href={`/${locale}`}>{t.nav.home}</Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/about`}>{t.nav.ambassador}</Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services`}>{t.nav.consular}</Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services`}>{t.nav.visas}</Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/about`}>{t.nav.relations}</Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/contact`}>{t.nav.contact}</Link>
-              </li>
+              {navItems.map((item) => (
+                <li key={item.key}>
+                  <Link href={item.href} className={item.key === activeNav ? "active" : ""}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </nav>
       </header>
 
-      {children}
+      <div className="siteContent">{children}</div>
 
       <footer className="siteFooter">
         <div className="container footerColumns">
@@ -166,8 +167,9 @@ export default function SiteShell({
           </section>
         </div>
 
-        <div className="container footerBottom">© {new Date().getFullYear()} {t.footer.copyright}</div>
+        <div className="container footerBottom">(c) {new Date().getFullYear()} {t.footer.copyright}</div>
       </footer>
     </main>
   );
 }
+
