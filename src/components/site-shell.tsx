@@ -16,7 +16,18 @@ const copy = {
       relations: "Lebanon-Pakistan Relations",
       contact: "Contact Us",
     },
-    footer: "Embassy of Lebanon. All rights reserved.",
+    footer: {
+      contactTitle: "Contact Info",
+      address: "House No. 4, Street No. 10, F-8/3 Islamabad, Pakistan",
+      phone: "+92 51 227 8338",
+      email: "lebanonembassypakistan@gmail.com",
+      linksTitle: "Related Links",
+      links: ["Ministry of Foreign Affairs", "Invest in Lebanon", "Ministry of Tourism"],
+      aboutTitle: "About",
+      aboutText:
+        "The Embassy of Lebanon in Pakistan is the sole diplomatic representation of the Lebanese Republic in Pakistan, dedicated to serving Lebanese citizens and fostering bilateral relations.",
+      copyright: "Embassy of Lebanon in Islamabad. All Rights Reserved.",
+    },
     menu: "Menu",
   },
   ar: {
@@ -33,7 +44,18 @@ const copy = {
       relations: "العلاقات اللبنانية الباكستانية",
       contact: "اتصل بنا",
     },
-    footer: "سفارة لبنان. جميع الحقوق محفوظة.",
+    footer: {
+      contactTitle: "معلومات التواصل",
+      address: "المنزل رقم 4، الشارع رقم 10، F-8/3، إسلام آباد، باكستان",
+      phone: "+92 51 227 8338",
+      email: "lebanonembassypakistan@gmail.com",
+      linksTitle: "روابط مهمة",
+      links: ["وزارة الخارجية", "استثمر في لبنان", "وزارة السياحة"],
+      aboutTitle: "نبذة",
+      aboutText:
+        "سفارة لبنان في باكستان هي التمثيل الدبلوماسي الرسمي للجمهورية اللبنانية، وتعمل على خدمة المواطنين اللبنانيين وتعزيز العلاقات الثنائية.",
+      copyright: "سفارة لبنان في إسلام آباد. جميع الحقوق محفوظة.",
+    },
     menu: "القائمة",
   },
 };
@@ -114,8 +136,37 @@ export default function SiteShell({
 
       {children}
 
-      <footer>
-        <div className="container">© {new Date().getFullYear()} {t.footer}</div>
+      <footer className="siteFooter">
+        <div className="container footerColumns">
+          <section className="footerCard">
+            <h4>{t.footer.contactTitle}</h4>
+            <p>{t.footer.address}</p>
+            <p>
+              <strong>Phone:</strong> {t.footer.phone}
+            </p>
+            <p>
+              <strong>Email:</strong> {t.footer.email}
+            </p>
+          </section>
+
+          <section className="footerCard">
+            <h4>{t.footer.linksTitle}</h4>
+            <ul className="footerLinks">
+              {t.footer.links.map((label) => (
+                <li key={label}>
+                  <a href="#">{label}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="footerCard">
+            <h4>{t.footer.aboutTitle}</h4>
+            <p>{t.footer.aboutText}</p>
+          </section>
+        </div>
+
+        <div className="container footerBottom">© {new Date().getFullYear()} {t.footer.copyright}</div>
       </footer>
     </main>
   );

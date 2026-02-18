@@ -275,11 +275,55 @@ a {
   padding: 0.7rem;
 }
 
-footer {
-  background: #1f2937;
+
+.siteFooter {
+  background: #1f2126;
   color: #d1d5db;
-  font-size: 0.9rem;
-  padding: 0.9rem 0;
+  margin-top: 2.5rem;
+}
+
+.footerColumns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+  padding: 2.2rem 0 1.6rem;
+}
+
+.footerCard h4 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.05rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  padding-bottom: 0.55rem;
+}
+
+.footerCard p {
+  margin: 0.75rem 0 0;
+  line-height: 1.6;
+  color: #d7d9dd;
+  font-size: 0.97rem;
+}
+
+.footerLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.footerLinks a {
+  color: #e5e7eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footerBottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1rem 0 1.2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #f3f4f6;
 }
 
 .rtl {
@@ -304,6 +348,12 @@ footer {
 
   .heroBlock {
     min-height: 300px;
+  }
+
+  .footerColumns {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.5rem 0 1rem;
   }
 }
 
