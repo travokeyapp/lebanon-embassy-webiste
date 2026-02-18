@@ -4,7 +4,7 @@ import Link from "next/link";
 const copy = {
   en: {
     ribbon: "Official Website of the Embassy of the Republic of Lebanon in Islamabad - Pakistan",
-    title: "EMBASSY OF LEBANON",
+    title: "Embassy of Lebanon",
     city: "Islamabad - Pakistan",
     arabicTop: "سفارة لبنان في إسلام آباد",
     arabicBottom: "الجمهورية اللبنانية",
@@ -17,6 +17,7 @@ const copy = {
       contact: "Contact Us",
     },
     footer: "Embassy of Lebanon. All rights reserved.",
+    menu: "Menu",
   },
   ar: {
     ribbon: "الموقع الرسمي لسفارة الجمهورية اللبنانية في إسلام آباد - باكستان",
@@ -33,6 +34,7 @@ const copy = {
       contact: "اتصل بنا",
     },
     footer: "سفارة لبنان. جميع الحقوق محفوظة.",
+    menu: "القائمة",
   },
 };
 
@@ -66,7 +68,7 @@ export default function SiteShell({
       <header className="siteHeader">
         <div className="container headerRow">
           <div className="brandWrap">
-            <Image src="/cedar-logo.svg" alt="Cedar Logo" width={66} height={82} className="cedarLogo" priority />
+            <Image src="/cedar-logo.svg" alt="Cedar Logo" width={56} height={70} className="cedarLogo" priority />
             <div className="brand">
               <h1>{t.title}</h1>
               <p>{t.city}</p>
@@ -80,8 +82,13 @@ export default function SiteShell({
         </div>
 
         <nav className="nav">
-          <div className="container">
-            <ul>
+          <div className="container navRow">
+            <input id="menu-toggle" className="menuToggleInput" type="checkbox" />
+            <label htmlFor="menu-toggle" className="menuToggleBtn" aria-label={t.menu}>
+              ☰ {t.menu}
+            </label>
+
+            <ul className="navLinks">
               <li>
                 <Link href={`/${locale}`}>{t.nav.home}</Link>
               </li>
