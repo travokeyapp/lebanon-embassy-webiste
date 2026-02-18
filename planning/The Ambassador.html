@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ambassador | Embassy of Lebanon in Islamabad</title>
+    <style>
+        :root {
+            --lebanon-red: #CE1126;
+            --lebanon-green: #00A651;
+            --dark-grey: #333;
+            --light-grey: #f4f4f4;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-grey);
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        /* Header & Nav Styles (Consistent with Home/Relations) */
+        .top-bar {
+            background-color: var(--dark-grey);
+            color: var(--white);
+            padding: 5px 10%;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .top-bar a { color: var(--white); text-decoration: none; margin-left: 15px; }
+
+        .header-container {
+            background-color: var(--white);
+            border-bottom: 5px solid var(--lebanon-red);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .cedar-logo {
+            width: 0; height: 0; 
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 50px solid var(--lebanon-green);
+            margin-right: 20px;
+        }
+
+        .embassy-title h1 { margin: 0; font-size: 1.8rem; color: var(--lebanon-red); text-transform: uppercase; }
+        .embassy-title h2 { margin: 5px 0 0 0; font-size: 1rem; color: var(--dark-grey); font-weight: 400; }
+
+        .nav-bar { background-color: var(--lebanon-red); padding: 0 10%; }
+        .nav-bar ul { list-style: none; padding: 0; margin: 0; display: flex; }
+        .nav-bar a { display: block; padding: 15px 20px; color: var(--white); text-decoration: none; font-weight: 500; }
+        .nav-bar a:hover { background-color: #a80e1e; }
+
+        /* Bio Content Styles */
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+        }
+
+        .bio-card {
+            background: var(--white);
+            padding: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 4px;
+        }
+
+        .ambassador-photo {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .section-title {
+            border-bottom: 2px solid var(--lebanon-red);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            color: var(--lebanon-red);
+        }
+
+        .focus-list { list-style: none; padding: 0; }
+        .focus-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .focus-list li::before {
+            content: "•";
+            color: var(--lebanon-green);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+
+        footer { background-color: #222; color: #ccc; padding: 40px 10%; font-size: 0.9rem; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div>Official Website of the Embassy of the Republic of Lebanon in Islamabad - Pakistan</div>
+        <div><a href="#">English</a> | <a href="#">العربية</a></div>
+    </div>
+
+    <div class="header-container">
+        <div class="header-content">
+            <div class="cedar-logo"></div>
+            <div class="embassy-title">
+                <h1>Embassy of Lebanon</h1>
+                <h2>Islamabad - Pakistan</h2>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="The Ambassador.html">The Ambassador</a></li>
+            <li><a href="Consular.html">Consular Services</a></li>
+            <li><a href="Visas.html">Visas</a></li>
+            <li><a href="Lebanon-Pakistan Relations.html">Lebanon-Pakistan Relations</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="bio-card">
+                <div class="ambassador-photo">
+                    [Official Portrait]
+                </div>
+                <h3 style="text-align:center; margin-bottom:5px;">H.E. Abdulaziz ISSA</h3>
+                <p style="text-align:center; color:#666; font-size:0.9rem; margin-top:0;">
+                    Ambassador Extraordinary and Plenipotentiary to the Islamic Republic of Pakistan
+                </p>
