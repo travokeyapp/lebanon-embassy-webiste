@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lebanon-Pakistan Relations | Embassy of Lebanon in Islamabad</title>
+    <style>
+        :root {
+            --lebanon-red: #CE1126;
+            --lebanon-green: #00A651;
+            --dark-grey: #333;
+            --light-grey: #f4f4f4;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-grey);
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--dark-grey);
+            color: var(--white);
+            padding: 5px 10%;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top-bar a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        /* Header / Flag Banner */
+        .header-container {
+            background-color: var(--white);
+            border-bottom: 5px solid var(--lebanon-red);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .cedar-logo {
+            width: 0; 
+            height: 0; 
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 50px solid var(--lebanon-green);
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .embassy-title h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--lebanon-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .embassy-title h2 {
+            margin: 5px 0 0 0;
+            font-size: 1rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+        }
+
+        .arabic-title {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.4rem;
+            color: var(--dark-grey);
+            margin-left: auto;
+            text-align: right;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background-color: var(--lebanon-red);
+            padding: 0 10%;
+        }
+
+        .nav-bar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .nav-bar li {
+            position: relative;
+        }
+
+        .nav-bar a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .nav-bar a:hover {
+            background-color: #a80e1e;
+        }
+
+        /* Main Content */
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .article-content {
+            background: var(--white);
+            padding: 40px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 4px;
+        }
+
+        .section-title {
+            border-bottom: 2px solid var(--lebanon-red);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            color: var(--lebanon-red);
+            font-size: 1.5rem;
+        }
+
+        .article-intro {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--lebanon-green);
+            padding-left: 20px;
+        }
+
+        ul.article-list {
+            padding-left: 20px;
+        }
+
+        ul.article-list li {
+            margin-bottom: 10px;
+        }
+
+        /* Sidebar */
+        .sidebar-card {
+            background: var(--white);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-top: 4px solid var(--lebanon-green);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            background-color: var(--dark-grey);
+            color: var(--white);
+            text-align: center;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--lebanon-red);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: #ccc;
+            padding: 40px 10%;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            text-align: center;
+            border-top: 1px solid #444;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div>Official Website of the Embassy of the Republic of Lebanon in Islamabad - Pakistan</div>
+        <div><a href="#">English</a> | <a href="#">العربية</a></div>
+    </div>
+
+    <div class="header-container">
+        <div class="header-content">
+            <div class="cedar-logo"></div>
+            <div class="embassy-title">
+                <h1>Embassy of Lebanon</h1>
+                <h2>Islamabad - Pakistan</h2>
+            </div>
+            <div class="arabic-title">
+                سفارة لبنان في إسلام أباد<br>
+                <span style="font-size: 1rem; color: #CE1126;">الجمهورية اللبنانية</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="The Ambassador.html">The Ambassador</a></li>
+            <li><a href="Consular.html">Consular Services</a></li>
+            <li><a href="Visas.html">Visas</a></li>
+            <li><a href="Lebanon-Pakistan Relations.html">Lebanon-Pakistan Relations</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="main-col">
+            <div class="article-content">
+                <h2 style="margin-top:0; color:var(--lebanon-red);">Lebanon-Pakistan Relations</h2>
+                
+                <p class="article-intro">
+                    Relations between Lebanon and Pakistan are characterized by a long-standing "Treaty of Friendship" and a shared commitment to regional stability. Despite the geographical distance, both nations have maintained a steady, fraternal bond rooted in common cultural values and mutual support within international organizations like the United Nations and the Organisation of Islamic Cooperation (OIC).
+                </p>
+
+                <h3 class="section-title">Historical and Diplomatic Foundations</h3>
+                <p>Diplomatic ties were formally established in the early 1950s. A cornerstone of this relationship is the <strong>Treaty of Friendship</strong> signed in Beirut on January 16, 1953, which pledged perpetual peace and closer economic and cultural cooperation.</p>
+                <p>Over the decades, the two countries have maintained resident embassies in each other's capitals (Islamabad and Beirut). High-level meetings often occur on the sidelines of global summits. For instance, in January 2024 and again in 2026, the Prime ministers of both nations met at the World Economic Forum in Davos to reaffirm their resolve to strengthen bilateral ties and discuss the regional security situation.</p>
+
+                <h3 class="section-title">Economic and Technical Cooperation</h3>
+                <p>While the trade volume remains modest, there has been a renewed push to formalize and expand economic ties.</p>
+                <ul class="article-list">
+                    <li><strong>Joint Economic Commission (JEC):</strong> In July 2022, the two countries signed an agreement to establish a JEC, which officially came into force in May 2023. This commission serves as a consultative mechanism to enhance cooperation in trade, investment, agriculture, and science and technology.</li>
+                    <li><strong>Trade Figures:</strong> In the 2023–2024 fiscal year, bilateral trade was approximately $12.7 million to $22 million (depending on the reporting period).</li>
+                    <li><strong>Pakistan's Exports:</strong> Chiefly textiles (non-knit women's suits), rice, and plastics.</li>
+                    <li><strong>Lebanon's Exports:</strong> Primarily blank audio media, electrical machinery, and animal fats.</li>
+                </ul>
+
+                <h3 class="section-title">Humanitarian and Defense Ties</h3>
+                <p>Pakistan has frequently extended a hand of solidarity during Lebanon's times of crisis.</p>
+                <ul class="article-list">
+                    <li><strong>Disaster Relief:</strong> Following the 2020 Beirut port explosion, Pakistan sent 8 tonnes of relief aid. More recently, in late 2024 and early 2025, Pakistan dispatched over 100 tons of humanitarian aid—including medicines and winter clothing—to assist those affected by regional conflicts.</li>
+                    <li><strong>Defense & Security:</strong> There is a history of military cooperation and training exchanges. In recent years, the two nations have also signed agreements to combat illicit drug trafficking, reflecting a shared interest in internal security and the rule of law.</li>
+                </ul>
+
+                <h3 class="section-title">Current Landscape (2026)</h3>
+                <p>As of early 2026, the relationship remains focused on sovereignty and stability. Pakistan consistently advocates for Lebanon’s territorial integrity on the global stage. Conversely, the Pakistani community in Lebanon, though small, serves as a vital bridge, despite recent travel advisories issued by the Pakistani Ministry of Foreign Affairs due to regional volatility.</p>
+                
+                <div style="background:#f9f9f9; padding:15px; border-radius:4px; margin-top:30px; font-style:italic; color:#666;">
+                    For specific details regarding cultural exchange programs or current visa requirements, please contact the Consular Section.
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-card">
+                <h4 style="margin-top:0; color:#CE1126;">Head of Mission</h4>
+                <strong style="display:block; text-align:center;">H.E. Mr. Abdulaziz Issa</strong>
+                <p style="text-align:center; font-size:0.9rem; color:#666;">Ambassador of Lebanon to Pakistan</p>
+                <a href="#" class="btn">View Biography</a>
+            </div>
+
+            <div class="sidebar-card">
+                <h4 style="margin-top:0; color:#CE1126;">Quick Links</h4>
+                <ul style="padding-left:20px; line-height:1.8; color:#333;">
+                    <li><a href="#" style="color:#333; text-decoration:none;">Visa Requirements</a></li>
+                    <li><a href="#" style="color:#333; text-decoration:none;">Trade Opportunities</a></li>
+                    <li><a href="#" style="color:#333; text-decoration:none;">Consular Affairs</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <p>House No. 4, Street No. 10, F-8/3, Islamabad<br>Phone: +92 51 227 8338</p>
+            </div>
+            <div class="footer-col">
+                <h3>Related Links</h3>
+                <p>Ministry of Foreign Affairs<br>Invest in Lebanon</p>
+            </div>
+            <div class="footer-col">
+                <h3>About</h3>
+                <p>Dedicated to fostering strong bilateral relations between Lebanon and Pakistan.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 Embassy of Lebanon in Islamabad.</div>
+    </footer>
+
+</body>
+</html>

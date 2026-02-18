@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 82" role="img" aria-labelledby="title desc">
+  <title id="title">Cedar Logo</title>
+  <desc id="desc">Stylized cedar tree icon in Lebanon green</desc>
+  <g fill="#00a651">
+    <polygon points="33,4 24,15 29,15 20,25 26,25 16,36 24,36 13,49 53,49 42,36 50,36 40,25 46,25 37,15 42,15"/>
+    <rect x="30" y="49" width="6" height="24" rx="1"/>
+  </g>
+</svg>

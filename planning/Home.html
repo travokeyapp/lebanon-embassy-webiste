@@ -1,0 +1,441 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embassy of Lebanon in Islamabad | Pakistan</title>
+    <style>
+        :root {
+            --lebanon-red: #CE1126;
+            --lebanon-green: #00A651;
+            --dark-grey: #333;
+            --light-grey: #f4f4f4;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-grey);
+            color: var(--dark-grey);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--dark-grey);
+            color: var(--white);
+            padding: 5px 10%;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .top-bar a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        /* Header / Flag Banner */
+        .header-container {
+            background-color: var(--white);
+            border-bottom: 5px solid var(--lebanon-red);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .cedar-logo {
+            font-size: 50px;
+            color: var(--lebanon-green);
+            margin-right: 20px;
+            /* Creating a CSS Cedar Tree approximation */
+            width: 0; 
+            height: 0; 
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 50px solid var(--lebanon-green);
+            position: relative;
+        }
+        
+        /* Stylized Cedar Text Fallback */
+        .logo-img {
+            height: 80px;
+            width: auto;
+        }
+
+        .embassy-title h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--lebanon-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .embassy-title h2 {
+            margin: 5px 0 0 0;
+            font-size: 1rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+        }
+
+        .arabic-title {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.4rem;
+            color: var(--dark-grey);
+            margin-left: auto;
+            text-align: right;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background-color: var(--lebanon-red);
+            padding: 0 10%;
+        }
+
+        .nav-bar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .nav-bar li {
+            position: relative;
+        }
+
+        .nav-bar a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .nav-bar a:hover {
+            background-color: #a80e1e;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Faisal_Mosque_Islamabad_II.jpg/1200px-Faisal_Mosque_Islamabad_II.jpg'); /* Placeholder image of Islamabad */
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-text {
+            background-color: rgba(206, 17, 38, 0.8);
+            padding: 30px;
+            border-radius: 5px;
+            max-width: 600px;
+        }
+
+        .hero-text h2 {
+            margin-top: 0;
+            font-size: 2rem;
+        }
+
+        /* Main Content */
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .section-title {
+            border-bottom: 2px solid var(--lebanon-red);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: var(--lebanon-red);
+            font-size: 1.5rem;
+        }
+
+        .news-item {
+            display: flex;
+            margin-bottom: 25px;
+            background: var(--white);
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .news-date {
+            background-color: var(--lebanon-green);
+            color: var(--white);
+            padding: 10px;
+            text-align: center;
+            min-width: 60px;
+            height: fit-content;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .news-content h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .news-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Sidebar */
+        .sidebar-card {
+            background: var(--white);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-top: 4px solid var(--lebanon-green);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .ambassador-img {
+            width: 100%;
+            height: 200px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            background-color: var(--dark-grey);
+            color: var(--white);
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--lebanon-red);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: #ccc;
+            padding: 40px 10%;
+            font-size: 0.9rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .footer-col h3 {
+            color: var(--white);
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            text-align: center;
+            border-top: 1px solid #444;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+    <div>Official Website of the Embassy of the Republic of Lebanon in Islamabad - Pakistan</div>
+    <div>
+        <a href="#">English</a> | <a href="#">العربية</a>
+    </div>
+</div>
+
+    <!-- Header -->
+    <div class="header-container">
+        <div class="header-content">
+            <!-- CSS Cedar Tree Representation -->
+            <img src="cedar-logo.png" alt="Lebanon Cedar" class="logo-img">
+            
+            <div class="embassy-title">
+                <h1>Embassy of Lebanon</h1>
+                <h2>Islamabad - Pakistan</h2>
+            </div>
+            
+            <div class="arabic-title">
+                سفارة لبنان في إسلام أباد<br>
+                <span style="font-size: 1rem; color: #CE1126;">الجمهورية اللبنانية</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="The Ambassador.html">The Ambassador</a></li>
+            <li><a href="Consular.html">Consular Services</a></li>
+            <li><a href="Visas.html">Visas</a></li>
+            <li><a href="Lebanon-Pakistan Relations.html">Lebanon-Pakistan Relations</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-text">
+            <h2>Welcome to the Embassy of Lebanon</h2>
+            <p>Strengthening the diplomatic, cultural, and economic ties between the Lebanese Republic and the Islamic Republic of Pakistan.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        
+        <!-- Main News Column -->
+        <div class="main-col">
+            <h3 class="section-title">Latest News & Events</h3>
+
+            <!-- News Item 1 -->
+            <div class="news-item">
+                <div class="news-date">
+                    JAN<br><span style="font-size:1.4rem">15</span>
+                </div>
+                <div class="news-content">
+                    <h3>Ambassador Issa meets with Federal Minister of Commerce</h3>
+                    <p>H.E. Mr. Abdulaziz Issa discussed enhancing bilateral trade volume and economic cooperation between Lebanon and Pakistan during a meeting at the Ministry of Commerce.</p>
+                </div>
+            </div>
+
+            <!-- News Item 2 -->
+            <div class="news-item">
+                <div class="news-date">
+                    DEC<br><span style="font-size:1.4rem">22</span>
+                </div>
+                <div class="news-content">
+                    <h3>Embassy celebrates Lebanese Independence Day</h3>
+                    <p>A reception was held in Islamabad to mark the 82nd Independence Day of Lebanon, attended by diplomatic corps and Pakistani officials.</p>
+                </div>
+            </div>
+
+            <!-- News Item 3 -->
+            <div class="news-item">
+                <div class="news-date">
+                    OCT<br><span style="font-size:1.4rem">17</span>
+                </div>
+                <div class="news-content">
+                    <h3>Presentation of Credentials</h3>
+                    <p>Ambassador-designate H.E. Mr. Abdulaziz Issa presented his credentials to the President of Pakistan, Asif Ali Zardari, at Aiwan-e-Sadr.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Column -->
+        <div class="sidebar">
+            
+            <!-- Ambassador Box -->
+            <div class="sidebar-card">
+                <h4 style="margin-top:0; color:#CE1126;">Head of Mission</h4>
+                <div class="ambassador-img">
+                    [Photo of Ambassador]
+                </div>
+                <strong style="display:block; text-align:center;">H.E. Mr. Abdulaziz Issa</strong>
+                <p style="text-align:center; font-size:0.9rem; color:#666;">Ambassador of Lebanon to Pakistan</p>
+                <a href="#" class="btn">View Biography</a>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="sidebar-card">
+                <h4 style="margin-top:0; color:#CE1126;">Consular Services</h4>
+                <ul style="padding-left:20px; line-height:1.8; color:#333;">
+                    <li><a href="#" style="color:#333; text-decoration:none;">Visa Requirements</a></li>
+                    <li><a href="#" style="color:#333; text-decoration:none;">Passport Renewal</a></li>
+                    <li><a href="#" style="color:#333; text-decoration:none;">Legalization of Documents</a></li>
+                    <li><a href="#" style="color:#333; text-decoration:none;">Family Registration</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Box -->
+            <div class="sidebar-card">
+                <h4 style="margin-top:0; color:#CE1126;">Contact Us</h4>
+                <p style="font-size:0.9rem;">
+                    <strong>Address:</strong><br>
+                    House No. 4, Street No. 10,<br>
+                    F-8/3, Islamabad<br>
+                    Pakistan
+                </p>
+                <p style="font-size:0.9rem;">
+                    <strong>Phone:</strong><br>
+                    +92 51 227 8338<br>
+                    +92 51 227 8565
+                </p>
+                <p style="font-size:0.9rem;">
+                    <strong>Hours:</strong><br>
+                    Mon - Fri: 09:00 - 15:00
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li>House No. 4, Street No. 10, F-8/3</li>
+                    <li>Islamabad, Pakistan</li>
+                    <li>Phone: +92 51 227 8338</li>
+                    <li>Email: lebanonembassypakistan@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Related Links</h3>
+                <ul>
+                    <li><a href="#" style="color:#ccc;">Ministry of Foreign Affairs</a></li>
+                    <li><a href="#" style="color:#ccc;">Invest in Lebanon</a></li>
+                    <li><a href="#" style="color:#ccc;">Ministry of Tourism</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>About</h3>
+                <p>The Embassy of Lebanon in Pakistan is the sole diplomatic representation of the Lebanese Republic in Pakistan, dedicated to serving Lebanese citizens and fostering bilateral relations.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Embassy of Lebanon in Islamabad. All Rights Reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

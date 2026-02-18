@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consular Services | Embassy of Lebanon in Islamabad</title>
+    <style>
+        :root {
+            --lebanon-red: #CE1126;
+            --lebanon-green: #00A651;
+            --dark-grey: #333;
+            --light-grey: #f4f4f4;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-grey);
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation (Consistent with Home/Ambassador/Relations) */
+        .top-bar { background-color: var(--dark-grey); color: var(--white); padding: 5px 10%; font-size: 0.8rem; display: flex; justify-content: space-between; }
+        .top-bar a { color: var(--white); text-decoration: none; margin-left: 15px; }
+        .header-container { background-color: var(--white); border-bottom: 5px solid var(--lebanon-red); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .header-content { width: 80%; margin: 0 auto; display: flex; align-items: center; padding: 20px 0; }
+        .cedar-logo { width: 0; height: 0; border-left: 25px solid transparent; border-right: 25px solid transparent; border-bottom: 50px solid var(--lebanon-green); margin-right: 20px; }
+        .embassy-title h1 { margin: 0; font-size: 1.8rem; color: var(--lebanon-red); text-transform: uppercase; }
+        .nav-bar { background-color: var(--lebanon-red); padding: 0 10%; }
+        .nav-bar ul { list-style: none; padding: 0; margin: 0; display: flex; }
+        .nav-bar a { display: block; padding: 15px 20px; color: var(--white); text-decoration: none; font-weight: 500; }
+        .nav-bar a:hover { background-color: #a80e1e; }
+
+        /* Consular Content Styles */
+        .container { width: 80%; margin: 40px auto; }
+        .page-header { background-color: var(--white); padding: 30px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 10px solid var(--lebanon-green); }
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .service-card { background: var(--white); padding: 25px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .service-card h3 { color: var(--lebanon-red); border-bottom: 2px solid var(--light-grey); padding-bottom: 10px; margin-top: 0; }
+        .service-card ul { padding-left: 20px; }
+        .service-card li { margin-bottom: 10px; }
+
+        .notice-box { background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 20px; border-radius: 4px; margin-top: 30px; }
+        footer { background-color: #222; color: #ccc; padding: 40px 10%; font-size: 0.9rem; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div>Official Website of the Embassy of the Republic of Lebanon in Islamabad - Pakistan</div>
+        <div><a href="#">English</a> | <a href="#">العربية</a></div>
+    </div>
+
+    <div class="header-container">
+        <div class="header-content">
+            <div class="cedar-logo"></div>
+            <div class="embassy-title">
+                <h1>Embassy of Lebanon</h1>
+                <h2>Islamabad - Pakistan</h2>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+       <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="The Ambassador.html">The Ambassador</a></li>
+            <li><a href="Consular.html">Consular Services</a></li>
+            <li><a href="Visas.html">Visas</a></li>
+            <li><a href="Lebanon-Pakistan Relations.html">Lebanon-Pakistan Relations</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2 style="margin:0; color:var(--lebanon-red);">Consular Affairs</h2>
+            <p style="margin: 10px 0 0 0;">The Embassy of Lebanon in Islamabad is committed to providing efficient and professional services to Lebanese nationals and the public in Pakistan.</p>
+        </div>
+
+        <div class="service-grid">
+            <div class="service-card">
+                <h3>Passport Services</h3>
+                <ul>
+                    <li><strong>Renewal:</strong> Processing for Biometric and 2003-model passports.</li>
+                    <li><strong>Emergency Travel:</strong> Issuance of Laissez-Passer for citizens with lost or expired passports.</li>
+                    <li><strong>Loss Report:</strong> Procedures for reporting and replacing lost Lebanese travel documents.</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <h3>Civil Status Registration</h3>
+                <ul>
+                    <li><strong>Birth:</strong> Registration of children born in Pakistan to ensure Lebanese citizenship rights.</li>
+                    <li><strong>Marriage/Divorce:</strong> Official documentation of family status changes.</li>
+                    <li><strong>Death:</strong> Necessary procedures for the repatriation of remains or local documentation.</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <h3>Attestation & Power of Attorney</h3>
+                <ul>
+                    <li><strong>Wakala:</strong> Drafting General and Special Powers of Attorney for use in Lebanon.</li>
+                    <li><strong>Commercial:</strong> Legalization of invoices, certificates of origin, and trade documents.</li>
+                    <li><strong>Personal:</strong> Attestation of educational degrees and medical certificates.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-header" style="margin-top: 40px; border-left-color: var(--lebanon-red);">
+            <h3 style="margin-top:0; color:var(--lebanon-red);">Application Workflow</h3>
+            <p>To ensure your documents are processed without delay, please follow the standard legalization flow:</p>
+            
+            
+        </div>
+
+        <div class="notice-box">
+            <strong>Important Note:</strong> All documents issued by Pakistani authorities must be attested by the **Ministry of Foreign Affairs (MOFA) of Pakistan** before they can be accepted for legalization by the Lebanese Embassy.
+        </div>
+    </div>
+
+    <footer>
+        <div style="text-align:center;">
+            &copy; 2026 Embassy of Lebanon in Islamabad. All Rights Reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
