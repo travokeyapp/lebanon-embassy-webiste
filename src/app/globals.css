@@ -78,14 +78,14 @@ a {
 .brand h1 {
   margin: 0;
   color: var(--lebanon-red);
-  font-size: clamp(1.5rem, 2.4vw, 2.35rem);
+  font-size: clamp(1.35rem, 2vw, 2rem);
   letter-spacing: 0.4px;
   text-transform: uppercase;
 }
 
 .brand p {
   margin: 0.2rem 0 0;
-  font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
   color: #4b5563;
 }
 
@@ -95,13 +95,13 @@ a {
 
 .arabicHeader p {
   margin: 0;
-  font-size: clamp(1rem, 2.2vw, 1.7rem);
+  font-size: clamp(0.95rem, 1.7vw, 1.3rem);
   color: #1f2937;
 }
 
 .arabicHeader span {
   color: var(--lebanon-red);
-  font-size: clamp(0.88rem, 1.9vw, 1.25rem);
+  font-size: clamp(0.82rem, 1.4vw, 1rem);
 }
 
 .nav {
@@ -120,7 +120,7 @@ a {
   display: none;
   color: #fff;
   font-weight: 700;
-  padding: 0.8rem 0;
+  padding: 0.7rem 0;
   cursor: pointer;
 }
 
@@ -128,7 +128,7 @@ a {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.2rem;
+  gap: 0.1rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -137,9 +137,9 @@ a {
 .navLinks a {
   display: block;
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  padding: 0.95rem 1rem;
+  padding: 0.78rem 0.82rem;
   border-radius: 6px;
   transition: background-color 0.2s ease;
 }
@@ -169,14 +169,14 @@ a {
 
 .welcomePanel h2 {
   margin: 0;
-  font-size: clamp(1.8rem, 3vw, 2.55rem);
+  font-size: clamp(1.5rem, 2.3vw, 2.1rem);
   line-height: 1.25;
   font-weight: 700;
 }
 
 .welcomePanel p {
   margin: 1rem 0 0;
-  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  font-size: clamp(0.92rem, 1.35vw, 1.1rem);
   line-height: 1.45;
 }
 
@@ -193,7 +193,7 @@ a {
 
 .newsHeading {
   color: var(--lebanon-red);
-  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
   margin: 0;
   padding-bottom: 0.7rem;
   border-bottom: 2px solid var(--lebanon-red);
@@ -238,14 +238,14 @@ a {
 
 .newsItem h4 {
   margin: 0;
-  font-size: clamp(1rem, 1.7vw, 1.45rem);
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
   color: #111827;
 }
 
 .newsItem p {
   margin: 0.4rem 0 0;
   color: #4b5563;
-  font-size: clamp(0.9rem, 1.2vw, 1.02rem);
+  font-size: clamp(0.84rem, 1.05vw, 0.95rem);
   line-height: 1.5;
 }
 
@@ -259,7 +259,7 @@ a {
 .missionCard h4 {
   margin: 0;
   color: var(--lebanon-red);
-  font-size: clamp(1.1rem, 1.7vw, 1.5rem);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
 }
 
 .missionPlaceholder {
@@ -270,7 +270,7 @@ a {
   display: grid;
   place-items: center;
   color: #6b7280;
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  font-size: clamp(0.85rem, 1.05vw, 0.95rem);
   text-align: center;
   padding: 0.7rem;
 }
@@ -383,7 +383,7 @@ a {
   }
 
   .navLinks a {
-    font-size: 0.98rem;
+    font-size: 0.88rem;
     padding: 0.8rem 0.2rem;
     border-radius: 0;
   }
