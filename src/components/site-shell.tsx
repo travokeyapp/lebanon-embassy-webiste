@@ -1,7 +1,8 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
-type ActiveNav = "home" | "ambassador" | "consular" | "visas" | "relations" | "contact";
+type ActiveNav = "home" | "ambassador" | "consular" | "visas" | "relations" | "gallery" | "contact";
 
 const copy = {
   en: {
@@ -16,6 +17,7 @@ const copy = {
       consular: "Consular Services",
       visas: "Visas",
       relations: "Lebanon-Pakistan Relations",
+      gallery: "Gallery",
       contact: "Contact Us",
     },
     footer: {
@@ -44,6 +46,7 @@ const copy = {
       consular: "الخدمات القنصلية",
       visas: "التأشيرات",
       relations: "العلاقات اللبنانية الباكستانية",
+      gallery: "معرض الصور",
       contact: "اتصل بنا",
     },
     footer: {
@@ -69,7 +72,7 @@ export default function SiteShell({
 }: {
   locale: "en" | "ar";
   activeNav?: ActiveNav;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const t = copy[locale];
   const isArabic = locale === "ar";
@@ -79,6 +82,7 @@ export default function SiteShell({
     { key: "consular", href: `/${locale}/consular`, label: t.nav.consular },
     { key: "visas", href: `/${locale}/visas`, label: t.nav.visas },
     { key: "relations", href: `/${locale}/relations`, label: t.nav.relations },
+    { key: "gallery", href: `/${locale}/gallery`, label: t.nav.gallery },
     { key: "contact", href: `/${locale}/contact`, label: t.nav.contact },
   ];
 
@@ -102,7 +106,15 @@ export default function SiteShell({
       <header className="siteHeader">
         <div className="container headerRow">
           <div className="brandWrap">
-            <Image src="/cedar-logo.svg" alt="Cedar Logo" width={56} height={70} className="cedarLogo" priority />
+            <Image
+              src="/cedar-logo.svg"
+              alt="Cedar Logo"
+              width={56}
+              height={70}
+              className="cedarLogo"
+              priority
+              suppressHydrationWarning
+            />
             <div className="brand">
               <h1>{t.title}</h1>
               <p>{t.city}</p>
@@ -172,4 +184,3 @@ export default function SiteShell({
     </main>
   );
 }
-

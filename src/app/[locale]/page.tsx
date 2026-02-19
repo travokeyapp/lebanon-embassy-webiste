@@ -1,28 +1,27 @@
+import Link from "next/link";
 import SiteShell from "@/components/site-shell";
+import { normalizeLocale } from "@/lib/locale";
+import {
+  HOME_NEWS_PAGE_SIZE,
+  clampPage,
+  getNewsForLocale,
+  paginateItems,
+  parsePageParam,
+} from "@/lib/news";
 
 const content = {
   en: {
     heroTitle: "Welcome to the Embassy of Lebanon",
-    heroText: "Strengthening the diplomatic, cultural, and economic ties between the Lebanese Republic and the Islamic Republic of Pakistan.",
+    heroText:
+      "Strengthening diplomatic, cultural, and economic ties between the Lebanese Republic and the Islamic Republic of Pakistan.",
     sectionTitle: "Latest News & Events",
     headOfMission: "Head of Mission",
     placeholder: "[Photo of Ambassador]",
-    news: [
-      {
-        month: "JAN",
-        day: "15",
-        title: "Ambassador Issa meets with Federal Minister of Commerce",
-        excerpt:
-          "H.E. Mr. Abdulaziz Issa discussed enhancing bilateral trade volume and economic cooperation between Lebanon and Pakistan during a meeting at the Ministry of Commerce.",
-      },
-      {
-        month: "DEC",
-        day: "08",
-        title: "Embassy celebrates Lebanese Independence Day",
-        excerpt:
-          "A ceremony was held at the Embassy with officials, diplomatic representatives, and members of the Lebanese community in Pakistan.",
-      },
-    ],
+    viewAllNews: "View All News",
+    previous: "Previous",
+    next: "Next",
+    page: "Page",
+    paginationLabel: "Homepage news pages",
   },
   ar: {
     heroTitle: "مرحبًا بكم في سفارة لبنان",
@@ -30,26 +29,42 @@ const content = {
     sectionTitle: "آخر الأخبار والفعاليات",
     headOfMission: "رئيس البعثة",
     placeholder: "[صورة السفير]",
-    news: [
-      {
-        month: "يناير",
-        day: "15",
-        title: "لقاء السفير عيسى مع وزير التجارة الفيدرالي",
-        excerpt: "بحث سعادة السفير عبدالعزيز عيسى تعزيز التبادل التجاري والتعاون الاقتصادي بين لبنان وباكستان.",
-      },
-      {
-        month: "ديسمبر",
-        day: "08",
-        title: "احتفال السفارة بعيد الاستقلال اللبناني",
-        excerpt: "أقيمت مراسم في السفارة بحضور مسؤولين ودبلوماسيين وأبناء الجالية اللبنانية في باكستان.",
-      },
-    ],
+    viewAllNews: "عرض جميع الأخبار",
+    previous: "السابق",
+    next: "التالي",
+    page: "الصفحة",
+    paginationLabel: "صفحات الأخبار في الصفحة الرئيسية",
   },
 };
 
-export default async function Home({ params }: { params: Promise<{ locale: "en" | "ar" }> }) {
-  const { locale } = await params;
-  const t = content[locale] ?? content.en;
+type HomeSearchParams = {
+  newsPage?: string | string[];
+};
+
+export default async function Home({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams?: Promise<HomeSearchParams>;
+}) {
+  const { locale: rawLocale } = await params;
+  const locale = normalizeLocale(rawLocale);
+  const t = content[locale];
+
+  const newsItems = getNewsForLocale(locale);
+  const query = (await searchParams) ?? {};
+  const totalPages = Math.max(1, Math.ceil(newsItems.length / HOME_NEWS_PAGE_SIZE));
+  const requestedPage = parsePageParam(query.newsPage);
+  const currentPage = clampPage(requestedPage, totalPages);
+  const pagedNews = paginateItems(newsItems, currentPage, HOME_NEWS_PAGE_SIZE);
+
+  const toHomeNewsPage = (page: number) => {
+    if (page <= 1) {
+      return `/${locale}#latest-news`;
+    }
+    return `/${locale}?newsPage=${page}#latest-news`;
+  };
 
   return (
     <SiteShell locale={locale} activeNav="home">
@@ -60,24 +75,59 @@ export default async function Home({ params }: { params: Promise<{ locale: "en" 
         </div>
       </section>
 
-      <section className="newsSection">
+      <section className="newsSection" id="latest-news">
         <div className="container newsGrid">
           <div>
-            <h3 className="newsHeading">{t.sectionTitle}</h3>
+            <div className="newsHeaderRow">
+              <h3 className="newsHeading">{t.sectionTitle}</h3>
+              <Link className="newsViewAllLink" href={`/${locale}/news`}>
+                {t.viewAllNews}
+              </Link>
+            </div>
+
             <div className="newsList">
-              {t.news.map((item) => (
-                <article className="newsItem" key={`${item.month}-${item.day}-${item.title}`}>
+              {pagedNews.map((item) => (
+                <article className="newsItem" key={item.slug}>
                   <div className="dateBox">
                     <span>{item.month}</span>
                     <strong>{item.day}</strong>
                   </div>
+
                   <div>
-                    <h4>{item.title}</h4>
+                    <h4>
+                      <Link className="newsTitleLink" href={`/${locale}/news?item=${item.slug}#${item.slug}`}>
+                        {item.title}
+                      </Link>
+                    </h4>
                     <p>{item.excerpt}</p>
                   </div>
                 </article>
               ))}
             </div>
+
+            {totalPages > 1 ? (
+              <nav className="newsPagination" aria-label={t.paginationLabel}>
+                {currentPage > 1 ? (
+                  <Link className="newsPageLink" href={toHomeNewsPage(currentPage - 1)}>
+                    {t.previous}
+                  </Link>
+                ) : (
+                  <span className="newsPageLink isDisabled">{t.previous}</span>
+                )}
+
+                <span className="newsPageInfo">
+                  {t.page} {currentPage} / {totalPages}
+                </span>
+
+                {currentPage < totalPages ? (
+                  <Link className="newsPageLink" href={toHomeNewsPage(currentPage + 1)}>
+                    {t.next}
+                  </Link>
+                ) : (
+                  <span className="newsPageLink isDisabled">{t.next}</span>
+                )}
+              </nav>
+            ) : null}
           </div>
 
           <aside className="missionCard">
