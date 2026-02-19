@@ -154,7 +154,7 @@ export default async function Contact({ params }: { params: Promise<{ locale: "e
               title={t.mapFrameTitle}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps?q=House%20No.%204%2C%20Street%20No.%2010%2C%20F-8%2F3%2C%20Islamabad%2C%20Pakistan&output=embed"
+              src="https://www.google.com/maps?q=33.714478914901754,73.04048619705408&z=16&output=embed"
             />
           </div>
         </section>

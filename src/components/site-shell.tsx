@@ -1,6 +1,7 @@
 ﻿import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import ScrollEffects from "@/components/scroll-effects";
 
 type ActiveNav = "home" | "ambassador" | "consular" | "visas" | "relations" | "gallery" | "contact";
 
@@ -26,7 +27,11 @@ const copy = {
       phone: "+92 51 227 8338",
       email: "lebanonembassypakistan@gmail.com",
       linksTitle: "Related Links",
-      links: ["Ministry of Foreign Affairs", "Invest in Lebanon", "Ministry of Tourism"],
+      links: [
+        { label: "Ministry of Foreign Affairs", href: "https://mfa.gov.lb/" },
+        { label: "Invest in Lebanon", href: "https://investinlebanon.gov.lb/" },
+        { label: "Ministry of Tourism", href: "https://mot.gov.lb/" },
+      ],
       aboutTitle: "About",
       aboutText:
         "The Embassy of Lebanon in Pakistan is the sole diplomatic representation of the Lebanese Republic in Pakistan, dedicated to serving Lebanese citizens and fostering bilateral relations.",
@@ -55,7 +60,11 @@ const copy = {
       phone: "+92 51 227 8338",
       email: "lebanonembassypakistan@gmail.com",
       linksTitle: "روابط مهمة",
-      links: ["وزارة الخارجية", "استثمر في لبنان", "وزارة السياحة"],
+      links: [
+        { label: "وزارة الخارجية", href: "https://mfa.gov.lb/" },
+        { label: "استثمر في لبنان", href: "https://investinlebanon.gov.lb/" },
+        { label: "وزارة السياحة", href: "https://mot.gov.lb/" },
+      ],
       aboutTitle: "نبذة",
       aboutText:
         "سفارة لبنان في باكستان هي التمثيل الدبلوماسي الرسمي للجمهورية اللبنانية، وتعمل على خدمة المواطنين اللبنانيين وتعزيز العلاقات الثنائية.",
@@ -82,12 +91,12 @@ export default function SiteShell({
     { key: "consular", href: `/${locale}/consular`, label: t.nav.consular },
     { key: "visas", href: `/${locale}/visas`, label: t.nav.visas },
     { key: "relations", href: `/${locale}/relations`, label: t.nav.relations },
-    { key: "gallery", href: `/${locale}/gallery`, label: t.nav.gallery },
     { key: "contact", href: `/${locale}/contact`, label: t.nav.contact },
   ];
 
   return (
     <main className={`sitePage${isArabic ? " rtl" : ""}`}>
+      <ScrollEffects />
       <div className="topRibbon">
         <div className="container ribbonRow">
           <span>{t.ribbon}</span>
@@ -107,10 +116,10 @@ export default function SiteShell({
         <div className="container headerRow">
           <div className="brandWrap">
             <Image
-              src="/cedar-logo.svg"
+              src="/cedar-logo.png"
               alt="Cedar Logo"
-              width={56}
-              height={70}
+              width={80}
+              height={65}
               className="cedarLogo"
               priority
               suppressHydrationWarning
@@ -165,9 +174,11 @@ export default function SiteShell({
           <section className="footerCard">
             <h4>{t.footer.linksTitle}</h4>
             <ul className="footerLinks">
-              {t.footer.links.map((label) => (
-                <li key={label}>
-                  <a href="#">{label}</a>
+              {t.footer.links.map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} target="_blank" rel="noreferrer">
+                    {item.label}
+                  </a>
                 </li>
               ))}
             </ul>
