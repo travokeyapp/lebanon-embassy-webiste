@@ -2,6 +2,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import ScrollEffects from "@/components/scroll-effects";
+import UiModeToggle from "@/components/ui-mode-toggle";
 
 type ActiveNav = "home" | "ambassador" | "consular" | "visas" | "relations" | "gallery" | "contact";
 
@@ -100,14 +101,17 @@ export default function SiteShell({
       <div className="topRibbon">
         <div className="container ribbonRow">
           <span>{t.ribbon}</span>
-          <div className="langInline" aria-label="Language switcher">
-            <Link href="/en" className={locale === "en" ? "active" : ""}>
-              English
-            </Link>
-            <span>|</span>
-            <Link href="/ar" className={locale === "ar" ? "active" : ""}>
-              العربية
-            </Link>
+          <div className="ribbonControls">
+            <div className="langInline" aria-label="Language switcher">
+              <Link href="/en" className={locale === "en" ? "active" : ""}>
+                English
+              </Link>
+              <span>|</span>
+              <Link href="/ar" className={locale === "ar" ? "active" : ""}>
+                العربية
+              </Link>
+            </div>
+            <UiModeToggle locale={locale} />
           </div>
         </div>
       </div>
