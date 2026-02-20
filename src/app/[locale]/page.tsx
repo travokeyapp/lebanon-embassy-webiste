@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import SiteShell from "@/components/site-shell";
 import { normalizeLocale } from "@/lib/locale";
 import {
@@ -22,18 +22,20 @@ const content = {
     next: "Next",
     page: "Page",
     paginationLabel: "Homepage news pages",
+    emptyNews: "No news for now.",
   },
   ar: {
-    heroTitle: "مرحبًا بكم في سفارة لبنان",
-    heroText: "تعزيز الروابط الدبلوماسية والثقافية والاقتصادية بين الجمهورية اللبنانية وجمهورية باكستان الإسلامية.",
-    sectionTitle: "آخر الأخبار والفعاليات",
-    headOfMission: "رئيس البعثة",
-    placeholder: "[صورة السفير]",
-    viewAllNews: "عرض جميع الأخبار",
-    previous: "السابق",
-    next: "التالي",
-    page: "الصفحة",
-    paginationLabel: "صفحات الأخبار في الصفحة الرئيسية",
+    heroTitle: "Ù…Ø±Ø­Ø¨Ù‹Ø§ Ø¨ÙƒÙ… ÙÙŠ Ø³ÙØ§Ø±Ø© Ù„Ø¨Ù†Ø§Ù†",
+    heroText: "ØªØ¹Ø²ÙŠØ² Ø§Ù„Ø±ÙˆØ§Ø¨Ø· Ø§Ù„Ø¯Ø¨Ù„ÙˆÙ…Ø§Ø³ÙŠØ© ÙˆØ§Ù„Ø«Ù‚Ø§ÙÙŠØ© ÙˆØ§Ù„Ø§Ù‚ØªØµØ§Ø¯ÙŠØ© Ø¨ÙŠÙ† Ø§Ù„Ø¬Ù…Ù‡ÙˆØ±ÙŠØ© Ø§Ù„Ù„Ø¨Ù†Ø§Ù†ÙŠØ© ÙˆØ¬Ù…Ù‡ÙˆØ±ÙŠØ© Ø¨Ø§ÙƒØ³ØªØ§Ù† Ø§Ù„Ø¥Ø³Ù„Ø§Ù…ÙŠØ©.",
+    sectionTitle: "Ø¢Ø®Ø± Ø§Ù„Ø£Ø®Ø¨Ø§Ø± ÙˆØ§Ù„ÙØ¹Ø§Ù„ÙŠØ§Øª",
+    headOfMission: "Ø±Ø¦ÙŠØ³ Ø§Ù„Ø¨Ø¹Ø«Ø©",
+    placeholder: "[ØµÙˆØ±Ø© Ø§Ù„Ø³ÙÙŠØ±]",
+    viewAllNews: "Ø¹Ø±Ø¶ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø£Ø®Ø¨Ø§Ø±",
+    previous: "Ø§Ù„Ø³Ø§Ø¨Ù‚",
+    next: "Ø§Ù„ØªØ§Ù„ÙŠ",
+    page: "Ø§Ù„ØµÙØ­Ø©",
+    paginationLabel: "ØµÙØ­Ø§Øª Ø§Ù„Ø£Ø®Ø¨Ø§Ø± ÙÙŠ Ø§Ù„ØµÙØ­Ø© Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©",
+    emptyNews: "Ù„Ø§ ØªÙˆØ¬Ø¯ Ø£Ø®Ø¨Ø§Ø± Ø­Ø§Ù„ÙŠÙ‹Ø§.",
   },
 };
 
@@ -69,9 +71,9 @@ export default async function Home({
   return (
     <SiteShell locale={locale} activeNav="home">
       <section className="heroBlock">
-        <div className="welcomePanel">
-          <h2>{t.heroTitle}</h2>
-          <p>{t.heroText}</p>
+        <div className="heroSplitVisuals" aria-hidden="true">
+          <div className="heroVisual heroVisualFaisal" />
+          <div className="heroVisual heroVisualLebanon" />
         </div>
       </section>
 
@@ -86,26 +88,32 @@ export default async function Home({
             </div>
 
             <div className="newsList">
-              {pagedNews.map((item) => (
-                <article className="newsItem" key={item.slug}>
-                  <div className="dateBox">
-                    <span>{item.month}</span>
-                    <strong>{item.day}</strong>
-                  </div>
+              {pagedNews.length > 0 ? (
+                pagedNews.map((item) => (
+                  <article className="newsItem" key={item.slug}>
+                    <div className="dateBox">
+                      <span>{item.month}</span>
+                      <strong>{item.day}</strong>
+                    </div>
 
-                  <div>
-                    <h4>
-                      <Link className="newsTitleLink" href={`/${locale}/news?item=${item.slug}#${item.slug}`}>
-                        {item.title}
-                      </Link>
-                    </h4>
-                    <p>{item.excerpt}</p>
-                  </div>
-                </article>
-              ))}
+                    <div>
+                      <h4>
+                        <Link className="newsTitleLink" href={`/${locale}/news?item=${item.slug}#${item.slug}`}>
+                          {item.title}
+                        </Link>
+                      </h4>
+                      <p>{item.excerpt}</p>
+                    </div>
+                  </article>
+                ))
+              ) : (
+                <div className="noticeBox">
+                  <p>{t.emptyNews}</p>
+                </div>
+              )}
             </div>
 
-            {totalPages > 1 ? (
+            {pagedNews.length > 0 && totalPages > 1 ? (
               <nav className="newsPagination" aria-label={t.paginationLabel}>
                 {currentPage > 1 ? (
                   <Link className="newsPageLink" href={toHomeNewsPage(currentPage - 1)}>

@@ -1,4 +1,5 @@
 import SiteShell from "@/components/site-shell";
+import ContactInquiryForm from "@/components/contact-inquiry-form";
 
 const text = {
   en: {
@@ -59,9 +60,29 @@ const text = {
   },
 };
 
-export default async function Contact({ params }: { params: Promise<{ locale: "en" | "ar" }> }) {
+type ContactSearchParams = {
+  contactStatus?: string | string[];
+};
+
+function parseContactStatus(value: string | string[] | undefined): "success" | "error" | undefined {
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (raw === "success" || raw === "error") {
+    return raw;
+  }
+  return undefined;
+}
+
+export default async function Contact({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: "en" | "ar" }>;
+  searchParams?: Promise<ContactSearchParams>;
+}) {
   const { locale } = await params;
   const t = text[locale] ?? text.en;
+  const query = (await searchParams) ?? {};
+  const initialStatus = parseContactStatus(query.contactStatus);
 
   return (
     <SiteShell locale={locale} activeNav="contact">
@@ -109,40 +130,23 @@ export default async function Contact({ params }: { params: Promise<{ locale: "e
           </article>
 
           <article className="contactCard">
-            <h2 className="contactTitle">{t.inquiryTitle}</h2>
-            <p className="contactIntro">{t.inquiryIntro}</p>
-
-            <form className="contactForm" action="#" method="post">
-              <div className="contactField">
-                <label htmlFor="contact-name">{t.fullName}</label>
-                <input id="contact-name" name="name" type="text" placeholder={t.namePlaceholder} required />
-              </div>
-
-              <div className="contactField">
-                <label htmlFor="contact-email">{t.emailAddress}</label>
-                <input id="contact-email" name="email" type="email" placeholder={t.emailPlaceholder} required />
-              </div>
-
-              <div className="contactField">
-                <label htmlFor="contact-subject">{t.subject}</label>
-                <input id="contact-subject" name="subject" type="text" placeholder={t.subjectPlaceholder} required />
-              </div>
-
-              <div className="contactField">
-                <label htmlFor="contact-message">{t.message}</label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  placeholder={t.messagePlaceholder}
-                  rows={6}
-                  required
-                />
-              </div>
-
-              <button className="contactSubmit" type="submit">
-                {t.sendMessage}
-              </button>
-            </form>
+            <ContactInquiryForm
+              locale={locale}
+              initialStatus={initialStatus}
+              labels={{
+                inquiryTitle: t.inquiryTitle,
+                inquiryIntro: t.inquiryIntro,
+                fullName: t.fullName,
+                emailAddress: t.emailAddress,
+                subject: t.subject,
+                message: t.message,
+                namePlaceholder: t.namePlaceholder,
+                emailPlaceholder: t.emailPlaceholder,
+                subjectPlaceholder: t.subjectPlaceholder,
+                messagePlaceholder: t.messagePlaceholder,
+                sendMessage: t.sendMessage,
+              }}
+            />
           </article>
         </div>
 

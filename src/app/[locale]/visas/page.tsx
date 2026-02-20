@@ -90,6 +90,11 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
   const { locale: rawLocale } = await params;
   const locale = normalizeLocale(rawLocale);
   const t = content[locale];
+  const travelInsuranceRequirement =
+    locale === "ar"
+      ? "تأمين سفر طبي صالح يغطي كامل مدة الإقامة في لبنان."
+      : "Valid travel medical insurance covering the full stay in Lebanon.";
+  const requiredDocuments = [...t.required, travelInsuranceRequirement];
 
   return (
     <SiteShell locale={locale} activeNav="visas">
@@ -112,7 +117,7 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
           <article className="card">
             <h3>{t.requiredTitle}</h3>
             <ul className="bulletList">
-              {t.required.map((item) => (
+              {requiredDocuments.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>

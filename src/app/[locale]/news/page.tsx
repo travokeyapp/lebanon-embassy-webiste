@@ -46,6 +46,7 @@ export default async function NewsPage({
   const { locale: rawLocale } = await params;
   const locale = normalizeLocale(rawLocale);
   const t = copy[locale];
+  const emptyNewsText = locale === "ar" ? "لا توجد أخبار حاليًا." : "No news for now.";
   const newsItems = getNewsForLocale(locale);
   const query = (await searchParams) ?? {};
 
@@ -72,45 +73,53 @@ export default async function NewsPage({
         </header>
 
         <div className="newsList newsArchiveList">
-          {pageItems.map((item) => (
-            <article className="newsItem" key={item.slug} id={item.slug}>
-              <div className="dateBox">
-                <span>{item.month}</span>
-                <strong>{item.day}</strong>
-              </div>
-              <div>
-                <h4>{item.title}</h4>
-                <p>{item.excerpt}</p>
-              </div>
-            </article>
-          ))}
+          {pageItems.length > 0 ? (
+            pageItems.map((item) => (
+              <article className="newsItem" key={item.slug} id={item.slug}>
+                <div className="dateBox">
+                  <span>{item.month}</span>
+                  <strong>{item.day}</strong>
+                </div>
+                <div>
+                  <h4>{item.title}</h4>
+                  <p>{item.excerpt}</p>
+                </div>
+              </article>
+            ))
+          ) : (
+            <div className="noticeBox">
+              <p>{emptyNewsText}</p>
+            </div>
+          )}
         </div>
 
-        <nav className="newsPagination newsPaginationWide" aria-label={t.paginationLabel}>
-          {currentPage > 1 ? (
-            <Link className="newsPageLink" href={toArchivePage(currentPage - 1)}>
-              {t.previous}
+        {pageItems.length > 0 ? (
+          <nav className="newsPagination newsPaginationWide" aria-label={t.paginationLabel}>
+            {currentPage > 1 ? (
+              <Link className="newsPageLink" href={toArchivePage(currentPage - 1)}>
+                {t.previous}
+              </Link>
+            ) : (
+              <span className="newsPageLink isDisabled">{t.previous}</span>
+            )}
+
+            <span className="newsPageInfo">
+              {t.page} {currentPage} / {totalPages}
+            </span>
+
+            {currentPage < totalPages ? (
+              <Link className="newsPageLink" href={toArchivePage(currentPage + 1)}>
+                {t.next}
+              </Link>
+            ) : (
+              <span className="newsPageLink isDisabled">{t.next}</span>
+            )}
+
+            <Link className="newsBackHomeLink" href={`/${locale}`}>
+              {t.backHome}
             </Link>
-          ) : (
-            <span className="newsPageLink isDisabled">{t.previous}</span>
-          )}
-
-          <span className="newsPageInfo">
-            {t.page} {currentPage} / {totalPages}
-          </span>
-
-          {currentPage < totalPages ? (
-            <Link className="newsPageLink" href={toArchivePage(currentPage + 1)}>
-              {t.next}
-            </Link>
-          ) : (
-            <span className="newsPageLink isDisabled">{t.next}</span>
-          )}
-
-          <Link className="newsBackHomeLink" href={`/${locale}`}>
-            {t.backHome}
-          </Link>
-        </nav>
+          </nav>
+        ) : null}
       </section>
     </SiteShell>
   );

@@ -4,6 +4,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Embassy of Lebanon",
   description: "Official Embassy of Lebanon website",
+  icons: {
+    icon: "/cedar-logo.png",
+    shortcut: "/cedar-logo.png",
+    apple: "/cedar-logo.png",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -650,6 +650,43 @@ a {
   box-shadow: 0 8px 16px rgba(0, 141, 69, 0.28);
 }
 
+.contactSubmit:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.contactFormStatus {
+  margin: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.68rem 0.8rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.contactFormStatus.isSuccess {
+  border-color: #22c55e;
+  background: #ecfdf5;
+  color: #14532d;
+}
+
+.contactFormStatus.isError {
+  border-color: #fca5a5;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.contactFieldTrap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .contactMapSection {
   margin-top: 1.3rem;
 }
@@ -1028,22 +1065,47 @@ a {
   overflow: hidden;
   isolation: isolate;
   background: #4b5563;
-  min-height: 450px;
+  min-height: 560px;
   display: grid;
   place-items: center;
   padding: 2.5rem 1rem;
 }
 
+.heroSplitVisuals {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  z-index: -3;
+  pointer-events: none;
+}
+
+.heroVisual {
+  background-size: cover;
+  transform: none;
+  transform-origin: center;
+  will-change: auto;
+}
+
+.heroVisualFaisal {
+  background-image: url("/hero-faisal-mosque-alt-1.jpg");
+  background-position: center 70%;
+}
+
+.heroVisualLebanon {
+  background-image:
+    linear-gradient(160deg, rgba(8, 11, 17, 0.08), rgba(8, 11, 17, 0.02)),
+    url("/hero-lebanon-landmark-historic.jpg");
+  background-position: center, center;
+  background-repeat: no-repeat;
+  background-size: cover, cover;
+}
+
 .heroBlock::before {
   content: "";
   position: absolute;
-  inset: -14%;
-  background-image: url("/hero-faisal-mosque-alt-1.jpg");
-  background-size: cover;
-  background-position: center 70%;
-  transform: translate3d(0, calc(var(--hero-parallax-y) * -1), 0) scale(var(--hero-zoom));
-  transform-origin: center;
-  will-change: transform;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(8, 11, 17, 0.14), rgba(8, 11, 17, 0.04) 50%, rgba(8, 11, 17, 0.14));
   z-index: -2;
 }
 
@@ -1053,8 +1115,8 @@ a {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(8, 11, 17, var(--hero-overlay-top)),
-    rgba(8, 11, 17, var(--hero-overlay-bottom))
+    rgba(8, 11, 17, calc(var(--hero-overlay-top) * 0.42)),
+    rgba(8, 11, 17, calc(var(--hero-overlay-bottom) * 0.42))
   );
   z-index: -1;
 }
@@ -1579,7 +1641,7 @@ html[data-ui-mode="modern"] .navLinks a.active {
 html[data-ui-mode="modern"] .heroBlock {
   width: min(1320px, 94%);
   margin: 1.2rem auto 0;
-  min-height: 560px;
+  min-height: 680px;
   border-radius: 26px;
   border: 1px solid rgba(159, 186, 248, 0.24);
   box-shadow:
@@ -1587,23 +1649,28 @@ html[data-ui-mode="modern"] .heroBlock {
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
-html[data-ui-mode="modern"] .heroBlock::before {
-  inset: -7%;
-  background-position: center 64%;
-  filter: saturate(1.18) contrast(1.08) brightness(0.84);
-  transform: translate3d(
-      calc(var(--hero-pan-x) - (var(--scroll-progress) * 22px)),
-      calc(var(--hero-parallax-y) * -1.08),
-      0
-    )
-    scale(calc(var(--hero-zoom) + 0.08));
+html[data-ui-mode="modern"] .heroSplitVisuals {
+  inset: 0;
+}
+
+html[data-ui-mode="modern"] .heroVisual {
+  filter: saturate(1.08) contrast(1.03) brightness(0.98);
+  transform: none;
+}
+
+html[data-ui-mode="modern"] .heroVisualLebanon {
+  filter: saturate(1.05) contrast(1.02) brightness(1);
 }
 
 html[data-ui-mode="modern"] .heroBlock::after {
   background:
-    linear-gradient(180deg, rgba(5, 9, 20, max(var(--hero-overlay-top), 0.66)), rgba(3, 8, 20, max(var(--hero-overlay-bottom), 0.9))),
-    radial-gradient(90% 75% at 50% 5%, rgba(255, 117, 146, 0.24), rgba(255, 117, 146, 0)),
-    conic-gradient(from 210deg at 82% 12%, rgba(76, 100, 214, 0.28), rgba(76, 100, 214, 0) 45%, rgba(0, 174, 107, 0.18) 76%, rgba(0, 174, 107, 0));
+    linear-gradient(
+      180deg,
+      rgba(5, 9, 20, max(calc(var(--hero-overlay-top) * 0.55), 0.28)),
+      rgba(3, 8, 20, max(calc(var(--hero-overlay-bottom) * 0.58), 0.38))
+    ),
+    radial-gradient(90% 75% at 50% 5%, rgba(255, 117, 146, 0.14), rgba(255, 117, 146, 0)),
+    conic-gradient(from 210deg at 82% 12%, rgba(76, 100, 214, 0.16), rgba(76, 100, 214, 0) 45%, rgba(0, 174, 107, 0.1) 76%, rgba(0, 174, 107, 0));
 }
 
 html[data-ui-mode="modern"] .welcomePanel {
@@ -1894,6 +1961,30 @@ html[data-ui-mode="modern"] .contactField textarea:focus {
   box-shadow: 0 0 0 3px rgba(126, 149, 210, 0.2);
 }
 
+html[data-ui-mode="modern"] .contactFormStatus {
+  border-color: rgba(137, 162, 223, 0.42);
+  background: linear-gradient(145deg, rgba(9, 17, 36, 0.88), rgba(14, 25, 50, 0.9));
+  color: #dbe8ff;
+}
+
+html[data-ui-mode="modern"] .contactFormStatus.isSuccess {
+  border-color: rgba(34, 197, 94, 0.55);
+  background: linear-gradient(145deg, rgba(6, 48, 30, 0.84), rgba(8, 63, 38, 0.86));
+  color: #cbf9dc;
+}
+
+html[data-ui-mode="modern"] .contactFormStatus.isError {
+  border-color: rgba(248, 113, 113, 0.55);
+  background: linear-gradient(145deg, rgba(77, 22, 33, 0.84), rgba(95, 24, 38, 0.86));
+  color: #ffd0d0;
+}
+
+html[data-ui-mode="modern"] .contactSubmit:disabled {
+  opacity: 0.8;
+  filter: grayscale(0.1);
+  cursor: not-allowed;
+}
+
 html[data-ui-mode="modern"] .contactMapFrame {
   filter: saturate(1.06) contrast(1.05) brightness(0.96);
 }
@@ -2007,7 +2098,7 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
     transition: none !important;
   }
 
-  .heroBlock::before {
+  .heroVisual {
     transform: none !important;
   }
 }
@@ -2054,13 +2145,21 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
   }
 
   .heroBlock {
-    min-height: 340px;
+    min-height: 420px;
   }
 
-  .heroBlock::before {
-    inset: -8%;
-    background-position: center 62%;
-    transform: scale(1.08);
+  .heroSplitVisuals {
+    inset: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+
+  .heroVisual {
+    transform: none;
+  }
+
+  .heroVisualFaisal {
+    background-position: center 66%;
   }
 
   .footerColumns {
@@ -2070,7 +2169,7 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
   }
 
   html[data-ui-mode="modern"] .heroBlock {
-    min-height: 440px;
+    min-height: 520px;
     border-radius: 22px;
   }
 
@@ -2170,7 +2269,7 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
 
   html[data-ui-mode="modern"] .heroBlock {
     width: min(95%, 95%);
-    min-height: 410px;
+    min-height: 480px;
     border-radius: 20px;
   }
 
