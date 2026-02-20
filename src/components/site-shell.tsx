@@ -12,7 +12,7 @@ const copy = {
     title: "Embassy of Lebanon",
     city: "Islamabad - Pakistan",
     arabicTop: "سفارة لبنان في إسلام آباد",
-    arabicBottom: "الجمهورية اللبنانية",
+    arabicBottom: "باكستان",
     nav: {
       home: "Home",
       ambassador: "The Ambassador",
@@ -45,7 +45,7 @@ const copy = {
     title: "سفارة لبنان",
     city: "إسلام آباد - باكستان",
     arabicTop: "سفارة لبنان في إسلام آباد",
-    arabicBottom: "الجمهورية اللبنانية",
+    arabicBottom: "باكستان",
     nav: {
       home: "الرئيسية",
       ambassador: "السفير",
