@@ -41,6 +41,37 @@
   }
 }
 
+@keyframes heroSlideFade {
+  0% {
+    opacity: 0;
+  }
+  6%,
+  28% {
+    opacity: 1;
+  }
+  34%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes heroCaptionFade {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  8%,
+  28% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  34%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
 @keyframes cedarSway {
   0%,
   100% {
@@ -1081,31 +1112,202 @@ a {
 }
 
 .heroVisual {
-  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.heroVisual + .heroVisual {
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.heroSlides {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+}
+
+.heroSlide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
   transform: none;
-  transform-origin: center;
-  will-change: auto;
-}
-
-.heroVisualFaisal {
-  background-image: url("/hero-faisal-mosque-alt-1.jpg");
-  background-position: center 70%;
-}
-
-.heroVisualLebanon {
-  background-image:
-    linear-gradient(160deg, rgba(8, 11, 17, 0.08), rgba(8, 11, 17, 0.02)),
-    url("/hero-lebanon-landmark-historic.jpg");
-  background-position: center, center;
+  background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: cover, cover;
+  background-color: #0e1218;
+  animation: heroSlideFade 24s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.heroSlidePakistan1 {
+  background-image: url("/hero-pakistan-monument.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+  animation-delay: 0s;
+}
+
+.heroSlidePakistan2 {
+  background-image: url("/hero-faisal-mosque-alt-1.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+  animation-delay: 6s;
+}
+
+.heroSlidePakistan3 {
+  background-image: url("/hero-pakistan-monument.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+  animation-delay: 12s;
+}
+
+.heroSlidePakistan4 {
+  background-image: url("/hero-faisal-mosque-alt-1.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+  animation-delay: 18s;
+}
+
+.heroSlideLebanon1 {
+  background-image: url("/hero-lebanon-baalbek.jpg");
+  background-position: center 62%;
+  animation-delay: 0s;
+}
+
+.heroSlideLebanon2 {
+  background-image: url("/hero-lebanon-byblos-port.jpg");
+  background-position: center 64%;
+  animation-delay: 6s;
+}
+
+.heroSlideLebanon3 {
+  background-image: url("/hero-lebanon-castle.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+  animation-delay: 12s;
+}
+
+.heroSlideLebanon4 {
+  background-image: url("/hero-lebanon-zaitunay-bay.jpg");
+  background-position: center 58%;
+  animation-delay: 18s;
+}
+
+.heroVisual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 11, 17, 0.04), rgba(8, 11, 17, 0.2));
+  z-index: -2;
+}
+
+.heroVisual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(95% 68% at 50% 0%, rgba(8, 11, 17, 0.03), rgba(8, 11, 17, 0.24));
+  z-index: -1;
+}
+
+.heroPlacesBar {
+  position: absolute;
+  inset: auto 0.85rem 0.85rem;
+  z-index: 2;
+  width: calc(100% - 1.7rem);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  pointer-events: none;
+}
+
+.heroPlaceTrack {
+  position: relative;
+  min-height: 66px;
+}
+
+.heroPlaceItem {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  gap: 0.22rem 0.46rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background: rgba(8, 11, 17, 0.62);
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.2rem 0.7rem 0.24rem;
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  animation: heroCaptionFade 24s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.heroPlaceFrame1 {
+  animation-delay: 0s;
+}
+
+.heroPlaceFrame2 {
+  animation-delay: 6s;
+}
+
+.heroPlaceFrame3 {
+  animation-delay: 12s;
+}
+
+.heroPlaceFrame4 {
+  animation-delay: 18s;
+}
+
+.heroPlaceTrack:last-child .heroPlaceItem {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.heroPlaceCountry {
+  text-transform: uppercase;
+}
+
+.heroPlaceName {
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.4);
+  padding-inline-start: 0.48rem;
+}
+
+.heroPlaceSub {
+  width: 100%;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0.92;
+  line-height: 1.25;
+}
+
+.rtl .heroPlaceTrack:last-child .heroPlaceItem {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.rtl .heroPlaceName {
+  border-inline-start: 0;
+  padding-inline-start: 0;
+  border-inline-end: 1px solid rgba(255, 255, 255, 0.4);
+  padding-inline-end: 0.48rem;
 }
 
 .heroBlock::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(8, 11, 17, 0.14), rgba(8, 11, 17, 0.04) 50%, rgba(8, 11, 17, 0.14));
+  background: linear-gradient(90deg, rgba(8, 11, 17, 0.09), rgba(8, 11, 17, 0.02) 50%, rgba(8, 11, 17, 0.09));
   z-index: -2;
 }
 
@@ -1115,8 +1317,8 @@ a {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(8, 11, 17, calc(var(--hero-overlay-top) * 0.42)),
-    rgba(8, 11, 17, calc(var(--hero-overlay-bottom) * 0.42))
+    rgba(8, 11, 17, calc(var(--hero-overlay-top) * 0.3)),
+    rgba(8, 11, 17, calc(var(--hero-overlay-bottom) * 0.3))
   );
   z-index: -1;
 }
@@ -1653,21 +1855,38 @@ html[data-ui-mode="modern"] .heroSplitVisuals {
   inset: 0;
 }
 
-html[data-ui-mode="modern"] .heroVisual {
+html[data-ui-mode="modern"] .heroSlide {
   filter: saturate(1.08) contrast(1.03) brightness(0.98);
-  transform: none;
 }
 
-html[data-ui-mode="modern"] .heroVisualLebanon {
+html[data-ui-mode="modern"] .heroVisualLebanon .heroSlide {
   filter: saturate(1.05) contrast(1.02) brightness(1);
+}
+
+html[data-ui-mode="modern"] .heroPlaceItem {
+  border-color: rgba(209, 222, 255, 0.52);
+  background: rgba(8, 15, 35, 0.72);
+  color: #f4f8ff;
+}
+
+html[data-ui-mode="modern"] .heroPlaceName {
+  border-inline-start-color: rgba(172, 239, 207, 0.74);
+}
+
+html[data-ui-mode="modern"] .heroPlaceSub {
+  color: #cfdcf6;
+}
+
+html[data-ui-mode="modern"] .rtl .heroPlaceName {
+  border-inline-end-color: rgba(172, 239, 207, 0.74);
 }
 
 html[data-ui-mode="modern"] .heroBlock::after {
   background:
     linear-gradient(
       180deg,
-      rgba(5, 9, 20, max(calc(var(--hero-overlay-top) * 0.55), 0.28)),
-      rgba(3, 8, 20, max(calc(var(--hero-overlay-bottom) * 0.58), 0.38))
+      rgba(5, 9, 20, max(calc(var(--hero-overlay-top) * 0.44), 0.22)),
+      rgba(3, 8, 20, max(calc(var(--hero-overlay-bottom) * 0.48), 0.3))
     ),
     radial-gradient(90% 75% at 50% 5%, rgba(255, 117, 146, 0.14), rgba(255, 117, 146, 0)),
     conic-gradient(from 210deg at 82% 12%, rgba(76, 100, 214, 0.16), rgba(76, 100, 214, 0) 45%, rgba(0, 174, 107, 0.1) 76%, rgba(0, 174, 107, 0));
@@ -2068,6 +2287,8 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
   html[data-ui-mode="modern"] .welcomePanel::before,
   html[data-ui-mode="modern"] .welcomePanel::after,
   html[data-ui-mode="modern"] .siteFooter::before,
+  .heroSlide,
+  .heroPlaceItem,
   .pageHeader,
   .card,
   .noticeBox,
@@ -2100,6 +2321,23 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
 
   .heroVisual {
     transform: none !important;
+  }
+
+  .heroSlide {
+    opacity: 0;
+  }
+
+  .heroSlides .heroSlide:first-child {
+    opacity: 1;
+  }
+
+  .heroPlaceItem {
+    opacity: 0;
+    transform: none;
+  }
+
+  .heroPlaceTrack .heroPlaceItem:first-child {
+    opacity: 1;
   }
 }
 
@@ -2158,8 +2396,25 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
     transform: none;
   }
 
-  .heroVisualFaisal {
-    background-position: center 66%;
+  .heroVisual + .heroVisual {
+    border-inline-start: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .heroPlacesBar {
+    inset: auto 0.65rem 0.65rem;
+    width: calc(100% - 1.3rem);
+    grid-template-columns: 1fr;
+  }
+
+  .heroPlaceTrack {
+    min-height: 62px;
+  }
+
+  .heroPlaceTrack:last-child .heroPlaceItem,
+  .rtl .heroPlaceTrack:last-child .heroPlaceItem {
+    justify-content: flex-start;
+    text-align: left;
   }
 
   .footerColumns {

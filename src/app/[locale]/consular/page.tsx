@@ -19,7 +19,7 @@ const content = {
         items: [
           "Birth registration for children born in Pakistan.",
           "Marriage and divorce registration for official records.",
-          "Death documentation and repatriation support procedures.",
+          "Death registration and repatriation support procedures.",
         ],
       },
       {
@@ -44,13 +44,13 @@ const content = {
   },
   ar: {
     title: "الشؤون القنصلية",
-    lead: "تلتزم سفارة لبنان في إسلام آباد بتقديم خدمات قنصلية فعالة ومهنية للمواطنين اللبنانيين وللجمهور في باكستان.",
+    lead: "تلتزم سفارة لبنان في إسلام أباد بتقديم خدمات قنصلية فعالة ومهنية للمواطنين اللبنانيين وللجمهور في باكستان.",
     cards: [
       {
         title: "خدمات جوازات السفر",
         items: [
           "معاملات تجديد الجوازات البيومترية وجوازات نموذج 2003.",
-          "إصدار وثائق سفر اضطرارية (لاسيه باسيه).",
+          "إصدار وثائق سفر اضطرارية (laissez-passer).",
           "إجراءات الإبلاغ عن فقدان الجواز واستبداله.",
         ],
       },

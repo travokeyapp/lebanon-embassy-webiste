@@ -11,7 +11,7 @@ const copy = {
     ribbon: "Official Website of the Embassy of the Republic of Lebanon in Islamabad - Pakistan",
     title: "Embassy of Lebanon",
     city: "Islamabad - Pakistan",
-    arabicTop: "سفارة لبنان في إسلام آباد",
+    arabicTop: "سفارة لبنان في إسلام أباد",
     arabicBottom: "باكستان",
     nav: {
       home: "Home",
@@ -41,10 +41,10 @@ const copy = {
     menu: "Menu",
   },
   ar: {
-    ribbon: "الموقع الرسمي لسفارة الجمهورية اللبنانية في إسلام آباد - باكستان",
+    ribbon: "الموقع الرسمي لسفارة الجمهورية اللبنانية في إسلام أباد - باكستان",
     title: "سفارة لبنان",
-    city: "إسلام آباد - باكستان",
-    arabicTop: "سفارة لبنان في إسلام آباد",
+    city: "إسلام أباد - باكستان",
+    arabicTop: "سفارة لبنان في إسلام أباد",
     arabicBottom: "باكستان",
     nav: {
       home: "الرئيسية",
@@ -57,7 +57,7 @@ const copy = {
     },
     footer: {
       contactTitle: "معلومات التواصل",
-      address: "المنزل رقم 4، الشارع رقم 10، F-8/3، إسلام آباد، باكستان",
+      address: "المنزل رقم 4، الشارع رقم 10، F-8/3، إسلام أباد، باكستان",
       phone: "+92 51 227 8338",
       email: "lebanonembassypakistan@gmail.com",
       linksTitle: "روابط مهمة",
@@ -69,7 +69,7 @@ const copy = {
       aboutTitle: "نبذة",
       aboutText:
         "سفارة لبنان في باكستان هي التمثيل الدبلوماسي الرسمي للجمهورية اللبنانية، وتعمل على خدمة المواطنين اللبنانيين وتعزيز العلاقات الثنائية.",
-      copyright: "سفارة لبنان في إسلام آباد. جميع الحقوق محفوظة.",
+      copyright: "سفارة لبنان في إسلام أباد. جميع الحقوق محفوظة.",
     },
     menu: "القائمة",
   },
@@ -134,10 +134,6 @@ export default function SiteShell({
             </div>
           </div>
 
-          <div className="arabicHeader">
-            <p>{t.arabicTop}</p>
-            <span>{t.arabicBottom}</span>
-          </div>
         </div>
 
         <nav className="nav">
