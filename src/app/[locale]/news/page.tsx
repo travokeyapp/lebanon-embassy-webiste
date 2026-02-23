@@ -21,13 +21,13 @@ const copy = {
     paginationLabel: "News archive pages",
   },
   ar: {
-    title: "الأخبار والفعاليات",
-    lead: "جميع الإعلانات الرسمية والتحديثات وموجزات الفعاليات الصادرة عن السفارة.",
-    previous: "السابق",
-    next: "التالي",
-    page: "الصفحة",
-    backHome: "العودة إلى الرئيسية",
-    paginationLabel: "صفحات أرشيف الأخبار",
+    title: "\u0627\u0644\u0623\u062e\u0628\u0627\u0631 \u0648\u0627\u0644\u0641\u0639\u0627\u0644\u064a\u0627\u062a",
+    lead: "\u062c\u0645\u064a\u0639 \u0627\u0644\u0625\u0639\u0644\u0627\u0646\u0627\u062a \u0627\u0644\u0631\u0633\u0645\u064a\u0629 \u0648\u0627\u0644\u062a\u062d\u062f\u064a\u062b\u0627\u062a \u0648\u0645\u0648\u062c\u0632\u0627\u062a \u0627\u0644\u0641\u0639\u0627\u0644\u064a\u0627\u062a \u0627\u0644\u0635\u0627\u062f\u0631\u0629 \u0639\u0646 \u0627\u0644\u0633\u0641\u0627\u0631\u0629.",
+    previous: "\u0627\u0644\u0633\u0627\u0628\u0642",
+    next: "\u0627\u0644\u062a\u0627\u0644\u064a",
+    page: "\u0627\u0644\u0635\u0641\u062d\u0629",
+    backHome: "\u0627\u0644\u0639\u0648\u062f\u0629 \u0625\u0644\u0649 \u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629",
+    paginationLabel: "\u0635\u0641\u062d\u0627\u062a \u0623\u0631\u0634\u064a\u0641 \u0627\u0644\u0623\u062e\u0628\u0627\u0631",
   },
 };
 
@@ -46,7 +46,7 @@ export default async function NewsPage({
   const { locale: rawLocale } = await params;
   const locale = normalizeLocale(rawLocale);
   const t = copy[locale];
-  const emptyNewsText = locale === "ar" ? "لا توجد أخبار حاليًا." : "No news for now.";
+  const emptyNewsText = locale === "ar" ? "\u0644\u0627 \u062a\u0648\u062c\u062f \u0623\u062e\u0628\u0627\u0631 \u062d\u0627\u0644\u064a\u064b\u0627." : "No news for now.";
   const newsItems = getNewsForLocale(locale);
   const query = (await searchParams) ?? {};
 
