@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import SiteShell from "@/components/site-shell";
 import { normalizeLocale } from "@/lib/locale";
@@ -52,7 +53,9 @@ const content = {
     ],
     sectionTitle: "Latest News & Events",
     headOfMission: "Head of Mission",
-    placeholder: "[Photo of Ambassador]",
+    missionName: "H.E. Abdulaziz ISSA",
+    missionRole: "Ambassador of Lebanon to Pakistan",
+    missionCta: "Read Ambassador Message",
     viewAllNews: "View All News",
     previous: "Previous",
     next: "Next",
@@ -102,7 +105,9 @@ const content = {
     ],
     sectionTitle: "\u0622\u062e\u0631 \u0627\u0644\u0623\u062e\u0628\u0627\u0631 \u0648\u0627\u0644\u0641\u0639\u0627\u0644\u064a\u0627\u062a",
     headOfMission: "\u0631\u0626\u064a\u0633 \u0627\u0644\u0628\u0639\u062b\u0629",
-    placeholder: "[\u0635\u0648\u0631\u0629 \u0627\u0644\u0633\u0641\u064a\u0631]",
+    missionName: "\u0633\u0639\u0627\u062f\u0629 \u0627\u0644\u0633\u0641\u064a\u0631 \u0639\u0628\u062f \u0627\u0644\u0639\u0632\u064a\u0632 \u0639\u064a\u0633\u0649",
+    missionRole: "\u0633\u0641\u064a\u0631 \u0644\u0628\u0646\u0627\u0646 \u0644\u062f\u0649 \u0628\u0627\u0643\u0633\u062a\u0627\u0646",
+    missionCta: "\u0642\u0631\u0627\u0621\u0629 \u0631\u0633\u0627\u0644\u0629 \u0627\u0644\u0633\u0641\u064a\u0631",
     viewAllNews: "\u0639\u0631\u0636 \u062c\u0645\u064a\u0639 \u0627\u0644\u0623\u062e\u0628\u0627\u0631",
     previous: "\u0627\u0644\u0633\u0627\u0628\u0642",
     next: "\u0627\u0644\u062a\u0627\u0644\u064a",
@@ -247,7 +252,20 @@ export default async function Home({
 
           <aside className="missionCard">
             <h4>{t.headOfMission}</h4>
-            <div className="missionPlaceholder">{t.placeholder}</div>
+            <div className="ambassadorPortraitWrap missionPortraitWrap">
+              <Image
+                src="/lebanon_ambasssador.jpeg"
+                alt={t.missionName}
+                width={900}
+                height={1200}
+                className="ambassadorPortrait"
+              />
+            </div>
+            <p className="missionName">{t.missionName}</p>
+            <p className="muted">{t.missionRole}</p>
+            <Link className="relationsBioButton" href={`/${locale}/ambassador`}>
+              {t.missionCta}
+            </Link>
           </aside>
         </div>
       </section>
