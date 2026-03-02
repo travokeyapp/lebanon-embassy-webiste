@@ -1,6 +1,7 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import ResponsiveNav from "@/components/responsive-nav";
 import ScrollEffects from "@/components/scroll-effects";
 import UiModeToggle from "@/components/ui-mode-toggle";
 
@@ -133,26 +134,10 @@ export default function SiteShell({
               <p>{t.city}</p>
             </div>
           </div>
-
         </div>
 
         <nav className="nav">
-          <div className="container navRow">
-            <input id="menu-toggle" className="menuToggleInput" type="checkbox" />
-            <label htmlFor="menu-toggle" className="menuToggleBtn" aria-label={t.menu}>
-              {t.menu}
-            </label>
-
-            <ul className="navLinks">
-              {navItems.map((item) => (
-                <li key={item.key}>
-                  <Link href={item.href} className={item.key === activeNav ? "active" : ""}>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ResponsiveNav navItems={navItems} activeNav={activeNav} menuLabel={t.menu} />
         </nav>
       </header>
 

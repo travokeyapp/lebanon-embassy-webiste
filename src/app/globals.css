@@ -1094,16 +1094,86 @@ a {
   position: relative;
 }
 
-.menuToggleInput {
-  display: none;
+.menuPanel {
+  width: 100%;
 }
 
 .menuToggleBtn {
   display: none;
-  color: #fff;
-  font-weight: 700;
-  padding: 0.7rem 0;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 12px;
   cursor: pointer;
+  appearance: none;
+  color: #ffffff;
+  font: inherit;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 8px 16px rgba(86, 10, 25, 0.16);
+  transition:
+    transform 0.2s var(--ease-smooth),
+    background-color 0.2s var(--ease-smooth),
+    border-color 0.2s var(--ease-smooth),
+    box-shadow 0.2s var(--ease-smooth),
+    color 0.2s var(--ease-smooth);
+}
+
+.menuToggleBtn:hover,
+.menuToggleBtn:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.26);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 10px 20px rgba(86, 10, 25, 0.2);
+}
+
+.menuToggleIcon {
+  position: relative;
+  width: 1.2rem;
+  height: 1rem;
+}
+
+.menuToggleIcon span {
+  position: absolute;
+  inset-inline: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transform-origin: center;
+  transition:
+    transform 0.22s var(--ease-smooth),
+    opacity 0.22s var(--ease-smooth),
+    top 0.22s var(--ease-smooth);
+}
+
+.menuToggleIcon span:nth-child(1) {
+  top: 0;
+}
+
+.menuToggleIcon span:nth-child(2) {
+  top: calc(50% - 1px);
+}
+
+.menuToggleIcon span:nth-child(3) {
+  top: calc(100% - 2px);
+}
+
+.menuToggleText {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .navLinks {
@@ -1866,6 +1936,21 @@ html[data-ui-mode="modern"] .navRow {
   padding: 0 0 0.72rem;
 }
 
+html[data-ui-mode="modern"] .menuToggleBtn {
+  color: #eff4ff;
+  background: rgba(10, 17, 35, 0.72);
+  border-color: rgba(135, 160, 221, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 12px 24px rgba(2, 6, 23, 0.32);
+}
+
+html[data-ui-mode="modern"] .menuToggleBtn:hover,
+html[data-ui-mode="modern"] .menuToggleBtn:focus-visible {
+  background: rgba(14, 24, 46, 0.86);
+  border-color: rgba(163, 187, 245, 0.42);
+}
+
 html[data-ui-mode="modern"] .navLinks {
   gap: 0.45rem;
 }
@@ -2536,29 +2621,108 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
     margin-inline-start: auto;
   }
 
+  .nav {
+    position: relative;
+    z-index: 20;
+  }
+
+  .navRow {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.42rem 0;
+  }
+
   .menuToggleBtn {
     display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
+  }
+
+  .menuToggleBtn.isOpen {
+    color: #ffffff;
+    background: rgba(116, 13, 31, 0.92);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 10px 20px rgba(86, 10, 25, 0.22);
+  }
+
+  .menuToggleBtn.isOpen .menuToggleIcon span:nth-child(1) {
+    top: calc(50% - 1px);
+    transform: rotate(45deg);
+  }
+
+  .menuToggleBtn.isOpen .menuToggleIcon span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menuToggleBtn.isOpen .menuToggleIcon span:nth-child(3) {
+    top: calc(50% - 1px);
+    transform: rotate(-45deg);
+  }
+
+  .menuPanel {
+    display: block;
+    position: absolute;
+    inset-inline: 0;
+    top: calc(100% + 0.35rem);
+    opacity: 0;
+    transform: translateY(-6px);
+    transform-origin: top center;
+    pointer-events: none;
+    z-index: 30;
+    transition:
+      opacity 0.22s var(--ease-smooth),
+      transform 0.22s var(--ease-smooth);
+  }
+
+  .menuPanel.isOpen {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 
   .navLinks {
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: var(--lebanon-red);
-    padding: 0.35rem 0 0.65rem;
+    padding: 0.3rem 0;
+    background: #b50f2a;
+    border: 1px solid rgba(140, 15, 36, 0.96);
+    border-radius: 14px;
+    box-shadow:
+      0 14px 24px rgba(15, 23, 42, 0.14),
+      0 4px 10px rgba(15, 23, 42, 0.08);
   }
 
-  .menuToggleInput:checked ~ .navLinks {
-    display: flex;
+  .navLinks li + li a {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .navLinks a {
-    font-size: 0.88rem;
-    padding: 0.8rem 0.2rem;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.9rem 1rem;
     border-radius: 0;
+    background: transparent;
+    border-inline-start: 3px solid transparent;
+    box-shadow: none;
+  }
+
+  .navLinks a:hover,
+  .navLinks a:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .navLinks a.active {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    border-inline-start-color: #ffffff;
+    box-shadow: none;
   }
 
   .contactMapFrame {
@@ -2579,30 +2743,52 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
   }
 
   html[data-ui-mode="modern"] .menuToggleBtn {
-    color: #eff4ff;
+    background: linear-gradient(145deg, rgba(10, 17, 35, 0.96), rgba(17, 29, 60, 0.94));
     border: 1px solid rgba(157, 183, 243, 0.45);
-    border-radius: 999px;
-    padding: 0.46rem 0.86rem;
-    background: linear-gradient(145deg, rgba(10, 17, 35, 0.9), rgba(17, 29, 60, 0.9));
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.14),
       0 10px 22px rgba(1, 7, 23, 0.4);
   }
 
+  html[data-ui-mode="modern"] .menuToggleBtn.isOpen {
+    background: linear-gradient(145deg, rgba(148, 17, 40, 0.98), rgba(102, 14, 31, 0.98));
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  html[data-ui-mode="modern"] .menuPanel {
+    top: calc(100% + 0.35rem);
+  }
+
   html[data-ui-mode="modern"] .navLinks {
-    background: linear-gradient(160deg, rgba(8, 15, 33, 0.96), rgba(12, 22, 45, 0.96));
+    background: linear-gradient(160deg, rgba(11, 17, 30, 0.98), rgba(19, 28, 46, 0.98));
     border: 1px solid rgba(142, 167, 226, 0.38);
     border-radius: 14px;
-    padding: 0.4rem;
-    margin-top: 0.45rem;
-    gap: 0.35rem;
-    box-shadow: 0 16px 26px rgba(1, 6, 22, 0.5);
+    padding: 0.3rem 0;
+    margin-top: 0;
+    gap: 0;
+    box-shadow: 0 14px 24px rgba(1, 6, 22, 0.42);
+  }
+
+  html[data-ui-mode="modern"] .navLinks li + li a {
+    border-top-color: rgba(51, 65, 85, 0.62);
   }
 
   html[data-ui-mode="modern"] .navLinks a {
-    border-radius: 10px;
-    font-size: 0.84rem;
-    padding: 0.68rem 0.74rem;
+    color: #eff4ff;
+    font-size: 0.9rem;
+    padding: 0.9rem 1rem;
+  }
+
+  html[data-ui-mode="modern"] .navLinks a:hover,
+  html[data-ui-mode="modern"] .navLinks a:focus-visible {
+    background: rgba(30, 41, 59, 0.78);
+    color: #ffffff;
+  }
+
+  html[data-ui-mode="modern"] .navLinks a.active {
+    color: #ffffff;
+    background: rgba(207, 16, 45, 0.28);
+    border-inline-start-color: #ffffff;
   }
 
   html[data-ui-mode="modern"] .heroBlock {
@@ -2619,5 +2805,39 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
   html[data-ui-mode="modern"] .sitePage::before,
   html[data-ui-mode="modern"] .sitePage::after {
     display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .navRow {
+    padding: 0.35rem 0;
+  }
+
+  .menuToggleBtn {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 10px;
+  }
+
+  .menuToggleIcon {
+    width: 1.05rem;
+    height: 0.9rem;
+  }
+
+  .menuPanel,
+  html[data-ui-mode="modern"] .menuPanel {
+    top: calc(100% + 0.28rem);
+  }
+
+  .navLinks,
+  html[data-ui-mode="modern"] .navLinks {
+    padding: 0.2rem 0;
+    border-radius: 12px;
+  }
+
+  .navLinks a,
+  html[data-ui-mode="modern"] .navLinks a {
+    font-size: 0.86rem;
+    padding: 0.78rem 0.85rem;
   }
 }
