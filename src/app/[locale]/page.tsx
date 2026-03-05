@@ -215,6 +215,11 @@ export default async function Home({
                         </Link>
                       </h4>
                       <p>{item.excerpt}</p>
+                      {item.attachment ? (
+                        <a className="newsAttachmentLink" href={item.attachment.href} target="_blank" rel="noreferrer">
+                          {item.attachment.label}
+                        </a>
+                      ) : null}
                     </div>
                   </article>
                 ))

@@ -1595,6 +1595,20 @@ a {
   line-height: 1.5;
 }
 
+.newsAttachmentLink {
+  display: inline-flex;
+  margin-top: 0.6rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--lebanon-red);
+}
+
+.newsAttachmentLink:hover,
+.newsAttachmentLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .newsArchiveList {
   margin-top: 0;
 }
@@ -2189,6 +2203,7 @@ html[data-ui-mode="modern"] .newsPageInfo {
 
 html[data-ui-mode="modern"] .newsViewAllLink,
 html[data-ui-mode="modern"] .newsBackHomeLink,
+html[data-ui-mode="modern"] .newsAttachmentLink,
 html[data-ui-mode="modern"] .galleryNoticeLink,
 html[data-ui-mode="modern"] .relationsQuickLinks a,
 html[data-ui-mode="modern"] .contactLink {
@@ -2199,6 +2214,8 @@ html[data-ui-mode="modern"] .newsViewAllLink:hover,
 html[data-ui-mode="modern"] .newsViewAllLink:focus-visible,
 html[data-ui-mode="modern"] .newsBackHomeLink:hover,
 html[data-ui-mode="modern"] .newsBackHomeLink:focus-visible,
+html[data-ui-mode="modern"] .newsAttachmentLink:hover,
+html[data-ui-mode="modern"] .newsAttachmentLink:focus-visible,
 html[data-ui-mode="modern"] .galleryNoticeLink:hover,
 html[data-ui-mode="modern"] .galleryNoticeLink:focus-visible,
 html[data-ui-mode="modern"] .relationsQuickLinks a:hover,

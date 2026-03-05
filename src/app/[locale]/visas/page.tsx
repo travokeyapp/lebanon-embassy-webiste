@@ -36,6 +36,51 @@ type VisaPageContent = {
   contactBody: string;
 };
 
+type AgencyContent = {
+  title: string;
+  introBefore: string;
+  introAfter: string;
+  servicesTitle: string;
+  services: string[];
+  contactTitle: string;
+  phoneWhatsappLabel: string;
+  callLabel: string;
+  uanLabel: string;
+};
+
+const agencyContent: Record<"en" | "ar", AgencyContent> = {
+  en: {
+    title: "Recommended Visa & Tourism Agency",
+    introBefore: "As officially recommended by the Embassy of Lebanon in Islamabad,",
+    introAfter: "is a partner in promoting tourism and streamlining visa procedures for Lebanon.",
+    servicesTitle: "Our Services Include:",
+    services: [
+      "Official Visa Submission & Collection",
+      "Professional Visa Consultancy",
+      "Customized Lebanon Tour Packages",
+    ],
+    contactTitle: "Contact for Visa & Tourism Services:",
+    phoneWhatsappLabel: "Phone/WhatsApp",
+    callLabel: "Call",
+    uanLabel: "UAN",
+  },
+  ar: {
+    title: "الوكالة الموصى بها للتأشيرات والسياحة",
+    introBefore: "بناءً على التوصية الرسمية من سفارة لبنان في إسلام آباد،",
+    introAfter: "شريك في تعزيز السياحة وتسهيل إجراءات التأشيرة إلى لبنان.",
+    servicesTitle: "تشمل خدماتنا:",
+    services: [
+      "التقديم والاستلام الرسمي للتأشيرة",
+      "استشارات مهنية للتأشيرات",
+      "باقات سياحية مخصصة إلى لبنان",
+    ],
+    contactTitle: "للتواصل لخدمات التأشيرة والسياحة:",
+    phoneWhatsappLabel: "الهاتف/واتساب",
+    callLabel: "اتصال",
+    uanLabel: "الرقم الموحد",
+  },
+};
+
 const enContent: VisaPageContent = {
   title: "Visa Services",
   lead: "The following requirements are based on the official guidance provided by the Embassy of Lebanon in Islamabad. Submit complete documents according to your visa type.",
@@ -306,6 +351,7 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
   const { locale: rawLocale } = await params;
   const locale = normalizeLocale(rawLocale);
   const t = content[locale];
+  const agency = agencyContent[locale];
 
   return (
     <SiteShell locale={locale} activeNav="visas">
@@ -410,6 +456,48 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
         <article className="card stack">
           <h3>{t.contactTitle}</h3>
           <p>{t.contactBody}</p>
+        </article>
+
+        <article className="card stack">
+          <h3>{agency.title}</h3>
+          <p>
+            {agency.introBefore}{" "}
+            <a href="https://www.crownintltravels.com/" target="_blank" rel="noreferrer" className="contactLink">
+              Crown International Travels
+            </a>{" "}
+            {agency.introAfter}
+          </p>
+
+          <div>
+            <p className="contactLabel">{agency.servicesTitle}</p>
+            <ul className="bulletList">
+              {agency.services.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="contactLabel">{agency.contactTitle}</p>
+            <ul className="bulletList">
+              <li>
+                {agency.phoneWhatsappLabel}:{" "}
+                <a href="https://wa.me/923135000666" target="_blank" rel="noreferrer" className="contactLink">
+                  +92 313 5000666
+                </a>{" "}
+                |{" "}
+                <a href="tel:+923135000666" className="contactLink">
+                  {agency.callLabel}
+                </a>
+              </li>
+              <li>
+                {agency.uanLabel}:{" "}
+                <a href="tel:+9251111143111" className="contactLink">
+                  +92 51 111 143 111
+                </a>
+              </li>
+            </ul>
+          </div>
         </article>
       </section>
     </SiteShell>
