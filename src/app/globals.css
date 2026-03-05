@@ -794,6 +794,20 @@ a {
   border: 0;
 }
 
+.visaSupportCard {
+  width: 100%;
+}
+
+.visaSupportContactLine {
+  margin-top: 0.4rem !important;
+}
+
+@media (min-width: 901px) {
+  .visaSupportCard {
+    max-width: calc(50% - 0.45rem);
+  }
+}
+
 .galleryCollections {
   display: flex;
   flex-wrap: wrap;

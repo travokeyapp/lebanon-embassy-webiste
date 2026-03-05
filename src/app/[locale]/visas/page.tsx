@@ -51,16 +51,15 @@ type AgencyContent = {
 const agencyContent: Record<"en" | "ar", AgencyContent> = {
   en: {
     title: "Recommended Visa & Tourism Agency",
-    introBefore: "As officially recommended by the Embassy of Lebanon in Islamabad,",
-    introAfter: "is a partner in promoting tourism and streamlining visa procedures for Lebanon.",
-    servicesTitle: "Our Services Include:",
+    introBefore: "As recommended by the Embassy of Lebanon in Islamabad,",
+    introAfter: "is a recommended reputable travel agency supporting tourism and visa procedures for Lebanon.",
+    servicesTitle: "Services Offered",
     services: [
-      "Official Visa Submission & Collection",
-      "Professional Visa Consultancy",
-      "Customized Lebanon Tour Packages",
+      "Visa Application Submission & Collection",
+      "Document Attestation Services",
     ],
-    contactTitle: "Contact for Visa & Tourism Services:",
-    phoneWhatsappLabel: "Phone/WhatsApp",
+    contactTitle: "Contact",
+    phoneWhatsappLabel: "Phone / WhatsApp",
     callLabel: "Call",
     uanLabel: "UAN",
   },
@@ -210,7 +209,7 @@ const enContent: VisaPageContent = {
   formPdf: "Visa Form (PDF)",
   contactTitle: "Need Assistance?",
   contactBody:
-    "For updated requirements, processing times, and special cases, contact the Consular Section directly before filing your application.",
+    "The Embassy of Lebanon in Islamabad recommends Crown International Travels Pvt. Ltd., a reputable travel agency, for visa application processing and document attestation services.",
 };
 
 const arContent: VisaPageContent = {
@@ -361,7 +360,7 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
           <p className="sectionLead">{t.lead}</p>
         </div>
 
-        <article className="card stack">
+        <article className="card stack visaSupportCard">
           <h3>{t.categoriesTitle}</h3>
           <div className="quickGrid">
             {t.categories.map((item) => (
@@ -453,50 +452,35 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
           </article>
         </div>
 
-        <article className="card stack">
+        <article className="card stack visaSupportCard">
           <h3>{t.contactTitle}</h3>
-          <p>{t.contactBody}</p>
-        </article>
-
-        <article className="card stack">
-          <h3>{agency.title}</h3>
-          <p>
-            {agency.introBefore}{" "}
-            <a href="https://www.crownintltravels.com/" target="_blank" rel="noreferrer" className="contactLink">
-              Crown International Travels
-            </a>{" "}
-            {agency.introAfter}
-          </p>
-
-          <div>
-            <p className="contactLabel">{agency.servicesTitle}</p>
-            <ul className="bulletList">
-              {agency.services.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
+          {locale === "en" ? (
+            <p>
+              The Embassy of Lebanon in Islamabad recommends{" "}
+              <a href="https://www.crownintltravels.com/" target="_blank" rel="noreferrer" className="contactLink">
+                Crown International Travels Pvt. Ltd.
+              </a>
+              , a reputable travel agency, for visa application processing and document attestation services.
+            </p>
+          ) : (
+            <p>{t.contactBody}</p>
+          )}
 
           <div>
             <p className="contactLabel">{agency.contactTitle}</p>
-            <ul className="bulletList">
-              <li>
-                {agency.phoneWhatsappLabel}:{" "}
-                <a href="https://wa.me/923135000666" target="_blank" rel="noreferrer" className="contactLink">
-                  +92 313 5000666
-                </a>{" "}
-                |{" "}
-                <a href="tel:+923135000666" className="contactLink">
-                  {agency.callLabel}
-                </a>
-              </li>
-              <li>
-                {agency.uanLabel}:{" "}
-                <a href="tel:+9251111143111" className="contactLink">
-                  +92 51 111 143 111
-                </a>
-              </li>
-            </ul>
+            <p className="visaSupportContactLine">
+              <a href="https://wa.me/923135000666" target="_blank" rel="noreferrer" className="contactLink">
+                {agency.phoneWhatsappLabel}
+              </a>
+              :{" "}
+              <a href="tel:+923135000666" className="contactLink">
+                +92 313 5000666
+              </a>{" "}
+              | {agency.uanLabel}:{" "}
+              <a href="tel:+9251111143111" className="contactLink">
+                +92 51 111 143 111
+              </a>
+            </p>
           </div>
         </article>
       </section>
