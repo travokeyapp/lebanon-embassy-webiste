@@ -360,7 +360,7 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
           <p className="sectionLead">{t.lead}</p>
         </div>
 
-        <article className="card stack visaSupportCard">
+        <article className="card stack">
           <h3>{t.categoriesTitle}</h3>
           <div className="quickGrid">
             {t.categories.map((item) => (
