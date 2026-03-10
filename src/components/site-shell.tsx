@@ -9,8 +9,8 @@ type ActiveNav = "home" | "ambassador" | "consular" | "visas" | "relations" | "g
 
 const copy = {
   en: {
-    ribbon: "Official Website of the Embassy of the Republic of Lebanon in Islamabad - Pakistan",
-    title: "Embassy of Lebanon",
+    ribbon: "Official Website of Lebanon Embassy Islamabad - Pakistan",
+    title: "Lebanon Embassy",
     city: "Islamabad - Pakistan",
     arabicTop: "سفارة لبنان في إسلام أباد",
     arabicBottom: "باكستان",
@@ -36,8 +36,8 @@ const copy = {
       ],
       aboutTitle: "About",
       aboutText:
-        "The Embassy of Lebanon in Pakistan is the sole diplomatic representation of the Lebanese Republic in Pakistan, dedicated to serving Lebanese citizens and fostering bilateral relations.",
-      copyright: "Embassy of Lebanon in Islamabad. All Rights Reserved.",
+        "Lebanon Embassy Islamabad is the official diplomatic representation of the Lebanese Republic in Pakistan, dedicated to serving Lebanese citizens and fostering bilateral relations.",
+      copyright: "Lebanon Embassy Islamabad. All Rights Reserved.",
     },
     menu: "Menu",
   },
