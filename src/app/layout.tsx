@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Lebanon Embassy Islamabad",
-  description: "Official website of the Lebanon Embassy Islamabad, Pakistan.",
-  keywords: ["Lebanon Embassy Islamabad", "Embassy of Lebanon in Islamabad", "Lebanon Embassy Pakistan"],
+  title: "Embassy of Lebanon Islamabad",
+  description: "Official website of the Embassy of Lebanon in Islamabad, Pakistan.",
+  keywords: ["Embassy of Lebanon Islamabad", "Embassy of Lebanon in Islamabad", "Lebanon Embassy Islamabad"],
   icons: {
     icon: "/cedar-logo.png",
     shortcut: "/cedar-logo.png",
