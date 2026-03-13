@@ -1800,6 +1800,31 @@ a {
   text-underline-offset: 2px;
 }
 
+.footerAgencyContact {
+  margin: 0.6rem 0 0;
+}
+
+.footerAgencyInlineLink,
+.footerAgencyContact strong {
+  color: #f3f4f6;
+}
+
+.footerAgencyInlineLink {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footerAgencyContact strong {
+  color: #f3f4f6;
+}
+
+.footerAgencyInlineLink,
+.footerAgencyContact a {
+  color: #e5e7eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .footerAgencyLogo {
   width: min(100%, 128px);
   height: auto;
@@ -2497,8 +2522,21 @@ html[data-ui-mode="modern"] .footerLinks a {
   color: #d8e4ff;
 }
 
+html[data-ui-mode="modern"] .footerAgencyContact a {
+  color: #d8e4ff;
+}
+
+html[data-ui-mode="modern"] .footerAgencyInlineLink,
+html[data-ui-mode="modern"] .footerAgencyContact a {
+  color: #d8e4ff;
+}
+
 html[data-ui-mode="modern"] .footerLinks a:hover,
-html[data-ui-mode="modern"] .footerLinks a:focus-visible {
+html[data-ui-mode="modern"] .footerLinks a:focus-visible,
+html[data-ui-mode="modern"] .footerAgencyInlineLink:hover,
+html[data-ui-mode="modern"] .footerAgencyInlineLink:focus-visible,
+html[data-ui-mode="modern"] .footerAgencyContact a:hover,
+html[data-ui-mode="modern"] .footerAgencyContact a:focus-visible {
   color: #ffffff;
 }
 

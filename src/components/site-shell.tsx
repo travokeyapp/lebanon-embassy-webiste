@@ -79,14 +79,33 @@ const copy = {
 const agencyCopy = {
   en: {
     title: "Recommended Agency",
-    text:
-      "Crown International Travels Pvt. Ltd. is recommended by the Embassy of Lebanon in Islamabad for visa application processing, document attestation, tourism, and travel procedures for Lebanon.",
+    textBefore: "",
+    companyName: "Crown International Travels Pvt. Ltd.",
+    textAfter:
+      " is recommended by the Embassy of Lebanon in Islamabad for visa application processing, document attestation, tourism, and travel procedures for Lebanon.",
+    websiteHref: "https://www.crownintltravels.com/",
+    phoneLabel: "Phone / WhatsApp",
+    phoneText: "+92 313 5000666",
+    phoneHref: "tel:+923135000666",
+    uanLabel: "UAN",
+    uanText: "+92 51 111 143 111",
+    uanHref: "tel:+9251111143111",
     logoAlt: "Crown International logo",
   },
   ar: {
     title: "\u0627\u0644\u0648\u0643\u0627\u0644\u0629 \u0627\u0644\u0645\u0648\u0635\u0649 \u0628\u0647\u0627",
-    text:
-      "\u062a\u0648\u0635\u064a \u0633\u0641\u0627\u0631\u0629 \u0644\u0628\u0646\u0627\u0646 \u0641\u064a \u0625\u0633\u0644\u0627\u0645 \u0622\u0628\u0627\u062f \u0628\u0634\u0631\u0643\u0629 Crown International Travels Pvt. Ltd. \u0644\u062e\u062f\u0645\u0627\u062a \u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u062a\u0623\u0634\u064a\u0631\u0627\u062a\u060c \u0648\u0627\u0644\u062a\u0635\u062f\u064a\u0642 \u0639\u0644\u0649 \u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a\u060c \u0648\u0627\u0644\u0633\u064a\u0627\u062d\u0629\u060c \u0648\u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u0633\u0641\u0631 \u0625\u0644\u0649 \u0644\u0628\u0646\u0627\u0646.",
+    textBefore:
+      "\u062a\u0648\u0635\u064a \u0633\u0641\u0627\u0631\u0629 \u0644\u0628\u0646\u0627\u0646 \u0641\u064a \u0625\u0633\u0644\u0627\u0645 \u0622\u0628\u0627\u062f \u0628\u0634\u0631\u0643\u0629 ",
+    companyName: "Crown International Travels Pvt. Ltd.",
+    textAfter:
+      " \u0644\u062e\u062f\u0645\u0627\u062a \u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u062a\u0623\u0634\u064a\u0631\u0627\u062a\u060c \u0648\u0627\u0644\u062a\u0635\u062f\u064a\u0642 \u0639\u0644\u0649 \u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a\u060c \u0648\u0627\u0644\u0633\u064a\u0627\u062d\u0629\u060c \u0648\u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u0633\u0641\u0631 \u0625\u0644\u0649 \u0644\u0628\u0646\u0627\u0646.",
+    websiteHref: "https://www.crownintltravels.com/",
+    phoneLabel: "\u0627\u0644\u0647\u0627\u062a\u0641 / \u0648\u0627\u062a\u0633\u0627\u0628",
+    phoneText: "+92 313 5000666",
+    phoneHref: "tel:+923135000666",
+    uanLabel: "\u0627\u0644\u0631\u0642\u0645 \u0627\u0644\u0645\u0648\u062d\u062f",
+    uanText: "+92 51 111 143 111",
+    uanHref: "tel:+9251111143111",
     logoAlt: "\u0634\u0639\u0627\u0631 Crown International",
   },
 } as const;
@@ -192,7 +211,21 @@ export default function SiteShell({
 
           <section className="footerCard">
             <h4>{agency.title}</h4>
-            <p>{agency.text}</p>
+            <p>
+              {agency.textBefore}
+              <a href={agency.websiteHref} target="_blank" rel="noreferrer" className="footerAgencyInlineLink">
+                {agency.companyName}
+              </a>
+              {agency.textAfter}
+            </p>
+            <p className="footerAgencyContact">
+              <strong>{agency.phoneLabel}:</strong>{" "}
+              <a href={agency.phoneHref}>{agency.phoneText}</a>
+            </p>
+            <p className="footerAgencyContact">
+              <strong>{agency.uanLabel}:</strong>{" "}
+              <a href={agency.uanHref}>{agency.uanText}</a>
+            </p>
             <div className="footerAgencyMark">
               <Image
                 src="/crown-international-logo.svg"
