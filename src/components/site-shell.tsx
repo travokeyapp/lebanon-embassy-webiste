@@ -76,6 +76,21 @@ const copy = {
   },
 };
 
+const agencyCopy = {
+  en: {
+    title: "Recommended Agency",
+    text:
+      "Crown International Travels Pvt. Ltd. is recommended by the Embassy of Lebanon in Islamabad for visa application processing, document attestation, tourism, and travel procedures for Lebanon.",
+    logoAlt: "Crown International logo",
+  },
+  ar: {
+    title: "\u0627\u0644\u0648\u0643\u0627\u0644\u0629 \u0627\u0644\u0645\u0648\u0635\u0649 \u0628\u0647\u0627",
+    text:
+      "\u062a\u0648\u0635\u064a \u0633\u0641\u0627\u0631\u0629 \u0644\u0628\u0646\u0627\u0646 \u0641\u064a \u0625\u0633\u0644\u0627\u0645 \u0622\u0628\u0627\u062f \u0628\u0634\u0631\u0643\u0629 Crown International Travels Pvt. Ltd. \u0644\u062e\u062f\u0645\u0627\u062a \u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u062a\u0623\u0634\u064a\u0631\u0627\u062a\u060c \u0648\u0627\u0644\u062a\u0635\u062f\u064a\u0642 \u0639\u0644\u0649 \u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a\u060c \u0648\u0627\u0644\u0633\u064a\u0627\u062d\u0629\u060c \u0648\u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u0633\u0641\u0631 \u0625\u0644\u0649 \u0644\u0628\u0646\u0627\u0646.",
+    logoAlt: "\u0634\u0639\u0627\u0631 Crown International",
+  },
+} as const;
+
 export default function SiteShell({
   locale,
   activeNav,
@@ -86,6 +101,7 @@ export default function SiteShell({
   children: ReactNode;
 }) {
   const t = copy[locale];
+  const agency = agencyCopy[locale];
   const isArabic = locale === "ar";
   const navItems: Array<{ key: ActiveNav; href: string; label: string }> = [
     { key: "home", href: `/${locale}`, label: t.nav.home },
@@ -172,6 +188,20 @@ export default function SiteShell({
           <section className="footerCard">
             <h4>{t.footer.aboutTitle}</h4>
             <p>{t.footer.aboutText}</p>
+          </section>
+
+          <section className="footerCard">
+            <h4>{agency.title}</h4>
+            <p>{agency.text}</p>
+            <div className="footerAgencyMark">
+              <Image
+                src="/crown-international-logo.svg"
+                alt={agency.logoAlt}
+                width={190}
+                height={190}
+                className="footerAgencyLogo"
+              />
+            </div>
           </section>
         </div>
 

@@ -1748,7 +1748,7 @@ a {
 
 .footerColumns {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.2rem;
   padding: 2.2rem 0 1.6rem;
 }
@@ -1762,6 +1762,8 @@ a {
 }
 
 .footerCard {
+  display: flex;
+  flex-direction: column;
   animation: riseIn 0.55s var(--ease-smooth) both;
 }
 
@@ -1771,6 +1773,10 @@ a {
 
 .footerCard:nth-child(3) {
   animation-delay: 0.12s;
+}
+
+.footerCard:nth-child(4) {
+  animation-delay: 0.18s;
 }
 
 .footerCard p {
@@ -1794,6 +1800,20 @@ a {
   text-underline-offset: 2px;
 }
 
+.footerAgencyLogo {
+  width: min(100%, 128px);
+  height: auto;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.24));
+}
+
+.footerAgencyMark {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .footerBottom {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   padding: 1rem 0 1.2rem;
@@ -1805,6 +1825,10 @@ a {
 .rtl {
   direction: rtl;
   text-align: right;
+}
+
+.rtl .footerAgencyMark {
+  justify-content: flex-end;
 }
 
 html[data-ui-mode="modern"] body {
@@ -2541,6 +2565,10 @@ html[data-ui-mode="modern"] .footerLinks a:focus-visible {
 }
 
 @media (max-width: 900px) {
+  .footerColumns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .headerRow {
     flex-direction: column;
     align-items: flex-start;
