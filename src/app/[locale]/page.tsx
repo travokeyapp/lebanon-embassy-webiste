@@ -259,7 +259,7 @@ export default async function Home({
             <h4>{t.headOfMission}</h4>
             <div className="ambassadorPortraitWrap missionPortraitWrap">
               <Image
-                src="/lebanon_ambasssador.jpeg"
+                src="/lebanon_ambassador.jpeg"
                 alt={t.missionName}
                 width={900}
                 height={1200}

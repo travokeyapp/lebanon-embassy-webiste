@@ -1732,6 +1732,11 @@ a {
   margin-bottom: 0.65rem;
 }
 
+.missionPortraitWrap .ambassadorPortrait {
+  aspect-ratio: 4 / 5;
+  object-position: center 12%;
+}
+
 .missionName {
   margin: 0;
   color: #111827;
