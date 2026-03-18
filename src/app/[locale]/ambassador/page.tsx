@@ -68,7 +68,7 @@ export default async function AmbassadorPage({ params }: { params: Promise<{ loc
           <aside className="card">
             <div className="ambassadorPortraitWrap">
               <Image
-                src="/lebanon_ambassador.jpeg"
+                src="/lebanon_ambasssador_with_flag.jpeg"
                 alt={t.portraitAlt}
                 width={900}
                 height={1200}
