@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import HydrationSafeImage from "@/components/hydration-safe-image";
 import SiteShell from "@/components/site-shell";
 import { normalizeLocale } from "@/lib/locale";
 import {
@@ -258,7 +258,7 @@ export default async function Home({
           <aside className="missionCard">
             <h4>{t.headOfMission}</h4>
             <div className="ambassadorPortraitWrap missionPortraitWrap">
-              <Image
+              <HydrationSafeImage
                 src="/lebanon_ambassador.jpeg"
                 alt={t.missionName}
                 width={900}

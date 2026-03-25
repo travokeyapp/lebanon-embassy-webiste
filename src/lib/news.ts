@@ -27,6 +27,22 @@ type LocalizedNewsItem = {
 // Single source for all news. Add/remove items here.
 const newsCatalog: LocalizedNewsItem[] = [
   {
+    slug: "pakistan-day-congratulations-march-2026",
+    day: "23",
+    month: {
+      en: "MAR",
+      ar: "\u0645\u0627\u0631\u0633",
+    },
+    title: {
+      en: "Embassy of Lebanon in Pakistan congratulates Pakistan on National Day",
+      ar: "\u0633\u0641\u0627\u0631\u0629 \u0644\u0628\u0646\u0627\u0646 \u0641\u064a \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u062a\u0647\u0646\u0626 \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u0628\u0645\u0646\u0627\u0633\u0628\u0629 \u0627\u0644\u064a\u0648\u0645 \u0627\u0644\u0648\u0637\u0646\u064a",
+    },
+    excerpt: {
+      en: 'The Lebanese Embassy in Pakistan congratulates the government and people of Pakistan on the occasion of the National Day, "Pakistan Day," and wishes the brotherly Pakistani people all the best. Pakistan Zindabad.',
+      ar: "\u062a\u062a\u0642\u062f\u0645 \u0633\u0641\u0627\u0631\u0629 \u0644\u0628\u0646\u0627\u0646 \u0641\u064a \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u0628\u0623\u062d\u0631 \u0627\u0644\u062a\u0647\u0627\u0646\u064a \u0625\u0644\u0649 \u062d\u0643\u0648\u0645\u0629 \u0648\u0634\u0639\u0628 \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u0628\u0645\u0646\u0627\u0633\u0628\u0629 \u0627\u0644\u064a\u0648\u0645 \u0627\u0644\u0648\u0637\u0646\u064a\u060c \u0022\u064a\u0648\u0645 \u0628\u0627\u0643\u0633\u062a\u0627\u0646\u0022\u060c \u0648\u062a\u062a\u0645\u0646\u0649 \u0644\u0644\u0634\u0639\u0628 \u0627\u0644\u0628\u0627\u0643\u0633\u062a\u0627\u0646\u064a \u0627\u0644\u0634\u0642\u064a\u0642 \u0643\u0644 \u0627\u0644\u062e\u064a\u0631. \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u0632\u0646\u062f\u0647 \u0628\u0627\u062f.",
+    },
+  },
+  {
     slug: "iftar-banquet-arab-ambassadors-march-2026",
     day: "10",
     month: {

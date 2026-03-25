@@ -1,4 +1,4 @@
-import Image from "next/image";
+import HydrationSafeImage from "@/components/hydration-safe-image";
 import SiteShell from "@/components/site-shell";
 import { normalizeLocale } from "@/lib/locale";
 
@@ -67,7 +67,7 @@ export default async function AmbassadorPage({ params }: { params: Promise<{ loc
         <div className="contentSplit contentSplitWide ambassadorLayout">
           <aside className="card">
             <div className="ambassadorPortraitWrap">
-              <Image
+              <HydrationSafeImage
                 src="/lebanon_ambasssador_with_flag.jpeg"
                 alt={t.portraitAlt}
                 width={900}

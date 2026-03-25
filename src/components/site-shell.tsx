@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import HydrationSafeImage from "@/components/hydration-safe-image";
 import ResponsiveNav from "@/components/responsive-nav";
 import ScrollEffects from "@/components/scroll-effects";
 import UiModeToggle from "@/components/ui-mode-toggle";
@@ -155,14 +155,13 @@ export default function SiteShell({
       <header className="siteHeader">
         <div className="container headerRow">
           <div className="brandWrap">
-            <Image
+            <HydrationSafeImage
               src="/cedar-logo.png"
               alt="Cedar Logo"
               width={80}
               height={65}
               className="cedarLogo"
               priority
-              suppressHydrationWarning
             />
             <div className="brand">
               <h1>{t.title}</h1>
@@ -227,7 +226,7 @@ export default function SiteShell({
               <a href={agency.uanHref}>{agency.uanText}</a>
             </p>
             <div className="footerAgencyMark">
-              <Image
+              <HydrationSafeImage
                 src="/crown-international-logo.svg"
                 alt={agency.logoAlt}
                 width={190}
