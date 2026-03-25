@@ -194,7 +194,7 @@ const enContent: VisaPageContent = {
   processTitle: "Application Process",
   process: [
     "Prepare the full document set according to your visa category.",
-    "Submit the application at the Embassy during working hours.",
+    "Submit the application.",
     "Wait for consular review and any additional document requests.",
     "If approved, complete any final submission requirements (such as return ticket copies and applicable fee payment) before visa issuance.",
   ],
@@ -323,7 +323,7 @@ const arContent: VisaPageContent = {
   processTitle: "آلية التقديم",
   process: [
     "تحضير ملف المستندات كاملًا بحسب فئة التأشيرة المطلوبة.",
-    "تقديم الطلب في السفارة خلال أوقات الدوام.",
+    "تقديم الطلب.",
     "انتظار المراجعة القنصلية وأي طلبات استكمال إضافية.",
     "عند الموافقة، استكمال المتطلبات النهائية (مثل نسخ تذكرة العودة ودفع الرسوم المطبقة) قبل إصدار التأشيرة.",
   ],

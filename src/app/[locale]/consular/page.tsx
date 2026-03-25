@@ -110,15 +110,56 @@ export default async function ConsularPage({ params }: { params: Promise<{ local
           ))}
         </div>
 
-        <article className="card stack">
-          <h3>{t.workflowTitle}</h3>
-          <p>{t.workflowLead}</p>
-          <ol className="stepList">
-            {t.workflowSteps.map((step) => (
-              <li key={step}>{step}</li>
-            ))}
-          </ol>
-        </article>
+        <div className="contentSplit">
+          <article className="card stack">
+            <h3>{t.workflowTitle}</h3>
+            <p>{t.workflowLead}</p>
+            <ol className="stepList">
+              {t.workflowSteps.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ol>
+          </article>
+
+          <article className="card stack">
+            <h3>{locale === "en" ? "Need Assistance?" : "بحاجة إلى مساعدة؟"}</h3>
+            <p>
+              {locale === "en" ? (
+                <>
+                  The Embassy of Lebanon in Islamabad recommends{" "}
+                  <a
+                    href="https://www.crownintltravels.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="contactLink"
+                  >
+                    Crown International Travels Pvt. Ltd.
+                  </a>
+                  , a reputable travel agency, for visa application processing and document attestation services.
+                </>
+              ) : (
+                "توصي سفارة لبنان في إسلام آباد بشركة كراون إنترناشونال ترافلز الخاصة المحدودة، وهي وكالة سفر موثوقة، للمساعدة في إجراءات طلبات التأشيرة وخدمات تصديق المستندات."
+              )}
+            </p>
+
+            <div>
+              <p className="contactLabel">{locale === "en" ? "Contact" : "للتواصل"}</p>
+              <p className="visaSupportContactLine">
+                <a href="https://wa.me/923135000666" target="_blank" rel="noreferrer" className="contactLink">
+                  {locale === "en" ? "Phone / WhatsApp" : "الهاتف / واتساب"}
+                </a>
+                :{" "}
+                <a href="tel:+923135000666" className="contactLink">
+                  +92 313 5000666
+                </a>{" "}
+                | {locale === "en" ? "UAN" : "الرقم الموحد"}:{" "}
+                <a href="tel:+9251111143111" className="contactLink">
+                  +92 51 111 143 111
+                </a>
+              </p>
+            </div>
+          </article>
+        </div>
 
         <div className="noticeBox">{t.notice}</div>
       </section>
