@@ -27,6 +27,22 @@ type LocalizedNewsItem = {
 // Single source for all news. Add/remove items here.
 const newsCatalog: LocalizedNewsItem[] = [
   {
+    slug: "eid-ul-adha-dinner-lebanese-community-may-2026",
+    day: "29",
+    month: {
+      en: "MAY",
+      ar: "مايو",
+    },
+    title: {
+      en: "Ambassador Abdul Aziz Issa hosted an Eid ul Adha dinner for the Lebanese community in Islamabad",
+      ar: "السفير عبد العزيز عيسى يقيم مأدبة عشاء بمناسبة عيد الأضحى للجالية اللبنانية في إسلام آباد",
+    },
+    excerpt: {
+      en: "On the occasion of Eid ul Adha, the Lebanese Ambassador to Pakistan, Abdul Aziz Issa, hosted a dinner for the Lebanese community in Islamabad at his official residence on May 29, 2026.",
+      ar: "بمناسبة عيد الأضحى، أقام السفير اللبناني لدى باكستان، عبد العزيز عيسى، مأدبة عشاء للجالية اللبنانية في إسلام آباد في مقر إقامته الرسمي في 29 مايو 2026.",
+    },
+  },
+  {
     slug: "pakistan-day-congratulations-march-2026",
     day: "23",
     month: {
