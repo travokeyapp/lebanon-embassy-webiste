@@ -27,6 +27,29 @@ type LocalizedNewsItem = {
 // Single source for all news. Add/remove items here.
 const newsCatalog: LocalizedNewsItem[] = [
   {
+    slug: "rooted-for-lebanon-campaign-june-2026",
+    day: "08",
+    month: {
+      en: "JUN",
+      ar: "يونيو",
+    },
+    title: {
+      en: 'Embassy of Lebanon in Islamabad launches support for the "Rooted for Lebanon" global humanitarian campaign',
+      ar: 'سفارة لبنان في إسلام آباد تطلق دعمها لحملة "Rooted for Lebanon" الإنسانية العالمية',
+    },
+    excerpt: {
+      en: 'Acting on the directives of the Secretary-General of the Ministry of Foreign Affairs and Emigrants, Ambassador Abdul Sattar Issa, the Embassy of Lebanon in Islamabad has mobilized in support of "Rooted for Lebanon" — a transparent international humanitarian alliance led by Lebanon\'s Ministry of Social Affairs with the International Organization for Migration (IOM) to deliver emergency cash assistance to affected and displaced Lebanese families. The Embassy calls on the Lebanese community in Pakistan and friends of Lebanon to contribute through the official IOM-managed donation portal.',
+      ar: "بناءً على توجيهات الأمين العام لوزارة الخارجية والمغتربين السفير عبد الستار عيسى، عبّأت سفارة لبنان في إسلام آباد جهودها لدعم حملة \"Rooted for Lebanon\"، وهي تحالف إنساني دولي شفاف تقوده وزارة الشؤون الاجتماعية اللبنانية بالشراكة مع المنظمة الدولية للهجرة (IOM) لتقديم مساعدات نقدية طارئة للعائلات اللبنانية المتضررة والنازحة. وتدعو السفارة الجالية اللبنانية في باكستان وأصدقاء لبنان إلى المساهمة عبر بوابة التبرعات الرسمية التي تديرها المنظمة الدولية للهجرة.",
+    },
+    attachment: {
+      href: "/documents/rooted-for-lebanon-campaign-2026.pdf",
+      label: {
+        en: "Read the full announcement (PDF)",
+        ar: "اقرأ البيان الكامل (PDF)",
+      },
+    },
+  },
+  {
     slug: "eid-ul-adha-dinner-lebanese-community-may-2026",
     day: "29",
     month: {
