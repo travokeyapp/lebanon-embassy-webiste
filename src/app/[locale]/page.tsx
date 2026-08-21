@@ -215,6 +215,16 @@ export default async function Home({
                         </Link>
                       </h4>
                       <p>{item.excerpt}</p>
+                      {item.image ? (
+                        <HydrationSafeImage
+                          className="newsImage"
+                          src={item.image.src}
+                          alt={item.image.alt}
+                          width={item.image.width}
+                          height={item.image.height}
+                          sizes="(max-width: 720px) 92vw, 620px"
+                        />
+                      ) : null}
                       {item.attachment ? (
                         <a className="newsAttachmentLink" href={item.attachment.href} target="_blank" rel="noreferrer">
                           {item.attachment.label}

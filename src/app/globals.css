@@ -1609,6 +1609,17 @@ a {
   line-height: 1.5;
 }
 
+.newsImage {
+  display: block;
+  width: 100%;
+  max-width: 620px;
+  height: auto;
+  margin-top: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  object-fit: cover;
+}
+
 .newsAttachmentLink {
   display: inline-flex;
   margin-top: 0.6rem;
@@ -2291,6 +2302,11 @@ html[data-ui-mode="modern"] .relationsQuickLinks a:focus-visible,
 html[data-ui-mode="modern"] .contactLink:hover,
 html[data-ui-mode="modern"] .contactLink:focus-visible {
   color: #ffffff;
+}
+
+html[data-ui-mode="modern"] .newsImage {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 24px rgba(4, 12, 32, 0.38);
 }
 
 html[data-ui-mode="modern"] .dateBox {

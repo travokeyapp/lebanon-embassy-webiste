@@ -6,6 +6,12 @@ export type NewsItem = {
   day: string;
   title: string;
   excerpt: string;
+  image?: {
+    src: string;
+    width: number;
+    height: number;
+    alt: string;
+  };
   attachment?: {
     href: string;
     label: string;
@@ -18,6 +24,12 @@ type LocalizedNewsItem = {
   month: Record<Locale, string>;
   title: Record<Locale, string>;
   excerpt: Record<Locale, string>;
+  image?: {
+    src: string;
+    width: number;
+    height: number;
+    alt: Record<Locale, string>;
+  };
   attachment?: {
     href: string;
     label: Record<Locale, string>;
@@ -26,6 +38,38 @@ type LocalizedNewsItem = {
 
 // Single source for all news. Add/remove items here.
 const newsCatalog: LocalizedNewsItem[] = [
+  {
+    slug: "call-on-sapm-digital-media-fahd-haroon-august-2026",
+    day: "21",
+    month: {
+      en: "AUG",
+      ar: "أغسطس",
+    },
+    title: {
+      en: "Ambassador Abdul Aziz Issa calls on Minister of State Fahd Haroon, Special Assistant to the Prime Minister on Digital Media",
+      ar: "السفير عبد العزيز عيسى يزور وزير الدولة فهد هارون، المساعد الخاص لرئيس الوزراء لشؤون الإعلام الرقمي",
+    },
+    excerpt: {
+      en: "In Islamabad on 21 August 2026, the Ambassador of Lebanon to Pakistan, H.E. Abdul Aziz Issa, called on Minister of State and Special Assistant to the Prime Minister on Digital Media, Fahd Haroon, who also serves as President of the Institute of Regional Studies, at his office. The meeting covered matters of mutual interest, Pakistan's evolving digital landscape, opportunities for digital growth, and the broader role of digital media in Pakistan.",
+      ar: "في إسلام آباد، بتاريخ 21 أغسطس 2026، زار سفير لبنان لدى باكستان سعادة السيد عبد العزيز عيسى وزير الدولة والمساعد الخاص لرئيس الوزراء لشؤون الإعلام الرقمي، السيد فهد هارون، الذي يشغل أيضًا منصب رئيس معهد الدراسات الإقليمية، في مكتبه. وتناول اللقاء المسائل ذات الاهتمام المشترك، والمشهد الرقمي المتطور في باكستان، وفرص النمو الرقمي، والدور الأوسع للإعلام الرقمي في باكستان.",
+    },
+    image: {
+      src: "/news/fahd-haroon-meeting-aug-2026.jpeg",
+      width: 1599,
+      height: 1066,
+      alt: {
+        en: "Ambassador Abdul Aziz Issa in conversation with Minister of State Fahd Haroon during their meeting in Islamabad.",
+        ar: "السفير عبد العزيز عيسى في حديث مع وزير الدولة فهد هارون خلال لقائهما في إسلام آباد.",
+      },
+    },
+    attachment: {
+      href: "https://www.facebook.com/share/p/19CDUjuMEp/?mibextid=wwXIfr",
+      label: {
+        en: "View photos of the meeting on Facebook",
+        ar: "شاهد صور اللقاء على فيسبوك",
+      },
+    },
+  },
   {
     slug: "rooted-for-lebanon-campaign-june-2026",
     day: "08",
@@ -132,6 +176,14 @@ export function getNewsForLocale(locale: Locale): NewsItem[] {
     day: item.day,
     title: item.title[locale],
     excerpt: item.excerpt[locale],
+    image: item.image
+      ? {
+          src: item.image.src,
+          width: item.image.width,
+          height: item.image.height,
+          alt: item.image.alt[locale],
+        }
+      : undefined,
     attachment: item.attachment
       ? {
           href: item.attachment.href,
