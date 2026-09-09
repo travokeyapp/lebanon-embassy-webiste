@@ -209,7 +209,7 @@ const enContent: VisaPageContent = {
   formPdf: "Visa Form (PDF)",
   contactTitle: "Need Assistance?",
   contactBody:
-    "The Embassy of Lebanon in Islamabad recommends Crown International Travels Pvt. Ltd., a reputable travel agency, for visa application processing and document attestation services.",
+    "The Embassy of Lebanon in Islamabad recommends Crown International Travels Pvt. Ltd., an agency officially authorised by the Embassy, for visa application processing and document attestation services.",
 };
 
 const arContent: VisaPageContent = {
@@ -338,7 +338,7 @@ const arContent: VisaPageContent = {
   formPdf: "نموذج التأشيرة (PDF)",
   contactTitle: "بحاجة إلى مساعدة؟",
   contactBody:
-    "للاطلاع على المتطلبات المحدثة ومدد المعالجة والحالات الخاصة، يرجى التواصل مباشرة مع القسم القنصلي قبل تقديم المعاملة.",
+    "توصي سفارة لبنان في إسلام آباد بشركة Crown International Travels Pvt. Ltd.، وهي وكالة معتمدة رسمياً من السفارة، لخدمات إجراءات التأشيرات والتصديق على المستندات.",
 };
 
 const content: Record<"en" | "ar", VisaPageContent> = {

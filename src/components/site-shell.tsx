@@ -82,7 +82,7 @@ const agencyCopy = {
     textBefore: "",
     companyName: "Crown International Travels Pvt. Ltd.",
     textAfter:
-      " is recommended by the Embassy of Lebanon in Islamabad for visa application processing, document attestation, tourism, and travel procedures for Lebanon.",
+      " is officially authorised and recommended by the Embassy of Lebanon in Islamabad for visa application processing, document attestation, tourism, and travel procedures for Lebanon.",
     websiteHref: "https://www.crownintltravels.com/",
     phoneLabel: "Phone / WhatsApp",
     phoneText: "+92 313 5000666",
@@ -98,7 +98,7 @@ const agencyCopy = {
       "\u062a\u0648\u0635\u064a \u0633\u0641\u0627\u0631\u0629 \u0644\u0628\u0646\u0627\u0646 \u0641\u064a \u0625\u0633\u0644\u0627\u0645 \u0622\u0628\u0627\u062f \u0628\u0634\u0631\u0643\u0629 ",
     companyName: "Crown International Travels Pvt. Ltd.",
     textAfter:
-      " \u0644\u062e\u062f\u0645\u0627\u062a \u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u062a\u0623\u0634\u064a\u0631\u0627\u062a\u060c \u0648\u0627\u0644\u062a\u0635\u062f\u064a\u0642 \u0639\u0644\u0649 \u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a\u060c \u0648\u0627\u0644\u0633\u064a\u0627\u062d\u0629\u060c \u0648\u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u0633\u0641\u0631 \u0625\u0644\u0649 \u0644\u0628\u0646\u0627\u0646.",
+      "\u060c \u0627\u0644\u0648\u0643\u0627\u0644\u0629 \u0627\u0644\u0645\u0639\u062a\u0645\u062f\u0629 \u0631\u0633\u0645\u064a\u0627\u064b \u0644\u062f\u064a\u0647\u0627\u060c \u0644\u062e\u062f\u0645\u0627\u062a \u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u062a\u0623\u0634\u064a\u0631\u0627\u062a\u060c \u0648\u0627\u0644\u062a\u0635\u062f\u064a\u0642 \u0639\u0644\u0649 \u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a\u060c \u0648\u0627\u0644\u0633\u064a\u0627\u062d\u0629\u060c \u0648\u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u0633\u0641\u0631 \u0625\u0644\u0649 \u0644\u0628\u0646\u0627\u0646.",
     websiteHref: "https://www.crownintltravels.com/",
     phoneLabel: "\u0627\u0644\u0647\u0627\u062a\u0641 / \u0648\u0627\u062a\u0633\u0627\u0628",
     phoneText: "+92 313 5000666",
