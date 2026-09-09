@@ -135,10 +135,10 @@ export default async function ConsularPage({ params }: { params: Promise<{ local
                   >
                     Crown International Travels Pvt. Ltd.
                   </a>
-                  , a reputable travel agency, for visa application processing and document attestation services.
+                  , an agency officially authorised by the Embassy, for visa application processing and document attestation services.
                 </>
               ) : (
-                "توصي سفارة لبنان في إسلام آباد بشركة كراون إنترناشونال ترافلز الخاصة المحدودة، وهي وكالة سفر موثوقة، للمساعدة في إجراءات طلبات التأشيرة وخدمات تصديق المستندات."
+                "توصي سفارة لبنان في إسلام آباد بشركة كراون إنترناشونال ترافلز الخاصة المحدودة، وهي وكالة معتمدة رسمياً من السفارة، للمساعدة في إجراءات طلبات التأشيرة وخدمات تصديق المستندات."
               )}
             </p>
 

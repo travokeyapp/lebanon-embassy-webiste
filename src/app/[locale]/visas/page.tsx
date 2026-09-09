@@ -52,7 +52,7 @@ const agencyContent: Record<"en" | "ar", AgencyContent> = {
   en: {
     title: "Recommended Visa & Tourism Agency",
     introBefore: "As recommended by the Embassy of Lebanon in Islamabad,",
-    introAfter: "is a recommended reputable travel agency supporting tourism and visa procedures for Lebanon.",
+    introAfter: "is an officially authorised travel agency supporting tourism and visa procedures for Lebanon.",
     servicesTitle: "Services Offered",
     services: [
       "Visa Application Submission & Collection",
@@ -66,7 +66,7 @@ const agencyContent: Record<"en" | "ar", AgencyContent> = {
   ar: {
     title: "الوكالة الموصى بها للتأشيرات والسياحة",
     introBefore: "بناءً على التوصية الرسمية من سفارة لبنان في إسلام آباد،",
-    introAfter: "شريك في تعزيز السياحة وتسهيل إجراءات التأشيرة إلى لبنان.",
+    introAfter: "وكالة سفر معتمدة رسمياً، شريك في تعزيز السياحة وتسهيل إجراءات التأشيرة إلى لبنان.",
     servicesTitle: "تشمل خدماتنا:",
     services: [
       "التقديم والاستلام الرسمي للتأشيرة",
@@ -460,7 +460,7 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
               <a href="https://www.crownintltravels.com/" target="_blank" rel="noreferrer" className="contactLink">
                 Crown International Travels Pvt. Ltd.
               </a>
-              , a reputable travel agency, for visa application processing and document attestation services.
+              , an agency officially authorised by the Embassy, for visa application processing and document attestation services.
             </p>
           ) : (
             <p>{t.contactBody}</p>
