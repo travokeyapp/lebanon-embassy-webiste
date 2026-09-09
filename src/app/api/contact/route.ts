@@ -178,17 +178,37 @@ export async function POST(request: NextRequest) {
   const categoryLabel = getCategoryLabel(category, payload.locale);
   const submittedAt = new Date();
 
-  const emailTemplate = buildContactEmailTemplate({
-    locale: payload.locale,
-    embassyName: fromName,
-    websiteUrl,
-    senderName: payload.name,
-    senderEmail: payload.email,
-    categoryLabel,
-    subject: payload.subject,
-    message: payload.message,
-    submittedAt,
-  });
+  // A submission produces exactly one email. Visa inquiries are answered by the
+  // automated reply pointing the applicant at the authorised agency and are not
+  // forwarded to the embassy inbox; everything else notifies the embassy.
+  const outbound = category.autoReplyOnly
+    ? (() => {
+        const autoReply = buildVisaAutoReplyTemplate({
+          locale: payload.locale,
+          embassyName: fromName,
+          websiteUrl,
+          embassyEmail: toEmail,
+          recipientName: payload.name,
+          categoryLabel,
+          subject: payload.subject,
+          submittedAt,
+        });
+        return { template: autoReply, to: payload.email, replyTo: toEmail, kind: "auto-reply" };
+      })()
+    : (() => {
+        const notification = buildContactEmailTemplate({
+          locale: payload.locale,
+          embassyName: fromName,
+          websiteUrl,
+          senderName: payload.name,
+          senderEmail: payload.email,
+          categoryLabel,
+          subject: payload.subject,
+          message: payload.message,
+          submittedAt,
+        });
+        return { template: notification, to: toEmail, replyTo: payload.email, kind: "notification" };
+      })();
 
   try {
     const resendResponse = await fetch(RESEND_ENDPOINT, {
@@ -199,18 +219,18 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         from: buildFromHeader(fromName, fromEmail),
-        to: [toEmail],
-        reply_to: payload.email,
-        subject: emailTemplate.subjectLine,
-        text: emailTemplate.text,
-        html: emailTemplate.html,
+        to: [outbound.to],
+        reply_to: outbound.replyTo,
+        subject: outbound.template.subjectLine,
+        text: outbound.template.text,
+        html: outbound.template.html,
       }),
       cache: "no-store",
     });
 
     if (!resendResponse.ok) {
       const errorBody = await resendResponse.text();
-      console.error("Resend send failure:", resendResponse.status, errorBody);
+      console.error(`Resend ${outbound.kind} failure:`, resendResponse.status, errorBody);
       if (expectsHtml) {
         return buildContactRedirect(request, payload.locale, "error");
       }
@@ -220,7 +240,7 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
-    console.error("Resend request error:", error);
+    console.error(`Resend ${outbound.kind} request error:`, error);
     if (expectsHtml) {
       return buildContactRedirect(request, payload.locale, "error");
     }
@@ -228,48 +248,6 @@ export async function POST(request: NextRequest) {
       { message: "Unable to send your message right now. Please try again later." },
       { status: 502 },
     );
-  }
-
-  // Best-effort acknowledgement to the submitter. The embassy notification has
-  // already been delivered at this point, so a failure here must not surface as
-  // a failed submission.
-  if (category.autoReply) {
-    const autoReply = buildVisaAutoReplyTemplate({
-      locale: payload.locale,
-      embassyName: fromName,
-      websiteUrl,
-      embassyEmail: toEmail,
-      recipientName: payload.name,
-      categoryLabel,
-      subject: payload.subject,
-      submittedAt,
-    });
-
-    try {
-      const autoReplyResponse = await fetch(RESEND_ENDPOINT, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: buildFromHeader(fromName, fromEmail),
-          to: [payload.email],
-          reply_to: toEmail,
-          subject: autoReply.subjectLine,
-          text: autoReply.text,
-          html: autoReply.html,
-        }),
-        cache: "no-store",
-      });
-
-      if (!autoReplyResponse.ok) {
-        const errorBody = await autoReplyResponse.text();
-        console.error("Resend auto-reply failure:", autoReplyResponse.status, errorBody);
-      }
-    } catch (error) {
-      console.error("Resend auto-reply request error:", error);
-    }
   }
 
   if (expectsHtml) {
