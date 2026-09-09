@@ -6,6 +6,7 @@ type ContactEmailTemplateInput = {
   websiteUrl: string;
   senderName: string;
   senderEmail: string;
+  categoryLabel: string;
   subject: string;
   message: string;
   submittedAt: Date;
@@ -50,6 +51,7 @@ function getCopy(locale: Locale) {
       subheading: "A new inquiry was submitted from the website contact form.",
       senderLabel: "Sender",
       emailLabel: "Email",
+      categoryLabel: "Category",
       subjectLabel: "Subject",
       submittedAtLabel: "Submitted At (UTC)",
       messageLabel: "Message",
@@ -66,6 +68,7 @@ function getCopy(locale: Locale) {
     subheading: "A new inquiry was submitted from the website contact form.",
     senderLabel: "Sender",
     emailLabel: "Email",
+    categoryLabel: "Category",
     subjectLabel: "Subject",
     submittedAtLabel: "Submitted At (UTC)",
     messageLabel: "Message",
@@ -83,6 +86,7 @@ export function buildContactEmailTemplate(input: ContactEmailTemplateInput): Con
   const safeWebsiteUrl = escapeHtml(input.websiteUrl);
   const safeName = escapeHtml(input.senderName);
   const safeEmail = escapeHtml(input.senderEmail);
+  const safeCategory = escapeHtml(input.categoryLabel);
   const safeSubject = escapeHtml(input.subject);
   const safeMessageHtml = escapeHtml(input.message).replace(/\n/g, "<br />");
   const preheader = escapeHtml(copy.preview);
@@ -90,13 +94,14 @@ export function buildContactEmailTemplate(input: ContactEmailTemplateInput): Con
   const replySubject = encodeURIComponent(`Re: ${input.subject}`);
   const replyHref = `mailto:${replyToEmail}?subject=${replySubject}`;
 
-  const subjectLine = `${copy.subjectPrefix} ${input.subject}`;
+  const subjectLine = `${copy.subjectPrefix} [${input.categoryLabel}] ${input.subject}`;
 
   const text = [
     `${copy.heading}`,
     "",
     `${copy.senderLabel}: ${input.senderName}`,
     `${copy.emailLabel}: ${input.senderEmail}`,
+    `${copy.categoryLabel}: ${input.categoryLabel}`,
     `${copy.subjectLabel}: ${input.subject}`,
     `${copy.submittedAtLabel}: ${submittedAtUtc} UTC`,
     "",
@@ -151,6 +156,14 @@ export function buildContactEmailTemplate(input: ContactEmailTemplateInput): Con
                     </td>
                     <td style="padding:0 0 8px;font-size:14px;line-height:1.6;color:#111827;" align="right">
                       ${safeEmail}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:0 0 8px;font-size:12px;line-height:1.4;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.08em;">
+                      ${escapeHtml(copy.categoryLabel)}
+                    </td>
+                    <td style="padding:0 0 8px;font-size:14px;line-height:1.6;color:#111827;" align="right">
+                      ${safeCategory}
                     </td>
                   </tr>
                   <tr>

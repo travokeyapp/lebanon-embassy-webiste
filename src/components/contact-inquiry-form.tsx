@@ -1,12 +1,21 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import {
+  findContactCategory,
+  getCategoryLabel,
+  getGroupLabel,
+  getGroupedContactCategories,
+} from "@/lib/contact/categories";
+import { AUTHORISED_AGENCY, getAgencyCopy } from "@/lib/contact/agency";
 
 type ContactInquiryLabels = {
   inquiryTitle: string;
   inquiryIntro: string;
   fullName: string;
   emailAddress: string;
+  category: string;
+  categoryPlaceholder: string;
   subject: string;
   message: string;
   namePlaceholder: string;
@@ -43,6 +52,11 @@ export default function ContactInquiryForm({ locale, labels, initialStatus }: Co
     [locale],
   );
 
+  const groupedCategories = useMemo(() => getGroupedContactCategories(), []);
+  const agencyCopy = useMemo(() => getAgencyCopy(locale), [locale]);
+  const [categoryId, setCategoryId] = useState("");
+  const showVisaNotice = findContactCategory(categoryId)?.group === "visa";
+
   const initialFeedbackType: FeedbackType = initialStatus === "success" || initialStatus === "error" ? initialStatus : null;
   const [feedbackType, setFeedbackType] = useState<FeedbackType>(initialFeedbackType);
   const [feedback, setFeedback] = useState(() => {
@@ -78,6 +92,7 @@ export default function ContactInquiryForm({ locale, labels, initialStatus }: Co
     const payload = {
       name: String(formData.get("name") ?? "").trim(),
       email: String(formData.get("email") ?? "").trim(),
+      category: String(formData.get("category") ?? "").trim(),
       subject: String(formData.get("subject") ?? "").trim(),
       message: String(formData.get("message") ?? "").trim(),
       website: String(formData.get("website") ?? "").trim(),
@@ -105,6 +120,7 @@ export default function ContactInquiryForm({ locale, labels, initialStatus }: Co
       }
 
       form.reset();
+      setCategoryId("");
       setFeedbackType("success");
       setFeedback(data?.message ?? statusCopy.success);
     } catch {
@@ -137,6 +153,76 @@ export default function ContactInquiryForm({ locale, labels, initialStatus }: Co
           <label htmlFor="contact-email">{labels.emailAddress}</label>
           <input id="contact-email" name="email" type="email" placeholder={labels.emailPlaceholder} required />
         </div>
+
+        <div className="contactField">
+          <label htmlFor="contact-category">{labels.category}</label>
+          <select
+            id="contact-category"
+            name="category"
+            value={categoryId}
+            onChange={(event) => setCategoryId(event.target.value)}
+            required
+          >
+            <option value="" disabled>
+              {labels.categoryPlaceholder}
+            </option>
+            {groupedCategories.map(({ group, categories }) => (
+              <optgroup key={group.id} label={getGroupLabel(group, locale)}>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {getCategoryLabel(category, locale)}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </div>
+
+        {showVisaNotice ? (
+          <aside className="contactVisaNotice">
+            <p className="contactVisaNoticeTitle">{agencyCopy.noticeTitle}</p>
+            <p className="contactVisaNoticeText">
+              {agencyCopy.requirementsLine}{" "}
+              <a className="contactVisaNoticeLink" href={`/${locale}/visas`}>
+                {agencyCopy.requirementsLink}
+              </a>
+            </p>
+            <p className="contactVisaNoticeText">
+              {agencyCopy.agencyLine(AUTHORISED_AGENCY.name)}
+            </p>
+            <p className="contactVisaNoticeContactTitle">{agencyCopy.contactTitle}</p>
+            <ul className="contactVisaNoticeList">
+              <li>
+                <span>{agencyCopy.phoneWhatsappLabel}:</span>{" "}
+                <a
+                  className="contactVisaNoticeLink"
+                  href={AUTHORISED_AGENCY.whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {AUTHORISED_AGENCY.phoneDisplay}
+                </a>
+              </li>
+              <li>
+                <span>{agencyCopy.uanLabel}:</span>{" "}
+                <a className="contactVisaNoticeLink" href={`tel:${AUTHORISED_AGENCY.uanTel}`}>
+                  {AUTHORISED_AGENCY.uanDisplay}
+                </a>
+              </li>
+              <li>
+                <span>{agencyCopy.websiteLabel}:</span>{" "}
+                <a
+                  className="contactVisaNoticeLink"
+                  href={AUTHORISED_AGENCY.websiteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {AUTHORISED_AGENCY.name}
+                </a>
+              </li>
+            </ul>
+          </aside>
+        ) : null}
 
         <div className="contactField">
           <label htmlFor="contact-subject">{labels.subject}</label>

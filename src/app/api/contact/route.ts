@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { normalizeLocale } from "@/lib/locale";
 import { buildContactEmailTemplate } from "@/lib/email/contact-template";
+import { buildVisaAutoReplyTemplate } from "@/lib/email/visa-autoreply-template";
+import { findContactCategory, getCategoryLabel } from "@/lib/contact/categories";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
@@ -15,6 +17,7 @@ type RateLimitEntry = {
 type ContactPayload = {
   name: string;
   email: string;
+  category: string;
   subject: string;
   message: string;
   website?: string;
@@ -70,6 +73,9 @@ function validate(payload: ContactPayload): string | null {
   if (!EMAIL_PATTERN.test(payload.email) || payload.email.length > 160) {
     return "Please enter a valid email address.";
   }
+  if (!findContactCategory(payload.category)) {
+    return "Please select a valid inquiry category.";
+  }
   if (payload.subject.length < 3 || payload.subject.length > 160) {
     return "Please enter a valid subject.";
   }
@@ -110,6 +116,7 @@ export async function POST(request: NextRequest) {
       payload = {
         name: asText(body.name),
         email: asText(body.email),
+        category: asText(body.category),
         subject: asText(body.subject),
         message: asText(body.message),
         website: asText(body.website),
@@ -120,6 +127,7 @@ export async function POST(request: NextRequest) {
       payload = {
         name: asText(formData.get("name")),
         email: asText(formData.get("email")),
+        category: asText(formData.get("category")),
         subject: asText(formData.get("subject")),
         message: asText(formData.get("message")),
         website: asText(formData.get("website")),
@@ -164,15 +172,22 @@ export async function POST(request: NextRequest) {
   const fromName = process.env.CONTACT_FROM_NAME ?? "Embassy of Lebanon Islamabad";
   const fromEmail = process.env.CONTACT_FROM_EMAIL ?? "noreply@lebanonembassy.pk";
   const websiteUrl = process.env.CONTACT_WEBSITE_URL ?? "https://www.lebanonembassy.pk/";
+
+  // Validation above guarantees the category resolves.
+  const category = findContactCategory(payload.category)!;
+  const categoryLabel = getCategoryLabel(category, payload.locale);
+  const submittedAt = new Date();
+
   const emailTemplate = buildContactEmailTemplate({
     locale: payload.locale,
     embassyName: fromName,
     websiteUrl,
     senderName: payload.name,
     senderEmail: payload.email,
+    categoryLabel,
     subject: payload.subject,
     message: payload.message,
-    submittedAt: new Date(),
+    submittedAt,
   });
 
   try {
@@ -213,6 +228,48 @@ export async function POST(request: NextRequest) {
       { message: "Unable to send your message right now. Please try again later." },
       { status: 502 },
     );
+  }
+
+  // Best-effort acknowledgement to the submitter. The embassy notification has
+  // already been delivered at this point, so a failure here must not surface as
+  // a failed submission.
+  if (category.autoReply) {
+    const autoReply = buildVisaAutoReplyTemplate({
+      locale: payload.locale,
+      embassyName: fromName,
+      websiteUrl,
+      embassyEmail: toEmail,
+      recipientName: payload.name,
+      categoryLabel,
+      subject: payload.subject,
+      submittedAt,
+    });
+
+    try {
+      const autoReplyResponse = await fetch(RESEND_ENDPOINT, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: buildFromHeader(fromName, fromEmail),
+          to: [payload.email],
+          reply_to: toEmail,
+          subject: autoReply.subjectLine,
+          text: autoReply.text,
+          html: autoReply.html,
+        }),
+        cache: "no-store",
+      });
+
+      if (!autoReplyResponse.ok) {
+        const errorBody = await autoReplyResponse.text();
+        console.error("Resend auto-reply failure:", autoReplyResponse.status, errorBody);
+      }
+    } catch (error) {
+      console.error("Resend auto-reply request error:", error);
+    }
   }
 
   if (expectsHtml) {

@@ -683,7 +683,8 @@ a {
 }
 
 .contactField input,
-.contactField textarea {
+.contactField textarea,
+.contactField select {
   width: 100%;
   border: 1px solid #d1d5db;
   border-radius: 4px;
@@ -698,11 +699,89 @@ a {
   resize: vertical;
 }
 
+.contactField select {
+  appearance: none;
+  cursor: pointer;
+  padding-inline-end: 2.1rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7280' d='M1.4 0 6 4.6 10.6 0 12 1.4 6 7.4 0 1.4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 11px 8px;
+}
+
+[dir="rtl"] .contactField select {
+  background-position: left 0.8rem center;
+}
+
+.contactField select:invalid {
+  color: #6b7280;
+}
+
 .contactField input:focus,
-.contactField textarea:focus {
+.contactField textarea:focus,
+.contactField select:focus {
   outline: none;
   border-color: #9ca3af;
   box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.18);
+}
+
+.contactVisaNotice {
+  border: 1px solid #d1d5db;
+  border-inline-start: 4px solid var(--lebanon-red);
+  border-radius: 8px;
+  background: #f9fafb;
+  padding: 0.85rem 1rem;
+}
+
+.contactVisaNoticeTitle {
+  margin: 0 0 0.4rem;
+  color: var(--lebanon-red);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contactVisaNoticeText {
+  margin: 0 0 0.55rem;
+  color: #1f2937;
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+.contactVisaNoticeContactTitle {
+  margin: 0.7rem 0 0.35rem;
+  color: #6b7280;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contactVisaNoticeList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.22rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #1f2937;
+}
+
+.contactVisaNoticeList span {
+  font-weight: 600;
+}
+
+.contactVisaNoticeLink {
+  color: var(--lebanon-red);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.contactVisaNoticeLink:hover,
+.contactVisaNoticeLink:focus-visible {
+  color: #1f2937;
 }
 
 .contactSubmit {
@@ -2431,7 +2510,8 @@ html[data-ui-mode="modern"] .contactField label {
 }
 
 html[data-ui-mode="modern"] .contactField input,
-html[data-ui-mode="modern"] .contactField textarea {
+html[data-ui-mode="modern"] .contactField textarea,
+html[data-ui-mode="modern"] .contactField select {
   border: 1px solid rgba(140, 166, 229, 0.44);
   border-radius: 10px;
   background: rgba(6, 13, 30, 0.72);
@@ -2443,10 +2523,53 @@ html[data-ui-mode="modern"] .contactField textarea::placeholder {
   color: #89a0cc;
 }
 
+html[data-ui-mode="modern"] .contactField select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%2389a0cc' d='M1.4 0 6 4.6 10.6 0 12 1.4 6 7.4 0 1.4z'/%3E%3C/svg%3E");
+}
+
+html[data-ui-mode="modern"] .contactField select:invalid {
+  color: #89a0cc;
+}
+
+html[data-ui-mode="modern"] .contactField select option,
+html[data-ui-mode="modern"] .contactField select optgroup {
+  background: #0b1428;
+  color: #f8fbff;
+}
+
 html[data-ui-mode="modern"] .contactField input:focus,
-html[data-ui-mode="modern"] .contactField textarea:focus {
+html[data-ui-mode="modern"] .contactField textarea:focus,
+html[data-ui-mode="modern"] .contactField select:focus {
   border-color: rgba(190, 210, 255, 0.74);
   box-shadow: 0 0 0 3px rgba(126, 149, 210, 0.2);
+}
+
+html[data-ui-mode="modern"] .contactVisaNotice {
+  border-color: rgba(140, 166, 229, 0.44);
+  border-inline-start-color: #ff6b8a;
+  background: rgba(6, 13, 30, 0.72);
+}
+
+html[data-ui-mode="modern"] .contactVisaNoticeTitle {
+  color: #ffd2de;
+}
+
+html[data-ui-mode="modern"] .contactVisaNoticeText,
+html[data-ui-mode="modern"] .contactVisaNoticeList {
+  color: #dbe8ff;
+}
+
+html[data-ui-mode="modern"] .contactVisaNoticeContactTitle {
+  color: #89a0cc;
+}
+
+html[data-ui-mode="modern"] .contactVisaNoticeLink {
+  color: #ffd2de;
+}
+
+html[data-ui-mode="modern"] .contactVisaNoticeLink:hover,
+html[data-ui-mode="modern"] .contactVisaNoticeLink:focus-visible {
+  color: #ffffff;
 }
 
 html[data-ui-mode="modern"] .contactFormStatus {
