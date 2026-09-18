@@ -1,8 +1,10 @@
 import type { Locale } from "@/lib/locale";
-import { AUTHORISED_AGENCY, getAgencyCopy } from "@/lib/contact/agency";
+import type { DeflectedService } from "@/lib/contact/categories";
+import { AUTHORISED_AGENCY, SERVICE_INFO_PATH, getAgencyCopy } from "@/lib/contact/agency";
 
-type VisaAutoReplyTemplateInput = {
+type AgencyAutoReplyTemplateInput = {
   locale: Locale;
+  service: DeflectedService;
   embassyName: string;
   websiteUrl: string;
   embassyEmail: string;
@@ -12,7 +14,7 @@ type VisaAutoReplyTemplateInput = {
   submittedAt: Date;
 };
 
-type VisaAutoReplyTemplateResult = {
+type AgencyAutoReplyTemplateResult = {
   subjectLine: string;
   html: string;
   text: string;
@@ -43,75 +45,116 @@ function formatUtcDate(date: Date): string {
  * ---------------------------------------------------------------------------
  * AUTO-REPLY COPY
  *
- * The only block to edit when changing what visa applicants receive.
+ * The only block to edit when changing what applicants receive. `shared` is
+ * common to every deflected service; the per-service block supplies the
+ * intro, the requirements paragraph, the CTA and the subject line.
  * `paragraphs` renders one <p> per entry in the HTML mail and one
  * blank-line-separated block in the plain-text mail. Agency name and contact
  * details come from `@/lib/contact/agency` so the email, the contact form
  * notice and the Visa Services page cannot drift apart.
  * ---------------------------------------------------------------------------
  */
-function getCopy(locale: Locale) {
+function getCopy(locale: Locale, service: DeflectedService) {
   if (locale === "ar") {
-    return {
+    const shared = {
       banner: "سفارة لبنان - إسلام آباد",
       heading: "شكراً لتواصلك معنا",
       greeting: (name: string) => `عزيزي/عزيزتي ${name}،`,
-      paragraphs: [
-        "شكراً لتواصلك مع سفارة لبنان في إسلام آباد. لقد تسلمنا استفسارك حول التأشيرة.",
-        "جميع المستندات المطلوبة وإجراءات التقديم منشورة بالكامل على صفحة خدمات التأشيرات في موقعنا الإلكتروني. يرجى مراجعتها قبل التقديم.",
-        "يرجى ملاحظة أن هذه رسالة تأكيد تلقائية ولا تشكل قراراً بشأن طلبك.",
-      ],
+      closingNote: "يرجى ملاحظة أن هذه رسالة تأكيد تلقائية ولا تشكل قراراً بشأن طلبك.",
       detailsTitle: "ملخص استفسارك",
       categoryLabel: "الفئة",
       subjectLabel: "الموضوع",
       submittedAtLabel: "تاريخ الإرسال (UTC)",
-      ctaLabel: "عرض متطلبات التأشيرة",
       footerContact: "لأي استفسار إضافي، يرجى الرد على هذه الرسالة أو مراسلتنا على",
       footerAuto: "هذه رسالة تلقائية أُرسلت من نموذج التواصل على الموقع الإلكتروني للسفارة.",
+    };
+
+    if (service === "attestation") {
+      return {
+        ...shared,
+        paragraphs: [
+          "شكراً لتواصلك مع سفارة لبنان في إسلام آباد. لقد تسلمنا استفسارك حول تصديق وتوثيق المستندات.",
+          "المستندات المطلوبة وخطوات التوثيق، بما في ذلك التصديق المسبق من وزارة الخارجية الباكستانية، منشورة بالكامل على صفحة الشؤون القنصلية في موقعنا الإلكتروني. يرجى مراجعتها قبل التقديم.",
+          shared.closingNote,
+        ],
+        ctaLabel: "عرض متطلبات التصديق",
+        preview: "متطلبات التصديق وتفاصيل الوكالة المعتمدة.",
+        subjectLine: "استفسار التصديق - المتطلبات وجهة التقديم المعتمدة",
+      };
+    }
+
+    return {
+      ...shared,
+      paragraphs: [
+        "شكراً لتواصلك مع سفارة لبنان في إسلام آباد. لقد تسلمنا استفسارك حول التأشيرة.",
+        "جميع المستندات المطلوبة وإجراءات التقديم منشورة بالكامل على صفحة خدمات التأشيرات في موقعنا الإلكتروني. يرجى مراجعتها قبل التقديم.",
+        shared.closingNote,
+      ],
+      ctaLabel: "عرض متطلبات التأشيرة",
       preview: "متطلبات التأشيرة وتفاصيل الوكالة المعتمدة.",
       subjectLine: "استفسار التأشيرة - المتطلبات وجهة التقديم المعتمدة",
     };
   }
 
-  return {
+  const shared = {
     banner: "Embassy of Lebanon - Islamabad",
     heading: "Thank You for Contacting Us",
     greeting: (name: string) => `Dear ${name},`,
-    paragraphs: [
-      "Thank you for contacting the Embassy of Lebanon in Islamabad. We have received your visa inquiry.",
-      "The complete document requirements and application procedure are published on the Visa Services page of our website. Please review them before applying.",
+    closingNote:
       "Please note that this is an automated acknowledgement and does not constitute a decision on your application.",
-    ],
     detailsTitle: "Summary of Your Inquiry",
     categoryLabel: "Category",
     subjectLabel: "Subject",
     submittedAtLabel: "Submitted At (UTC)",
-    ctaLabel: "View Visa Requirements",
     footerContact: "For any further questions, please reply to this email or write to us at",
     footerAuto: "This is an automated message sent from the embassy website contact form.",
+  };
+
+  if (service === "attestation") {
+    return {
+      ...shared,
+      paragraphs: [
+        "Thank you for contacting the Embassy of Lebanon in Islamabad. We have received your inquiry regarding document attestation and legalization.",
+        "The required documents and the legalization workflow, including prior attestation by the Ministry of Foreign Affairs of Pakistan, are published on the Consular Affairs page of our website. Please review them before submitting.",
+        shared.closingNote,
+      ],
+      ctaLabel: "View Attestation Requirements",
+      preview: "Attestation requirements and authorised agency details.",
+      subjectLine: "Your attestation inquiry - requirements and authorised agency",
+    };
+  }
+
+  return {
+    ...shared,
+    paragraphs: [
+      "Thank you for contacting the Embassy of Lebanon in Islamabad. We have received your visa inquiry.",
+      "The complete document requirements and application procedure are published on the Visa Services page of our website. Please review them before applying.",
+      shared.closingNote,
+    ],
+    ctaLabel: "View Visa Requirements",
     preview: "Visa requirements and authorised agency details.",
     subjectLine: "Your visa inquiry - requirements and authorised agency",
   };
 }
 
-export function buildVisaAutoReplyTemplate(input: VisaAutoReplyTemplateInput): VisaAutoReplyTemplateResult {
-  const copy = getCopy(input.locale);
+export function buildAgencyAutoReplyTemplate(input: AgencyAutoReplyTemplateInput): AgencyAutoReplyTemplateResult {
+  const copy = getCopy(input.locale, input.service);
   const isRtl = input.locale === "ar";
   const dir = isRtl ? "rtl" : "ltr";
   const align = isRtl ? "right" : "left";
   const valueAlign = isRtl ? "left" : "right";
   const submittedAtUtc = formatUtcDate(input.submittedAt);
-  const visaUrl = new URL(`/${input.locale}/visas`, input.websiteUrl).toString();
+  const infoUrl = new URL(`/${input.locale}${SERVICE_INFO_PATH[input.service]}`, input.websiteUrl).toString();
 
   const safeEmbassyName = escapeHtml(input.embassyName);
   const safeWebsiteUrl = escapeHtml(input.websiteUrl);
   const safeEmbassyEmail = escapeHtml(input.embassyEmail);
   const safeCategory = escapeHtml(input.categoryLabel);
   const safeSubject = escapeHtml(input.subject);
-  const safeVisaUrl = escapeHtml(visaUrl);
+  const safeInfoUrl = escapeHtml(infoUrl);
   const preheader = escapeHtml(copy.preview);
 
-  const agency = getAgencyCopy(input.locale);
+  const agency = getAgencyCopy(input.locale, input.service);
   const safeAgencyName = escapeHtml(AUTHORISED_AGENCY.name);
   const safeAgencyUrl = escapeHtml(AUTHORISED_AGENCY.websiteUrl);
   const safeAgencyWhatsapp = escapeHtml(AUTHORISED_AGENCY.whatsappUrl);
@@ -133,7 +176,7 @@ export function buildVisaAutoReplyTemplate(input: VisaAutoReplyTemplateInput): V
     `${agency.uanLabel}: ${AUTHORISED_AGENCY.uanDisplay}`,
     `${agency.websiteLabel}: ${AUTHORISED_AGENCY.websiteUrl}`,
     "",
-    `${copy.ctaLabel}: ${visaUrl}`,
+    `${copy.ctaLabel}: ${infoUrl}`,
     "",
     `${copy.footerContact} ${input.embassyEmail}`,
     "",
@@ -242,7 +285,7 @@ export function buildVisaAutoReplyTemplate(input: VisaAutoReplyTemplateInput): V
             </tr>
             <tr>
               <td style="padding:18px 28px 0;text-align:${align};">
-                <a href="${safeVisaUrl}" style="display:inline-block;background:#111827;color:#ffffff;text-decoration:none;font-size:14px;line-height:1.2;font-weight:700;border-radius:8px;padding:11px 16px;">
+                <a href="${safeInfoUrl}" style="display:inline-block;background:#111827;color:#ffffff;text-decoration:none;font-size:14px;line-height:1.2;font-weight:700;border-radius:8px;padding:11px 16px;">
                   ${escapeHtml(copy.ctaLabel)}
                 </a>
               </td>

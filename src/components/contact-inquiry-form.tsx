@@ -7,7 +7,7 @@ import {
   getGroupLabel,
   getGroupedContactCategories,
 } from "@/lib/contact/categories";
-import { AUTHORISED_AGENCY, getAgencyCopy } from "@/lib/contact/agency";
+import { AUTHORISED_AGENCY, SERVICE_INFO_PATH, getAgencyCopy } from "@/lib/contact/agency";
 
 type ContactInquiryLabels = {
   inquiryTitle: string;
@@ -53,9 +53,12 @@ export default function ContactInquiryForm({ locale, labels, initialStatus }: Co
   );
 
   const groupedCategories = useMemo(() => getGroupedContactCategories(), []);
-  const agencyCopy = useMemo(() => getAgencyCopy(locale), [locale]);
   const [categoryId, setCategoryId] = useState("");
-  const showVisaNotice = findContactCategory(categoryId)?.group === "visa";
+  const deflectedService = findContactCategory(categoryId)?.deflect;
+  const agencyCopy = useMemo(
+    () => (deflectedService ? getAgencyCopy(locale, deflectedService) : null),
+    [locale, deflectedService],
+  );
 
   const initialFeedbackType: FeedbackType = initialStatus === "success" || initialStatus === "error" ? initialStatus : null;
   const [feedbackType, setFeedbackType] = useState<FeedbackType>(initialFeedbackType);
@@ -178,12 +181,12 @@ export default function ContactInquiryForm({ locale, labels, initialStatus }: Co
           </select>
         </div>
 
-        {showVisaNotice ? (
+        {deflectedService && agencyCopy ? (
           <aside className="contactVisaNotice">
             <p className="contactVisaNoticeTitle">{agencyCopy.noticeTitle}</p>
             <p className="contactVisaNoticeText">
               {agencyCopy.requirementsLine}{" "}
-              <a className="contactVisaNoticeLink" href={`/${locale}/visas`}>
+              <a className="contactVisaNoticeLink" href={`/${locale}${SERVICE_INFO_PATH[deflectedService]}`}>
                 {agencyCopy.requirementsLink}
               </a>
             </p>

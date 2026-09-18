@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { normalizeLocale } from "@/lib/locale";
 import { buildContactEmailTemplate } from "@/lib/email/contact-template";
-import { buildVisaAutoReplyTemplate } from "@/lib/email/visa-autoreply-template";
+import { buildAgencyAutoReplyTemplate } from "@/lib/email/agency-autoreply-template";
 import { findContactCategory, getCategoryLabel } from "@/lib/contact/categories";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
@@ -178,13 +178,15 @@ export async function POST(request: NextRequest) {
   const categoryLabel = getCategoryLabel(category, payload.locale);
   const submittedAt = new Date();
 
-  // A submission produces exactly one email. Visa inquiries are answered by the
-  // automated reply pointing the applicant at the authorised agency and are not
-  // forwarded to the embassy inbox; everything else notifies the embassy.
-  const outbound = category.autoReplyOnly
+  // A submission produces exactly one email. Categories tagged with a
+  // deflected service are answered by the automated reply pointing the
+  // applicant at the authorised agency and are not forwarded to the embassy
+  // inbox; everything else notifies the embassy.
+  const outbound = category.deflect
     ? (() => {
-        const autoReply = buildVisaAutoReplyTemplate({
+        const autoReply = buildAgencyAutoReplyTemplate({
           locale: payload.locale,
+          service: category.deflect,
           embassyName: fromName,
           websiteUrl,
           embassyEmail: toEmail,
