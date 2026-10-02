@@ -71,6 +71,31 @@ const newsCatalog: LocalizedNewsItem[] = [
     },
   },
   {
+    slug: "general-haykal-calls-on-field-marshal-asim-munir-june-2026",
+    day: "08",
+    month: {
+      en: "JUN",
+      ar: "يونيو",
+    },
+    title: {
+      en: "General Rodolphe Haykal, Commander-in-Chief of the Lebanese Armed Forces, calls on Field Marshal Syed Asim Munir at the General Headquarters in Rawalpindi",
+      ar: "العماد رودولف هيكل، قائد الجيش اللبناني، يلتقي المشير سيد عاصم منير في مقر القيادة العامة في روالبندي",
+    },
+    excerpt: {
+      en: "On 8 June 2026, General Rodolphe Haykal, Commander-in-Chief of the Lebanese Armed Forces, called on Field Marshal Syed Asim Munir, NI (M), HJ, COAS & CDF, at the General Headquarters in Rawalpindi.",
+      ar: "بتاريخ 8 يونيو 2026، التقى العماد رودولف هيكل، قائد الجيش اللبناني، المشير سيد عاصم منير، قائد الجيش ورئيس هيئة الأركان المشتركة، في مقر القيادة العامة في روالبندي.",
+    },
+    image: {
+      src: "/news/haykal-munir-meeting-jun-2026.jpeg",
+      width: 1600,
+      height: 898,
+      alt: {
+        en: "General Rodolphe Haykal in conversation with Field Marshal Syed Asim Munir during their meeting at the General Headquarters in Rawalpindi.",
+        ar: "العماد رودولف هيكل في حديث مع المشير سيد عاصم منير خلال لقائهما في مقر القيادة العامة في روالبندي.",
+      },
+    },
+  },
+  {
     slug: "rooted-for-lebanon-campaign-june-2026",
     day: "08",
     month: {
