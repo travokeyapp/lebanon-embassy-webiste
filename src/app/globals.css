@@ -1699,6 +1699,19 @@ a {
   object-fit: cover;
 }
 
+.newsGallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  max-width: 620px;
+  margin-top: 0.5rem;
+}
+
+.newsGallery .newsImage {
+  margin-top: 0;
+  aspect-ratio: 3 / 2;
+}
+
 .newsAttachmentLink {
   display: inline-flex;
   margin-top: 0.6rem;

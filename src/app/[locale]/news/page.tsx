@@ -94,6 +94,21 @@ export default async function NewsPage({
                       sizes="(max-width: 720px) 92vw, 620px"
                     />
                   ) : null}
+                  {item.gallery && item.gallery.length > 0 ? (
+                    <div className="newsGallery">
+                      {item.gallery.map((photo) => (
+                        <HydrationSafeImage
+                          className="newsImage"
+                          key={photo.src}
+                          src={photo.src}
+                          alt={photo.alt}
+                          width={photo.width}
+                          height={photo.height}
+                          sizes="(max-width: 720px) 31vw, 200px"
+                        />
+                      ))}
+                    </div>
+                  ) : null}
                   {item.attachment ? (
                     <a className="newsAttachmentLink" href={item.attachment.href} target="_blank" rel="noreferrer">
                       {item.attachment.label}

@@ -12,6 +12,12 @@ export type NewsItem = {
     height: number;
     alt: string;
   };
+  gallery?: {
+    src: string;
+    width: number;
+    height: number;
+    alt: string;
+  }[];
   attachment?: {
     href: string;
     label: string;
@@ -30,6 +36,13 @@ type LocalizedNewsItem = {
     height: number;
     alt: Record<Locale, string>;
   };
+  // Extra photos shown under the main image on the news archive page.
+  gallery?: {
+    src: string;
+    width: number;
+    height: number;
+    alt: Record<Locale, string>;
+  }[];
   attachment?: {
     href: string;
     label: Record<Locale, string>;
@@ -38,6 +51,60 @@ type LocalizedNewsItem = {
 
 // Single source for all news. Add/remove items here.
 const newsCatalog: LocalizedNewsItem[] = [
+  {
+    slug: "lebanese-delegation-calls-on-pm-shehbaz-sharif-mou-september-2026",
+    day: "14",
+    month: {
+      en: "SEP",
+      ar: "سبتمبر",
+    },
+    title: {
+      en: "Lebanese delegation led by Minister of Interior and Municipalities Ahmad Al-Hajjar calls on Prime Minister Muhammad Shehbaz Sharif; Pakistan and Lebanon sign MoU on transfer of sentenced persons",
+      ar: "وفد لبناني برئاسة وزير الداخلية والبلديات أحمد الحجار يلتقي رئيس الوزراء محمد شهباز شريف؛ وباكستان ولبنان يوقّعان مذكرة تفاهم حول نقل الأشخاص المحكوم عليهم",
+    },
+    excerpt: {
+      en: "A Lebanese delegation led by Minister of Interior and Municipalities of Lebanon H.E. Mr. Ahmad Al-Hajjar called on Prime Minister Muhammad Shehbaz Sharif in Islamabad on 14 September 2026. Prime Minister Muhammad Shehbaz Sharif witnessed an MoU signing ceremony between Pakistan and Lebanon on transfer of sentenced persons.",
+      ar: "التقى وفد لبناني برئاسة وزير الداخلية والبلديات اللبناني معالي السيد أحمد الحجار رئيس الوزراء محمد شهباز شريف في إسلام آباد بتاريخ 14 سبتمبر 2026. وشهد رئيس الوزراء محمد شهباز شريف مراسم توقيع مذكرة تفاهم بين باكستان ولبنان حول نقل الأشخاص المحكوم عليهم.",
+    },
+    image: {
+      src: "/news/lebanese-delegation-pm-meeting-sep-2026-1.jpg",
+      width: 1196,
+      height: 796,
+      alt: {
+        en: "The Lebanese delegation in a meeting with Prime Minister Muhammad Shehbaz Sharif in Islamabad.",
+        ar: "الوفد اللبناني خلال لقائه رئيس الوزراء محمد شهباز شريف في إسلام آباد.",
+      },
+    },
+    gallery: [
+      {
+        src: "/news/lebanese-delegation-pm-meeting-sep-2026-2.jpg",
+        width: 1120,
+        height: 673,
+        alt: {
+          en: "The Lebanese and Pakistani delegations during the meeting with Prime Minister Muhammad Shehbaz Sharif.",
+          ar: "الوفدان اللبناني والباكستاني خلال اللقاء مع رئيس الوزراء محمد شهباز شريف.",
+        },
+      },
+      {
+        src: "/news/pakistan-lebanon-mou-signing-sep-2026-1.jpg",
+        width: 1280,
+        height: 864,
+        alt: {
+          en: "Prime Minister Muhammad Shehbaz Sharif witnesses the signing of the MoU between Pakistan and Lebanon on transfer of sentenced persons.",
+          ar: "رئيس الوزراء محمد شهباز شريف يشهد توقيع مذكرة التفاهم بين باكستان ولبنان حول نقل الأشخاص المحكوم عليهم.",
+        },
+      },
+      {
+        src: "/news/pakistan-lebanon-mou-signing-sep-2026-2.jpg",
+        width: 1280,
+        height: 879,
+        alt: {
+          en: "Exchange of the signed MoU documents between Pakistan and Lebanon at the ceremony in Islamabad.",
+          ar: "تبادل وثائق مذكرة التفاهم الموقّعة بين باكستان ولبنان خلال المراسم في إسلام آباد.",
+        },
+      },
+    ],
+  },
   {
     slug: "call-on-sapm-digital-media-fahd-haroon-august-2026",
     day: "21",
@@ -209,6 +276,12 @@ export function getNewsForLocale(locale: Locale): NewsItem[] {
           alt: item.image.alt[locale],
         }
       : undefined,
+    gallery: item.gallery?.map((photo) => ({
+      src: photo.src,
+      width: photo.width,
+      height: photo.height,
+      alt: photo.alt[locale],
+    })),
     attachment: item.attachment
       ? {
           href: item.attachment.href,
