@@ -136,7 +136,14 @@ export default async function SiteShell({
     email: settings.plain.email || t.footer.email,
     aboutText: tx(settings.fields.footerAbout, locale) || t.footer.aboutText,
     copyright: tx(settings.fields.copyright, locale) || t.footer.copyright,
-    links: (settings.links.footerLinks ?? []).map((link) => ({ label: tx(link.label, locale), href: link.href })),
+    links: (settings.links.footerLinks ?? []).map((link) => {
+      const external = /^(https?:\/\/|mailto:|tel:)/i.test(link.href);
+      return {
+        label: tx(link.label, locale),
+        href: external ? link.href : `/${locale}${link.href.startsWith("/") ? link.href : `/${link.href}`}`,
+        external,
+      };
+    }),
   };
   const navItems: Array<{ key: ActiveNav; href: string; label: string }> = [
     { key: "home", href: `/${locale}`, label: t.nav.home },
@@ -213,9 +220,13 @@ export default async function SiteShell({
             <ul className="footerLinks">
               {site.links.map((item) => (
                 <li key={`${item.href}-${item.label}`}>
-                  <a href={item.href} target="_blank" rel="noreferrer">
-                    {item.label}
-                  </a>
+                  {item.external ? (
+                    <a href={item.href} target="_blank" rel="noreferrer">
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link href={item.href}>{item.label}</Link>
+                  )}
                 </li>
               ))}
             </ul>

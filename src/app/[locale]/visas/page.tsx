@@ -1,4 +1,6 @@
+import Link from "next/link";
 import SiteShell from "@/components/site-shell";
+import { getPublicDocuments } from "@/lib/content/documents-public";
 import { linesOf, tx } from "@/lib/content/page-schema";
 import { getPageContent } from "@/lib/content/pages-public";
 import { normalizeLocale } from "@/lib/locale";
@@ -50,7 +52,8 @@ const agencyContent: Record<"en" | "ar", AgencyContent> = {
 export default async function VisasPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: rawLocale } = await params;
   const locale = normalizeLocale(rawLocale);
-  const { fields, cards } = await getPageContent("visas");
+  const [{ fields, cards }, documents] = await Promise.all([getPageContent("visas"), getPublicDocuments()]);
+  const visaForms = documents.filter((doc) => doc.category === "visa-forms");
   const agency = agencyContent[locale];
   const t = (name: string) => tx(fields[name], locale);
   const list = (name: string) => linesOf(fields[name], locale).map((item) => <li key={item}>{item}</li>);
@@ -125,13 +128,17 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
             <h3>{t("downloadTitle")}</h3>
             <p>{t("downloadHint")}</p>
             <div className="downloadActions">
-              <a className="downloadButton" href="/visa-form.jpg" target="_blank" rel="noreferrer">
-                {locale === "en" ? "Visa Form (JPG)" : "نموذج التأشيرة (JPG)"}
-              </a>
-              <a className="downloadButton" href="/visa-form.pdf" target="_blank" rel="noreferrer">
-                {locale === "en" ? "Visa Form (PDF)" : "نموذج التأشيرة (PDF)"}
-              </a>
+              {visaForms.map((doc) => (
+                <a className="downloadButton" href={doc.href} target="_blank" rel="noreferrer" key={doc.id}>
+                  {doc.title[locale] || doc.title.en}
+                </a>
+              ))}
             </div>
+            <p>
+              <Link className="contactLink" href={`/${locale}/downloads`}>
+                {locale === "en" ? "All forms and documents" : "جميع النماذج والمستندات"}
+              </Link>
+            </p>
           </article>
         </div>
 

@@ -33,6 +33,13 @@
     "footerLinks": [
       {
         "label": {
+          "en": "Forms & Documents",
+          "ar": "النماذج والمستندات"
+        },
+        "href": "/downloads"
+      },
+      {
+        "label": {
           "en": "Ministry of Foreign Affairs",
           "ar": "وزارة الخارجية"
         },

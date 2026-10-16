@@ -3144,3 +3144,57 @@ html[data-ui-mode="modern"] .footerAgencyContact a:focus-visible {
 html[data-ui-mode="modern"] .siteNotices {
   background: rgba(255, 250, 240, 0.92);
 }
+
+/* Forms & documents page */
+
+.documentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.documentItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.documentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.documentTitle {
+  font-weight: 600;
+  color: #111827;
+}
+
+.documentDescription {
+  color: #4b5563;
+  font-size: 0.92rem;
+}
+
+.documentMeta {
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 720px) {
+  .documentItem {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
