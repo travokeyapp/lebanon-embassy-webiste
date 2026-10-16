@@ -1,0 +1,44 @@
+{
+  "fields": {
+    "title": {
+      "en": "About the Embassy",
+      "ar": "عن السفارة"
+    },
+    "lead": {
+      "en": "The Embassy of the Republic of Lebanon in Islamabad is Lebanon's official diplomatic mission in Pakistan.",
+      "ar": "سفارة الجمهورية اللبنانية في إسلام أباد هي البعثة الدبلوماسية الرسمية للبنان لدى باكستان."
+    },
+    "missionTitle": {
+      "en": "Mission",
+      "ar": "المهمة"
+    },
+    "mission": {
+      "en": "Protect the interests of Lebanon and support Lebanese citizens in Pakistan through consular and administrative services.\nAdvance bilateral cooperation in political dialogue, trade, education, and cultural exchange.\nCoordinate with Lebanese and Pakistani institutions to support stable and practical state-to-state engagement.",
+      "ar": "حماية مصالح لبنان وخدمة المواطنين اللبنانيين في باكستان عبر الخدمات القنصلية والإدارية.\nتعزيز التعاون الثنائي في الحوار السياسي والتجارة والتعليم والتبادل الثقافي.\nالتنسيق مع المؤسسات اللبنانية والباكستانية لدعم تعاون عملي ومستقر بين البلدين."
+    },
+    "milestonesTitle": {
+      "en": "Key Bilateral Milestones",
+      "ar": "محطات أساسية في العلاقات الثنائية"
+    },
+    "milestones": {
+      "en": "Treaty of Friendship signed in Beirut on January 16, 1953 (UN Treaty Series No. 4137).\nTreaty entered into force on August 18, 1954 following ratification.\nPakistan and Lebanon signed an MoU on Bilateral Consultations in 2002; the first session was held in Beirut on November 28, 2018.\nAn agreement establishing a Joint Economic Commission (JEC) was signed on July 28, 2022 and entered into force on May 17, 2023.",
+      "ar": "توقيع معاهدة الصداقة في بيروت بتاريخ 16 يناير 1953 (سلسلة معاهدات الأمم المتحدة رقم 4137).\nدخلت المعاهدة حيّز التنفيذ في 18 أغسطس 1954 بعد استكمال إجراءات التصديق.\nوقّع لبنان وباكستان مذكرة تفاهم للمشاورات الثنائية عام 2002، وعُقدت الجلسة الأولى في بيروت بتاريخ 28 نوفمبر 2018.\nتم توقيع اتفاق إنشاء اللجنة الاقتصادية المشتركة بتاريخ 28 يوليو 2022، ودخل حيّز التنفيذ في 17 مايو 2023."
+    },
+    "servicesTitle": {
+      "en": "Public and Consular Focus",
+      "ar": "التركيز القنصلي والخدماتي"
+    },
+    "services": {
+      "en": "Visa and entry guidance for travel to Lebanon.\nDocument legalization and attestation support.\nCivil-status and passport-related consular assistance.",
+      "ar": "إرشادات التأشيرات والدخول إلى لبنان.\nخدمات التصديق والمعاملات القنصلية.\nالمساعدة في معاملات الأحوال الشخصية والجوازات."
+    },
+    "note": {
+      "en": "Ambassador biography and portrait will be updated when official materials are provided by the Embassy.",
+      "ar": "سيتم تحديث السيرة الذاتية للسفير والصورة الرسمية فور تزويدنا بالمواد المعتمدة من السفارة."
+    }
+  },
+  "plain": {},
+  "cards": {},
+  "links": {},
+  "images": {}
+}

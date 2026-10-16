@@ -1,0 +1,67 @@
+{
+  "fields": {
+    "title": {
+      "en": "The Ambassador",
+      "ar": "السفير"
+    },
+    "subtitle": {
+      "en": "Official profile and message from the Ambassador of Lebanon to Pakistan.",
+      "ar": "الملف الرسمي ورسالة سعادة سفير لبنان لدى باكستان."
+    },
+    "name": {
+      "en": "H.E. Abdulaziz ISSA",
+      "ar": "سعادة السفير عبد العزيز عيسى"
+    },
+    "role": {
+      "en": "Ambassador Extraordinary and Plenipotentiary to the Islamic Republic of Pakistan",
+      "ar": "سفير فوق العادة ومفوض للجمهورية اللبنانية لدى جمهورية باكستان الإسلامية"
+    },
+    "profileTitle": {
+      "en": "Bio Data",
+      "ar": "السيرة المختصرة"
+    },
+    "profile": {
+      "en": "Name: H.E. Abdulaziz ISSA\nMission: Embassy of the Republic of Lebanon in Islamabad\nPosition: Ambassador of Lebanon to the Islamic Republic of Pakistan",
+      "ar": "الاسم: سعادة السفير عبد العزيز عيسى\nالبعثة: سفارة الجمهورية اللبنانية في إسلام آباد\nالمنصب: سفير لبنان لدى جمهورية باكستان الإسلامية"
+    },
+    "messageTitle": {
+      "en": "Message from the Ambassador",
+      "ar": "رسالة السفير"
+    },
+    "message": {
+      "en": "Dear Lebanese citizens and friends of Lebanon residing in Pakistan, welcome to the new website of the Embassy of Lebanon in Islamabad. It is an honor for me to represent my country, Lebanon, in lovely Pakistan, and to do my utmost to strengthen relations between our two countries for the benefit of our peoples.\nAfter a long absence from the internet, we are back to facilitate matters for stakeholders and to promote Lebanon primarily as a tourist destination and a promising land for investment.\nAfter the recent war between Israel and Hezbollah, the election of a new president for Lebanon in January 2025, and the formation of a new government, Lebanon has returned to its rightful place as a tourist destination offering everything a tourist needs for entertainment.\nWe have received many visa applications, mostly from Pakistanis, and I encourage those who are still hesitant to travel to Lebanon to relax, discover, and enjoy our beautiful country.\nIn this blessed month of Ramadan, I extend to you my warmest greetings and wish you acceptable and easy fasting. I pray that God grants us all lasting peace and prosperity.",
+      "ar": "أعزائي المواطنين اللبنانيين وأصدقاء لبنان المقيمين في باكستان، أهلاً وسهلاً بكم في الموقع الإلكتروني الجديد لسفارة لبنان في إسلام آباد. إنه لشرف عظيم لي أن أمثل بلدي لبنان في باكستان الحبيبة، وأن أبذل قصارى جهدي لتعزيز العلاقات بين بلدينا لما فيه خير شعبينا.\nبعد غياب طويل عن الإنترنت، عدنا لتسهيل الأمور لأصحاب المصلحة وللترويج للبنان في المقام الأول كوجهة سياحية وأرض واعدة للاستثمار.\nبعد الحرب الأخيرة بين إسرائيل وحزب الله، وانتخاب رئيس جديد للبنان في يناير 2025 وتشكيل حكومة جديدة، عاد لبنان إلى مكانته الصحيحة كوجهة سياحية تقدم كل ما يحتاجه السائح للترفيه.\nلقد تلقينا العديد من طلبات التأشيرة، معظمها من باكستانيين، وأشجع أولئك الذين ما زالوا مترددين في السفر إلى لبنان على السفر لاكتشاف بلدنا الجميل والاستمتاع به.\nفي هذا الشهر الفضيل، شهر رمضان المبارك، أتقدم إليكم بأحر التهاني وأتمنى لكم صياماً مقبولاً وسهلاً. أدعو الله أن يمنّ علينا جميعاً بالسلام والرخاء الدائمين."
+    },
+    "signatureLead": {
+      "en": "Sincerely,",
+      "ar": "مع خالص التحيات،"
+    },
+    "signatureName": {
+      "en": "Ambassador Abdulaziz ISSA",
+      "ar": "السفير عبد العزيز عيسى"
+    }
+  },
+  "plain": {},
+  "cards": {},
+  "links": {},
+  "images": {
+    "portrait": {
+      "src": "/lebanon_ambasssador_with_flag.jpeg",
+      "width": 900,
+      "height": 1200,
+      "alt": {
+        "en": "Official portrait of H.E. Abdulaziz ISSA",
+        "ar": "الصورة الرسمية لسعادة السفير عبد العزيز عيسى"
+      }
+    },
+    "homePortrait": {
+      "src": "/lebanon_ambassador.jpeg",
+      "width": 900,
+      "height": 1200,
+      "alt": {
+        "en": "Official portrait of H.E. Abdulaziz ISSA",
+        "ar": "الصورة الرسمية لسعادة السفير عبد العزيز عيسى"
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "fields": {
+    "title": {
+      "en": "Embassy Services",
+      "ar": "خدمات السفارة"
+    },
+    "lead": {
+      "en": "Core services provided by the Embassy of Lebanon in Islamabad for travelers, Lebanese nationals, and document processing.",
+      "ar": "الخدمات الأساسية التي تقدمها سفارة لبنان في إسلام أباد للمسافرين والمواطنين اللبنانيين ومعاملات المستندات."
+    },
+    "note": {
+      "en": "Final requirements may vary by case. Applicants should confirm the latest official checklist with the Embassy before submission.",
+      "ar": "قد تختلف المتطلبات النهائية حسب كل حالة. يُرجى تأكيد اللائحة الرسمية المحدثة مع السفارة قبل التقديم."
+    }
+  },
+  "plain": {},
+  "cards": {
+    "cards": [
+      {
+        "title": {
+          "en": "Visa Services",
+          "ar": "خدمات التأشيرات"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "Guidance for visa applications before travel to Lebanon.\nCommon categories include tourist, business, work, student, family, and transit visas.\nApplicants should file complete documents in advance to avoid travel delays.",
+          "ar": "إرشادات التقديم على التأشيرات قبل السفر إلى لبنان.\nتشمل الفئات الشائعة: السياحية، الأعمال، العمل، الدراسة، العائلية، والعبور.\nيُنصح بتقديم ملف كامل مبكرًا لتجنب أي تأخير في السفر."
+        }
+      },
+      {
+        "title": {
+          "en": "Consular Legalization",
+          "ar": "التصديقات القنصلية"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "Attestation of powers of attorney and legal declarations.\nLegalization of educational, commercial, and civil-status documents.\nVerification workflow may require prior attestation by relevant local authorities.",
+          "ar": "تصديق الوكالات والإقرارات القانونية.\nتصديق الشهادات التعليمية والمستندات التجارية ووثائق الأحوال الشخصية.\nقد تتطلب المعاملة تصديقًا مسبقًا من الجهات المحلية المختصة."
+        }
+      },
+      {
+        "title": {
+          "en": "Citizen and Civil Services",
+          "ar": "خدمات المواطنين والأحوال الشخصية"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "Civil-status support including birth, marriage, and other record-related requests.\nPassport and travel-document guidance for Lebanese citizens.\nCase-specific support for urgent consular queries.",
+          "ar": "المساعدة في معاملات الأحوال الشخصية مثل الولادات والزواج وغيرها.\nإرشادات الجوازات ووثائق السفر للمواطنين اللبنانيين.\nمتابعة الحالات الخاصة ذات الطابع القنصلي العاجل."
+        }
+      }
+    ]
+  },
+  "links": {},
+  "images": {}
+}

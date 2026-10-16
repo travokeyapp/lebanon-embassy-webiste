@@ -1,0 +1,281 @@
+{
+  "fields": {
+    "title": {
+      "en": "Visa Services",
+      "ar": "خدمات التأشيرات"
+    },
+    "lead": {
+      "en": "The following requirements are based on the official guidance provided by the Embassy of Lebanon in Islamabad. Submit complete documents according to your visa type.",
+      "ar": "المتطلبات التالية مبنية على الإرشادات الرسمية الصادرة عن سفارة لبنان في إسلام آباد. يرجى تقديم ملف كامل وفق نوع التأشيرة المطلوبة."
+    },
+    "categoriesTitle": {
+      "en": "Visa Categories",
+      "ar": "فئات التأشيرات"
+    },
+    "requiredTitle": {
+      "en": "Core Required Documents",
+      "ar": "المستندات الأساسية المطلوبة"
+    },
+    "required": {
+      "en": "Visa application form completed clearly in capital letters (typed or handwritten) exactly as per passport details.\nColored passport copies (up to page 3 for Business Visa; passport copies required for other visa types).\nRecent photograph with white background.\nMedical travel insurance.\nHotel reservation OR clear residence address and telephone numbers with sponsor letter.\nIf sponsor is Lebanese: attach sponsor passport copy, ID card copy, and registration certificate copy.\nIf sponsor is a foreigner: attach sponsor residence permit valid for at least 3 months.\nTentative flight reservation showing arrival and departure.\nBank statement for the last 3 months OR proof of sufficient funds for stay in Lebanon.\nDocument proving applicant status (employee, student, retired, company owner).\nIf not working: provide financial proof documents.\nFor applicants not residing in their own country: residence permit valid for more than 6 months.",
+      "ar": "نموذج طلب التأشيرة معبأ بوضوح بالأحرف الكبيرة (مطبوعًا أو بخط اليد) ومطابقًا تمامًا لبيانات جواز السفر.\nنسخ ملوّنة من جواز السفر (حتى الصفحة الثالثة لتأشيرة الأعمال، ونسخ الجواز مطلوبة لباقي الفئات أيضًا).\nصورة شخصية حديثة بخلفية بيضاء.\nتأمين سفر طبي.\nحجز فندقي أو عنوان إقامة واضح مع أرقام الهاتف ورسالة كفالة/استضافة.\nإذا كان الكفيل لبنانيًا: تُرفق نسخة جوازه، ونسخة الهوية، ونسخة شهادة التسجيل.\nإذا كان الكفيل أجنبيًا: تُرفق نسخة من إقامة سارية لمدة لا تقل عن 3 أشهر.\nحجز طيران مبدئي يوضح تاريخي الوصول والمغادرة.\nكشف حساب بنكي لآخر 3 أشهر أو ما يثبت توفر المبلغ الكافي لتغطية الإقامة في لبنان.\nمستند يثبت صفة مقدم الطلب (موظف، طالب، متقاعد، صاحب شركة).\nلغير العاملين: يجب تقديم مستندات الإثبات المالي.\nلمقدم الطلب غير المقيم في بلده الأصلي: إقامة سارية لأكثر من 6 أشهر."
+    },
+    "specialCasesTitle": {
+      "en": "Special Cases for Travel/Residence Documents",
+      "ar": "حالات خاصة لوثائق السفر/الإقامة"
+    },
+    "specialCases": {
+      "en": "Egyptian travel document holders residing in Egypt: residence permit valid for more than 6 months plus Egypt re-entry visa.\nPalestinian Authority citizens residing in occupied Palestine: recently issued permission to return to authority territories.\nPalestinian Authority and Jordanian applicants without national number residing in occupied Palestine: recently issued permission to return to authority territories.\nHolders of travel document (FREMMEDPAS): copy of re-entry document and residence permit valid for at least 6 months.",
+      "ar": "لحاملي وثيقة السفر المصرية المقيمين في مصر: إقامة سارية لأكثر من 6 أشهر مع تأشيرة عودة إلى مصر.\nلمواطني السلطة الفلسطينية المقيمين في الأراضي المحتلة: نسخة حديثة من إذن العودة إلى أراضي السلطة.\nلمواطني السلطة الفلسطينية والأردنيين بدون رقم وطني المقيمين في الأراضي المحتلة: نسخة حديثة من إذن العودة إلى أراضي السلطة.\nلحاملي وثيقة السفر (FREMMEDPAS): نسخة من وثيقة العودة ونسخة من إقامة سارية لمدة لا تقل عن 6 أشهر."
+    },
+    "visaSpecificTitle": {
+      "en": "Additional Documents by Visa Type",
+      "ar": "مستندات إضافية حسب نوع التأشيرة"
+    },
+    "feeTitle": {
+      "en": "Business Visa Fees (Cash, After Approval)",
+      "ar": "رسوم تأشيرة الأعمال (نقدًا بعد الموافقة)"
+    },
+    "fees": {
+      "en": "Single Entry: USD 88\nTwo Entries: USD 125\nMultiple Entries: USD 175",
+      "ar": "دخول مرة واحدة: 88 دولار أمريكي\nدخول مرتين: 125 دولار أمريكي\nدخول متعدد: 175 دولار أمريكي"
+    },
+    "processTitle": {
+      "en": "Application Process",
+      "ar": "آلية التقديم"
+    },
+    "process": {
+      "en": "Prepare the full document set according to your visa category.\nSubmit the application.\nWait for consular review and any additional document requests.\nIf approved, complete any final submission requirements (such as return ticket copies and applicable fee payment) before visa issuance.",
+      "ar": "تحضير ملف المستندات كاملًا بحسب فئة التأشيرة المطلوبة.\nتقديم الطلب.\nانتظار المراجعة القنصلية وأي طلبات استكمال إضافية.\nعند الموافقة، استكمال المتطلبات النهائية (مثل نسخ تذكرة العودة ودفع الرسوم المطبقة) قبل إصدار التأشيرة."
+    },
+    "notesTitle": {
+      "en": "Important Notes",
+      "ar": "ملاحظات مهمة"
+    },
+    "notes": {
+      "en": "All required documents must be presented in Arabic, French, or English.\nThe Directorate General of General Security may request additional documents whenever deemed necessary.",
+      "ar": "يجب تقديم جميع المستندات المطلوبة باللغة العربية أو الفرنسية أو الإنجليزية.\nيحق للمديرية العامة للأمن العام طلب مستندات إضافية كلما رأت ذلك ضروريًا."
+    },
+    "downloadTitle": {
+      "en": "Forms Download",
+      "ar": "تنزيل النماذج"
+    },
+    "downloadHint": {
+      "en": "Use the official visa form before submitting your application:",
+      "ar": "يرجى استخدام نموذج التأشيرة الرسمي قبل تقديم الطلب:"
+    },
+    "contactTitle": {
+      "en": "Need Assistance?",
+      "ar": "بحاجة إلى مساعدة؟"
+    },
+    "contactBody": {
+      "en": "The Embassy of Lebanon in Islamabad recommends Crown International Travels Pvt. Ltd., an agency officially authorised by the Embassy, for visa application processing and document attestation services.",
+      "ar": "توصي سفارة لبنان في إسلام آباد بشركة Crown International Travels Pvt. Ltd.، وهي وكالة معتمدة رسمياً من السفارة، لخدمات إجراءات التأشيرات والتصديق على المستندات."
+    }
+  },
+  "plain": {},
+  "cards": {
+    "categories": [
+      {
+        "title": {
+          "en": "Business Visa",
+          "ar": "تأشيرة أعمال"
+        },
+        "body": {
+          "en": "For meetings and business-related travel to Lebanon.",
+          "ar": "للاجتماعات والسفر المرتبط بالأعمال إلى لبنان."
+        },
+        "items": {
+          "en": "",
+          "ar": ""
+        }
+      },
+      {
+        "title": {
+          "en": "Tourist Visa",
+          "ar": "تأشيرة سياحية"
+        },
+        "body": {
+          "en": "For short visits and tourism purposes.",
+          "ar": "للزيارات القصيرة والسياحة."
+        },
+        "items": {
+          "en": "",
+          "ar": ""
+        }
+      },
+      {
+        "title": {
+          "en": "Family Visit",
+          "ar": "زيارة عائلية"
+        },
+        "body": {
+          "en": "For visiting family members in Lebanon.",
+          "ar": "لزيارة أفراد العائلة في لبنان."
+        },
+        "items": {
+          "en": "",
+          "ar": ""
+        }
+      },
+      {
+        "title": {
+          "en": "Medical Treatment Visit",
+          "ar": "زيارة للعلاج الطبي"
+        },
+        "body": {
+          "en": "For medical consultations and treatment in Lebanon.",
+          "ar": "للاستشارات الطبية وتلقي العلاج في لبنان."
+        },
+        "items": {
+          "en": "",
+          "ar": ""
+        }
+      },
+      {
+        "title": {
+          "en": "Training Course Visit",
+          "ar": "زيارة لحضور دورة تدريبية"
+        },
+        "body": {
+          "en": "For attending training courses in Lebanon.",
+          "ar": "لحضور دورات تدريبية في لبنان."
+        },
+        "items": {
+          "en": "",
+          "ar": ""
+        }
+      },
+      {
+        "title": {
+          "en": "Transit Visa",
+          "ar": "تأشيرة عبور"
+        },
+        "body": {
+          "en": "For transiting via Lebanon to another destination.",
+          "ar": "للعبور عبر لبنان إلى وجهة أخرى."
+        },
+        "items": {
+          "en": "",
+          "ar": ""
+        }
+      },
+      {
+        "title": {
+          "en": "Study Visit",
+          "ar": "زيارة للدراسة"
+        },
+        "body": {
+          "en": "For study and educational enrollment in Lebanon.",
+          "ar": "للدراسة والالتحاق بالمؤسسات التعليمية في لبنان."
+        },
+        "items": {
+          "en": "",
+          "ar": ""
+        }
+      }
+    ],
+    "visaSpecific": [
+      {
+        "title": {
+          "en": "Business Visa",
+          "ar": "تأشيرة أعمال"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "Invitation letter from business partner in Lebanon addressed to Lebanese Embassy, Islamabad, sent directly by email from Lebanon, including duration of stay and inviter contact details.\nCopy of business/chamber membership of the invitee.\nProof of business relationship with invitee.\nRecommendation note from CCI, FPCCI, or EPB plus membership certificate valid for the current year (two copies).\nIf approved by the Embassy: attach non-refundable, non-transferable return ticket (two copies).",
+          "ar": "دعوة من الشريك التجاري في لبنان موجّهة إلى سفارة لبنان في إسلام آباد، تُرسل مباشرة من لبنان عبر البريد الإلكتروني، وتتضمن مدة الإقامة وبيانات الاتصال.\nنسخة من عضوية الغرفة/السجل التجاري للجهة الداعية.\nإثبات العلاقة التجارية مع الجهة الداعية.\nكتاب توصية من CCI أو FPCCI أو EPB مع شهادة عضوية سارية للسنة الحالية (نسختان).\nفي حال الموافقة: تُرفق تذكرة عودة غير قابلة للاسترداد وغير قابلة للتحويل (نسختان)."
+        }
+      },
+      {
+        "title": {
+          "en": "Tourist Visa",
+          "ar": "تأشيرة سياحية"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "Apply with the core required documents listed above.",
+          "ar": "يتم التقديم وفق المستندات الأساسية المذكورة أعلاه."
+        }
+      },
+      {
+        "title": {
+          "en": "Family Visit",
+          "ar": "زيارة عائلية"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "All Tourist Visa/core documents.\nProof of family relationship (birth certificate, marriage certificate, or registration certificate).",
+          "ar": "جميع مستندات التأشيرة السياحية/المستندات الأساسية.\nإثبات صلة القرابة (شهادة ميلاد أو شهادة زواج أو شهادة تسجيل)."
+        }
+      },
+      {
+        "title": {
+          "en": "Medical Treatment Visit",
+          "ar": "زيارة للعلاج الطبي"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "All Tourist Visa/core documents.\nMedical reports of the patient and statement/schedule from the concerned doctor indicating required treatment period in Lebanon.",
+          "ar": "جميع مستندات التأشيرة السياحية/المستندات الأساسية.\nتقارير طبية للمريض وخطاب/جدول من الطبيب المعني يوضح مدة العلاج المطلوبة في لبنان."
+        }
+      },
+      {
+        "title": {
+          "en": "Training Course Visit",
+          "ar": "زيارة لحضور دورة تدريبية"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "All Tourist Visa/core documents.\nInvitation letter with course program and training duration.",
+          "ar": "جميع مستندات التأشيرة السياحية/المستندات الأساسية.\nدعوة مرفقة ببرنامج الدورة ومدة التدريب."
+        }
+      },
+      {
+        "title": {
+          "en": "Transit Visa",
+          "ar": "تأشيرة عبور"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "Visa or residence permit of the destination country.\nReservation/ticket for the destination country.",
+          "ar": "تأشيرة أو إقامة سارية لبلد الوجهة.\nحجز/تذكرة إلى بلد الوجهة."
+        }
+      },
+      {
+        "title": {
+          "en": "Study Visit",
+          "ar": "زيارة للدراسة"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "Admission documents from officially approved universities, schools, or institutions in Lebanon, or invitation letter from them.\nProof of sufficient funds for study and routine expenses during stay in Lebanon.\nScholarship holders may present scholarship acceptance letter and may be exempted from producing admission and study-financing documents.",
+          "ar": "مستندات قبول من جامعات أو مدارس أو مؤسسات رسمية معتمدة في لبنان، أو دعوة منها.\nما يثبت توفر مبلغ كافٍ لتغطية الدراسة والمصاريف المعيشية أثناء الإقامة في لبنان.\nيمكن إعفاء الحاصلين على منحة من تقديم مستندات القبول وإثبات التمويل عند تقديم كتاب قبول المنحة."
+        }
+      }
+    ]
+  },
+  "links": {},
+  "images": {}
+}
