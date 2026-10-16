@@ -32,32 +32,59 @@ The API route sends with:
 - `To`: embassy recipient mailbox
 - `Reply-To`: visitor email from the form
 
-## Admin Portal (news editor)
+## Admin Portal
 
-Embassy staff manage **News & Events** at `/admin` (sign in at `/admin/login`). Items are stored in MongoDB and
-photos/PDFs in Vercel Blob; publishing updates the public site immediately, no deploy needed.
+Embassy staff manage the website at `/admin` (sign in at `/admin/login`). Content is stored in MongoDB and
+photos/PDFs in Vercel Blob; every save updates the public site within seconds, no deploy needed.
+
+### What can be managed
+| Section | What it controls |
+|---|---|
+| Dashboard | Figures, quick actions, recent activity |
+| News & Events | Home page news and the news archive: bilingual title and text, date, photos, PDF or link, draft/publish, live preview |
+| Announcements | A notice strip under the header on every page, with optional link, dates and on/off switch |
+| Home banners | The two slideshows at the top of the home page (4 Pakistan + 4 Lebanon pictures with captions) |
+| Documents & forms | Files on the Forms & Documents page (`/downloads`); visa forms also appear on the Visas page |
+| Gallery | Photos on the Gallery page, by collection |
+| Pages | Text of Services, Consular, Visas, The Ambassador (and portraits), Relations, About |
+| Contact & footer | Address, phones, fax, email, office hours, map, top ribbon, footer text and related links |
+| Staff accounts | Administrators add editors/administrators, reset passwords, deactivate accounts |
+| My account | Change your own password; full activity log |
+
+Pages start with the wording the site shipped with (`src/lib/content/defaults/*.json`) and keep it until
+someone saves a change. If the database is ever unreachable the public site falls back to that wording and to
+an empty news list, so it stays up.
+
+Roles: **editors** manage all content; **administrators** also manage staff accounts. Deactivating someone or
+resetting a password signs them out immediately.
 
 ### One-time setup
-1. **MongoDB**: create a free cluster on MongoDB Atlas, add a database user, and allow access from anywhere
-   (`0.0.0.0/0`, required for Vercel). Copy the connection string into `MONGODB_URI`.
-2. **Session secret**: run `openssl rand -base64 48` and put the result in `AUTH_SECRET`.
-3. **File storage**: in the Vercel project open *Storage → Create → Blob* and connect it to this project. Vercel adds
-   `BLOB_READ_WRITE_TOKEN` automatically.
-4. Add `MONGODB_URI`, `MONGODB_DB`, and `AUTH_SECRET` to the Vercel project environment variables and redeploy.
+1. **MongoDB**: create a free cluster on MongoDB Atlas, add a database user, and under *Network Access* allow
+   `0.0.0.0/0` (required for Vercel). Copy the connection string into `MONGODB_URI`. Prefer a cluster in AWS
+   N. Virginia (us-east-1), the same region as the Vercel function.
+2. **Session secret**: run `openssl rand -base64 48` (or `node -e "console.log(require('crypto').randomBytes(48).toString('base64'))"`)
+   and put the result in `AUTH_SECRET`.
+3. **File storage**: in the Vercel project open *Storage → Create → Blob* (public access) and connect it to this
+   project. Vercel adds `BLOB_READ_WRITE_TOKEN` automatically.
+4. Add `MONGODB_URI`, `MONGODB_DB`, and `AUTH_SECRET` to the Vercel project environment variables (Production
+   and Preview) and redeploy.
 5. Locally: copy `.env.example` to `.env.local` and fill the same values (or run `vercel env pull .env.local`).
 6. **Import the existing news** once (reads the values from `.env.local`):
    ```bash
    npm run admin:seed-news
    ```
-7. **Create the first login**:
+7. **Create the first administrator**:
    ```bash
    npm run admin:create-user -- --email editor@lebanonembassy.pk --name "Editor Name"
    ```
-   A random password is printed once. Staff can change it later under *My account*.
-   To reset a forgotten password: `npm run admin:create-user -- --email editor@lebanonembassy.pk --reset`.
+   A random password is printed once. Further accounts are created from *Staff accounts* in the admin.
+   To reset a forgotten password from the command line: `npm run admin:create-user -- --email editor@lebanonembassy.pk --reset`.
+8. If the public site showed "No news for now" before the import, sign in and click **Refresh website** on the
+   News & Events page.
 
 ### Day to day
-- `/admin/news`: list of items with status (Draft / Published), edit, publish, unpublish, delete.
-- Each item has English and Arabic title and text, a date, a main photo, optional extra photos, and an optional
-  attachment (uploaded PDF or an external link). Photos are resized in the browser before upload.
-- Both languages are required to publish; drafts can be saved with English only.
+- Both languages are required to publish a news item; drafts can be saved with English only.
+- Photos are resized in the browser before upload; banners up to 2400 px wide, other photos 1800 px.
+- Every editor has a **Restore original text** button that reloads the shipped wording into the form (nothing is
+  saved until you click Save).
+- Deleting an item does not delete its uploaded file from storage.

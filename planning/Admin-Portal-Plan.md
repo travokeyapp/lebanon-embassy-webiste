@@ -1,5 +1,7 @@
 # Admin Portal (CMS) Plan — Embassy of Lebanon Website
 
+> **Status (16 Oct 2026):** Phases 0–3 of the delivery table below are implemented on the `claude/clever-lovelace-l773xq` branch, plus most of the "Later" items (consular, visa, about, ambassador, relations pages, gallery, hero banners). Remaining: full news detail pages with a rich-text body, two-factor sign-in, content versioning. See README → Admin Portal for how to operate it.
+
 Goal: let embassy staff add and edit website content (news first, then services, notices, documents, contact details) from a password-protected admin area, without a developer touching code or git.
 
 ---
