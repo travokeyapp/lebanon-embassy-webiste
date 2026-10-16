@@ -19,6 +19,8 @@ type ImagePickerProps = {
   hint?: string;
   error?: string;
   large?: boolean;
+  // Longest edge after resizing; banners need more pixels than news photos.
+  maxEdge?: number;
 };
 
 // One picture: upload (click or drag), preview, optional description, replace, remove.
@@ -33,6 +35,7 @@ export default function ImagePicker({
   hint = "JPG, PNG or WEBP. Large photos are resized automatically.",
   error,
   large = true,
+  maxEdge,
 }: ImagePickerProps) {
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
@@ -46,7 +49,7 @@ export default function ImagePicker({
     setUploading(true);
     onError(null);
     try {
-      const uploaded = await uploadImageFile(file, { folder });
+      const uploaded = await uploadImageFile(file, { folder, maxEdge });
       onChange({ ...uploaded, alt: value?.alt ?? { en: "", ar: "" } });
     } catch (uploadError) {
       onError(uploadError instanceof Error ? uploadError.message : "Upload failed. Please try again.");
