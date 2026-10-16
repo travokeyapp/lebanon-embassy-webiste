@@ -880,3 +880,141 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+/* Navigation groups */
+
+.admNavGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.admNavGroupTitle {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+  padding: 6px 12px 4px;
+}
+
+.admSidebar {
+  overflow-y: auto;
+}
+
+/* Staff accounts */
+
+.admFormInline {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.admFormInline .admField {
+  min-width: 180px;
+}
+
+.admFormInline .admBtn {
+  height: 42px;
+}
+
+.admCredentials {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #14532d;
+}
+
+.admCredentials p {
+  margin: 4px 0 10px;
+}
+
+.admCredentials dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  margin: 0;
+}
+
+.admCredentials dt {
+  font-weight: 600;
+}
+
+.admCredentials dd {
+  margin: 0;
+  word-break: break-all;
+}
+
+.admCredentialSecret {
+  font-size: 1.05em;
+  background: #ffffff;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #bbf7d0;
+}
+
+.admCredentialsCompact {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+}
+
+.admRowActionsStack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.admRowInactive td {
+  color: var(--adm-muted);
+}
+
+.admBadge-admin {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.admBadge-editor {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.admBadge-inactive {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.admAlertInfo {
+  background: #eff6ff;
+  color: #1e3a8a;
+  border: 1px solid #bfdbfe;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 860px) {
+  .admSidebar {
+    overflow: visible;
+  }
+
+  .admNavGroup {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+
+  .admNavGroupTitle {
+    display: none;
+  }
+
+  .admFormInline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

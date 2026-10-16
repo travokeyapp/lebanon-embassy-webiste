@@ -12,6 +12,8 @@ export type SessionUser = {
   email: string;
   name: string;
   role: "admin" | "editor";
+  // Must match the user's current tokenVersion in the database; see users.ts.
+  tokenVersion: number;
 };
 
 function getSecretKey(): Uint8Array {
@@ -23,7 +25,7 @@ function getSecretKey(): Uint8Array {
 }
 
 export async function createSessionToken(user: SessionUser): Promise<string> {
-  return new SignJWT({ email: user.email, name: user.name, role: user.role })
+  return new SignJWT({ email: user.email, name: user.name, role: user.role, v: user.tokenVersion })
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(user.id)
     .setIssuer(ISSUER)
@@ -35,14 +37,14 @@ export async function createSessionToken(user: SessionUser): Promise<string> {
 export async function verifySessionToken(token: string): Promise<SessionUser | null> {
   try {
     const { payload } = await jwtVerify(token, getSecretKey(), { issuer: ISSUER, algorithms: ["HS256"] });
-    const { sub, email, name, role } = payload;
+    const { sub, email, name, role, v } = payload;
     if (typeof sub !== "string" || typeof email !== "string" || typeof name !== "string") {
       return null;
     }
     if (role !== "admin" && role !== "editor") {
       return null;
     }
-    return { id: sub, email, name, role };
+    return { id: sub, email, name, role, tokenVersion: typeof v === "number" ? v : 0 };
   } catch {
     return null;
   }

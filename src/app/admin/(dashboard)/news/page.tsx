@@ -10,6 +10,7 @@ type SearchParams = {
   saved?: string | string[];
   slug?: string | string[];
   refreshed?: string | string[];
+  denied?: string | string[];
 };
 
 type StatusFilter = "all" | "published" | "draft";
@@ -35,6 +36,7 @@ export default async function AdminNewsPage({ searchParams }: { searchParams: Pr
   const saved = first(query.saved);
   const savedSlug = first(query.slug);
   const refreshed = first(query.refreshed) === "1";
+  const denied = first(query.denied) === "1";
 
   let items: NewsRecord[] = [];
   let loadError: string | null = null;
@@ -73,6 +75,11 @@ export default async function AdminNewsPage({ searchParams }: { searchParams: Pr
         </div>
       </header>
 
+      {denied ? (
+        <p className="admAlert admAlertError" role="alert">
+          Only administrators can open that page.
+        </p>
+      ) : null}
       {refreshed ? (
         <p className="admAlert admAlertSuccess" role="status">
           Website refreshed. The public pages now show exactly what is in the database.

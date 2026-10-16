@@ -7,7 +7,6 @@
  *
  * Without --password a random one is generated and printed once.
  */
-import { randomBytes } from "node:crypto";
 import { loadLocalEnv } from "./load-env";
 import { closeDb } from "@/lib/db/mongo";
 import { validateNewPassword } from "@/lib/auth/password";
@@ -16,6 +15,7 @@ import {
   createUser,
   ensureUserIndexes,
   findUserByEmail,
+  generatePassword,
   setUserPassword,
   type UserRole,
 } from "@/lib/auth/users";
@@ -37,15 +37,6 @@ function parseArgs(argv: string[]): Record<string, string | true> {
     }
   }
   return args;
-}
-
-function generatePassword(): string {
-  for (;;) {
-    const candidate = randomBytes(12).toString("base64url");
-    if (!validateNewPassword(candidate)) {
-      return candidate;
-    }
-  }
 }
 
 async function main() {

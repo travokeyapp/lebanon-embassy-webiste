@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { requireSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/session";
 import AdminNav from "./admin-nav";
 import { logoutAction } from "./actions";
 
@@ -7,7 +7,7 @@ import { logoutAction } from "./actions";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const session = await requireSession();
+  const session = await requireActiveUser();
 
   return (
     <div className="admShell">
@@ -19,7 +19,7 @@ export default async function DashboardLayout({ children }: Readonly<{ children:
             <span>Website admin</span>
           </div>
         </div>
-        <AdminNav />
+        <AdminNav role={session.role} />
         <div className="admSidebarFooter">
           <div className="admUser">
             <strong>{session.name}</strong>

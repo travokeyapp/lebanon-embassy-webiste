@@ -3,7 +3,7 @@
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { logAudit } from "@/lib/audit";
-import { getSession } from "@/lib/auth/session";
+import { getVerifiedSession } from "@/lib/auth/session";
 import { NEWS_CACHE_TAG } from "@/lib/news-public";
 import {
   NEWS_STATUSES,
@@ -30,7 +30,7 @@ const SESSION_EXPIRED = "Your session has expired. Please sign in again.";
 const GENERIC_FAILURE = "Something went wrong. Please try again.";
 
 export async function saveNewsAction(id: string | null, rawInput: unknown): Promise<SaveNewsResult> {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session) {
     return { ok: false, error: SESSION_EXPIRED };
   }
@@ -77,7 +77,7 @@ export async function saveNewsAction(id: string | null, rawInput: unknown): Prom
 }
 
 export async function setNewsStatusAction(id: string, status: NewsStatus): Promise<ActionResult> {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session) {
     return { ok: false, error: SESSION_EXPIRED };
   }
@@ -107,7 +107,7 @@ export async function setNewsStatusAction(id: string, status: NewsStatus): Promi
 }
 
 export async function deleteNewsAction(id: string): Promise<ActionResult> {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session) {
     return { ok: false, error: SESSION_EXPIRED };
   }
@@ -136,7 +136,7 @@ export async function deleteNewsAction(id: string): Promise<ActionResult> {
 // Clears the cached news on the public site so it re-reads the database on
 // the next visit. Useful after importing data outside the admin.
 export async function refreshSiteCacheAction(): Promise<void> {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session) {
     redirect("/admin/login");
   }
