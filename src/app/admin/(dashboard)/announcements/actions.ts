@@ -2,7 +2,7 @@
 
 import { revalidateTag } from "next/cache";
 import { logAudit } from "@/lib/audit";
-import { getVerifiedSession } from "@/lib/auth/session";
+import { authorizeArea } from "@/lib/auth/session";
 import { ANNOUNCEMENTS_CACHE_TAG } from "@/lib/content/announcements-public";
 import { announcementInputSchema } from "@/lib/content/announcements-schema";
 import {
@@ -16,13 +16,13 @@ import { collectFieldErrors, type FieldErrors } from "@/lib/news-schema";
 export type SaveResult = { ok: true; id: string } | { ok: false; error: string; fieldErrors?: FieldErrors };
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
-const SESSION_EXPIRED = "Your session has expired. Please sign in again.";
 
 export async function saveAnnouncementAction(id: string | null, rawInput: unknown): Promise<SaveResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("announcements");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
+  const session = auth.session;
   const parsed = announcementInputSchema.safeParse(rawInput);
   if (!parsed.success) {
     return { ok: false, error: "Please fix the highlighted fields.", fieldErrors: collectFieldErrors(parsed.error.issues) };
@@ -51,10 +51,11 @@ export async function saveAnnouncementAction(id: string | null, rawInput: unknow
 }
 
 export async function setAnnouncementActiveAction(id: string, active: boolean): Promise<ActionResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("announcements");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
+  const session = auth.session;
   try {
     const record = await setAnnouncementActive(id, active, session.email);
     if (!record) {
@@ -77,10 +78,11 @@ export async function setAnnouncementActiveAction(id: string, active: boolean): 
 }
 
 export async function deleteAnnouncementAction(id: string): Promise<ActionResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("announcements");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
+  const session = auth.session;
   try {
     const record = await deleteAnnouncement(id);
     if (!record) {

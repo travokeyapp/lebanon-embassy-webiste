@@ -3,6 +3,7 @@ import { announcementState, type AnnouncementRecord, type AnnouncementState } fr
 import { listAnnouncements } from "@/lib/content/announcements-store";
 import { formatAdminDate, todayIsoDate } from "@/lib/news-dates";
 import AnnouncementRowActions from "./row-actions";
+import { requireArea } from "@/lib/auth/session";
 
 const STATE_LABELS: Record<AnnouncementState, { label: string; badge: string }> = {
   live: { label: "On the website", badge: "admBadge-published" },
@@ -21,6 +22,7 @@ function dateWindow(item: AnnouncementRecord): string {
 }
 
 export default async function AnnouncementsPage({ searchParams }: { searchParams: Promise<{ saved?: string | string[] }> }) {
+  await requireArea("announcements");
   const query = await searchParams;
   const saved = (Array.isArray(query.saved) ? query.saved[0] : query.saved) === "1";
 

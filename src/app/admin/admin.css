@@ -1119,3 +1119,60 @@
   flex-wrap: wrap;
   gap: 8px;
 }
+
+/* Permissions */
+
+.admFieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.admFieldWide {
+  flex-basis: 100%;
+}
+
+.admCheckGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px 16px;
+  margin-top: 8px;
+}
+
+.admCheckInline {
+  margin-top: 0;
+  align-items: flex-start;
+}
+
+.admCheckInline input {
+  margin-top: 3px;
+}
+
+.admCheckInline span {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.admPermissions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.admPermissionsEditing {
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 260px;
+}
+
+.admPermissionsEditing .admCheckGrid {
+  grid-template-columns: 1fr 1fr;
+  margin-top: 0;
+}
+
+.admPermissionsCell {
+  max-width: 320px;
+}

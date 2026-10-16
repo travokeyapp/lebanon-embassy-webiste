@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { describeAuditAction, listAuditEntries, type AuditRecord } from "@/lib/audit";
+import { canAccess, type Area } from "@/lib/auth/permissions";
 import { requireActiveUser } from "@/lib/auth/session";
 import { listUsers } from "@/lib/auth/users";
 import { announcementState } from "@/lib/content/announcements-schema";
@@ -9,7 +10,7 @@ import { countGalleryItems } from "@/lib/content/gallery-store";
 import { formatAdminDateTime, todayIsoDate } from "@/lib/news-dates";
 import { listAllNews } from "@/lib/news-store";
 
-type Stat = { label: string; value: string; detail?: string; href: string };
+type Stat = { label: string; value: string; detail?: string; href: string; area?: Area };
 
 async function settle<T>(promise: Promise<T>): Promise<T | null> {
   try {
@@ -20,35 +21,41 @@ async function settle<T>(promise: Promise<T>): Promise<T | null> {
   }
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ denied?: string | string[] }> }) {
   const session = await requireActiveUser();
+  const query = await searchParams;
+  const denied = (Array.isArray(query.denied) ? query.denied[0] : query.denied) === "1";
   const today = todayIsoDate();
+  const allowed = (area: Area) => canAccess(session, area);
 
   const [news, announcements, documents, photos, users, activity] = await Promise.all([
-    settle(listAllNews()),
-    settle(listAnnouncements()),
-    settle(countDocuments()),
-    settle(countGalleryItems()),
+    allowed("news") ? settle(listAllNews()) : Promise.resolve(null),
+    allowed("announcements") ? settle(listAnnouncements()) : Promise.resolve(null),
+    allowed("documents") ? settle(countDocuments()) : Promise.resolve(null),
+    allowed("gallery") ? settle(countGalleryItems()) : Promise.resolve(null),
     session.role === "admin" ? settle(listUsers()) : Promise.resolve(null),
     settle(listAuditEntries(8)),
   ]);
 
-  const stats: Stat[] = [
+  const allStats: Stat[] = [
     {
       label: "News & Events",
       value: news ? String(news.filter((item) => item.status === "published").length) : "–",
       detail: news ? `${news.filter((item) => item.status === "draft").length} draft${news && news.filter((item) => item.status === "draft").length === 1 ? "" : "s"}` : "unavailable",
       href: "/admin/news",
+      area: "news",
     },
     {
       label: "Announcements live",
       value: announcements ? String(announcements.filter((item) => announcementState(item, today) === "live").length) : "–",
       detail: announcements ? `${announcements.length} in total` : "unavailable",
       href: "/admin/announcements",
+      area: "announcements",
     },
-    { label: "Documents", value: documents === null ? "–" : String(documents), href: "/admin/documents" },
-    { label: "Gallery photos", value: photos === null ? "–" : String(photos), href: "/admin/gallery" },
+    { label: "Documents", value: documents === null ? "–" : String(documents), href: "/admin/documents", area: "documents" },
+    { label: "Gallery photos", value: photos === null ? "–" : String(photos), href: "/admin/gallery", area: "gallery" },
   ];
+  const stats = allStats.filter((stat) => !stat.area || allowed(stat.area));
   if (session.role === "admin") {
     stats.push({
       label: "Staff accounts",
@@ -58,7 +65,22 @@ export default async function DashboardPage() {
     });
   }
 
-  const unavailable = news === null || announcements === null || documents === null || photos === null;
+  const unavailable =
+    (allowed("news") && news === null) ||
+    (allowed("announcements") && announcements === null) ||
+    (allowed("documents") && documents === null) ||
+    (allowed("gallery") && photos === null);
+
+  type QuickAction = { href: string; label: string; primary?: boolean; area: Area };
+  const allQuickActions: QuickAction[] = [
+    { href: "/admin/news/new", label: "+ New news item", primary: true, area: "news" },
+    { href: "/admin/announcements/new", label: "+ New announcement", area: "announcements" },
+    { href: "/admin/documents/new", label: "+ Add document", area: "documents" },
+    { href: "/admin/gallery/new", label: "+ Add photo", area: "gallery" },
+    { href: "/admin/banners", label: "Edit home banners", area: "banners" },
+    { href: "/admin/pages/settings", label: "Contact details & footer", area: "settings" },
+  ];
+  const quickActions = allQuickActions.filter((action) => allowed(action.area));
 
   return (
     <>
@@ -71,6 +93,12 @@ export default async function DashboardPage() {
           Open website
         </a>
       </header>
+
+      {denied ? (
+        <p className="admAlert admAlertError" role="alert">
+          You do not have access to that section. Ask an administrator if you need it.
+        </p>
+      ) : null}
 
       {unavailable ? (
         <p className="admAlert admAlertError" role="alert">
@@ -88,29 +116,22 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      <section className="admCard">
-        <h2 className="admCardTitle">Quick actions</h2>
-        <div className="admQuickActions">
-          <Link href="/admin/news/new" className="admBtn admBtnPrimary">
-            + New news item
-          </Link>
-          <Link href="/admin/announcements/new" className="admBtn">
-            + New announcement
-          </Link>
-          <Link href="/admin/documents/new" className="admBtn">
-            + Add document
-          </Link>
-          <Link href="/admin/gallery/new" className="admBtn">
-            + Add photo
-          </Link>
-          <Link href="/admin/banners" className="admBtn">
-            Edit home banners
-          </Link>
-          <Link href="/admin/pages/settings" className="admBtn">
-            Contact details &amp; footer
-          </Link>
-        </div>
-      </section>
+      {quickActions.length > 0 ? (
+        <section className="admCard">
+          <h2 className="admCardTitle">Quick actions</h2>
+          <div className="admQuickActions">
+            {quickActions.map((action) => (
+              <Link href={action.href} className={`admBtn${action.primary ? " admBtnPrimary" : ""}`} key={action.href}>
+                {action.label}
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : (
+        <p className="admAlert admAlertInfo" role="status">
+          Your account cannot change any section yet. Ask an administrator to grant permissions under Staff accounts.
+        </p>
+      )}
 
       <section className="admCard admTableWrap">
         <div className="admCardHeader">

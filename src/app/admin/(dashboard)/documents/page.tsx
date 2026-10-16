@@ -2,8 +2,10 @@ import Link from "next/link";
 import { DOCUMENT_CATEGORY_LABELS, documentKindLabel, formatFileSize, type DocumentRecord } from "@/lib/content/documents-schema";
 import { listDocuments } from "@/lib/content/documents-store";
 import DocumentRowActions from "./row-actions";
+import { requireArea } from "@/lib/auth/session";
 
 export default async function DocumentsPage({ searchParams }: { searchParams: Promise<{ saved?: string | string[] }> }) {
+  await requireArea("documents");
   const query = await searchParams;
   const saved = (Array.isArray(query.saved) ? query.saved[0] : query.saved) === "1";
 

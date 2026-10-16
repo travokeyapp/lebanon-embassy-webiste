@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { canAccess, type Area, type AreaGrant } from "@/lib/auth/permissions";
 
-type NavItem = { href: string; label: string; adminOnly?: boolean; exact?: boolean };
+type NavItem = { href: string; label: string; adminOnly?: boolean; exact?: boolean; area?: Area };
 type NavGroup = { title: string; items: NavItem[] };
 
 const GROUPS: NavGroup[] = [
@@ -11,23 +12,23 @@ const GROUPS: NavGroup[] = [
     title: "Content",
     items: [
       { href: "/admin", label: "Dashboard", exact: true },
-      { href: "/admin/news", label: "News & Events" },
-      { href: "/admin/announcements", label: "Announcements" },
-      { href: "/admin/banners", label: "Home banners" },
-      { href: "/admin/documents", label: "Documents & forms" },
-      { href: "/admin/gallery", label: "Gallery" },
+      { href: "/admin/news", label: "News & Events", area: "news" },
+      { href: "/admin/announcements", label: "Announcements", area: "announcements" },
+      { href: "/admin/banners", label: "Home banners", area: "banners" },
+      { href: "/admin/documents", label: "Documents & forms", area: "documents" },
+      { href: "/admin/gallery", label: "Gallery", area: "gallery" },
     ],
   },
   {
     title: "Pages",
     items: [
-      { href: "/admin/pages/services", label: "Services" },
-      { href: "/admin/pages/consular", label: "Consular" },
-      { href: "/admin/pages/visas", label: "Visas" },
-      { href: "/admin/pages/ambassador", label: "The Ambassador" },
-      { href: "/admin/pages/relations", label: "Relations" },
-      { href: "/admin/pages/about", label: "About" },
-      { href: "/admin/pages/settings", label: "Contact & footer" },
+      { href: "/admin/pages/services", label: "Services", area: "pages" },
+      { href: "/admin/pages/consular", label: "Consular", area: "pages" },
+      { href: "/admin/pages/visas", label: "Visas", area: "pages" },
+      { href: "/admin/pages/ambassador", label: "The Ambassador", area: "pages" },
+      { href: "/admin/pages/relations", label: "Relations", area: "pages" },
+      { href: "/admin/pages/about", label: "About", area: "pages" },
+      { href: "/admin/pages/settings", label: "Contact & footer", area: "settings" },
     ],
   },
   {
@@ -39,13 +40,19 @@ const GROUPS: NavGroup[] = [
   },
 ];
 
-export default function AdminNav({ role }: { role: "admin" | "editor" }) {
+export default function AdminNav({ role, areas }: { role: "admin" | "editor"; areas: AreaGrant }) {
   const pathname = usePathname();
+  const user = { role, areas };
 
   return (
     <nav className="admNav" aria-label="Admin sections">
       {GROUPS.map((group) => {
-        const items = group.items.filter((item) => !item.adminOnly || role === "admin");
+        const items = group.items.filter(
+          (item) => (!item.adminOnly || role === "admin") && (!item.area || canAccess(user, item.area)),
+        );
+        if (items.length === 0) {
+          return null;
+        }
         return (
           <div className="admNavGroup" key={group.title}>
             <div className="admNavGroupTitle">{group.title}</div>

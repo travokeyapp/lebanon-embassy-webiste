@@ -2,8 +2,10 @@ import Link from "next/link";
 import { GALLERY_COLLECTION_LABELS, type GalleryRecord } from "@/lib/content/gallery-schema";
 import { listGalleryItems } from "@/lib/content/gallery-store";
 import GalleryRowActions from "./row-actions";
+import { requireArea } from "@/lib/auth/session";
 
 export default async function GalleryAdminPage({ searchParams }: { searchParams: Promise<{ saved?: string | string[] }> }) {
+  await requireArea("gallery");
   const query = await searchParams;
   const saved = (Array.isArray(query.saved) ? query.saved[0] : query.saved) === "1";
 

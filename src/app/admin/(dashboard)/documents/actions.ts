@@ -2,7 +2,7 @@
 
 import { revalidateTag } from "next/cache";
 import { logAudit } from "@/lib/audit";
-import { getVerifiedSession } from "@/lib/auth/session";
+import { authorizeArea } from "@/lib/auth/session";
 import { DOCUMENTS_CACHE_TAG } from "@/lib/content/documents-public";
 import { documentInputSchema } from "@/lib/content/documents-schema";
 import { deleteDocument, insertDocument, moveDocument, setDocumentVisible, updateDocument } from "@/lib/content/documents-store";
@@ -11,14 +11,14 @@ import { collectFieldErrors, type FieldErrors } from "@/lib/news-schema";
 export type SaveResult = { ok: true; id: string } | { ok: false; error: string; fieldErrors?: FieldErrors };
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
-const SESSION_EXPIRED = "Your session has expired. Please sign in again.";
 const GENERIC = "Something went wrong. Please try again.";
 
 export async function saveDocumentAction(id: string | null, rawInput: unknown): Promise<SaveResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("documents");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
+  const session = auth.session;
   const parsed = documentInputSchema.safeParse(rawInput);
   if (!parsed.success) {
     return { ok: false, error: "Please fix the highlighted fields.", fieldErrors: collectFieldErrors(parsed.error.issues) };
@@ -45,10 +45,11 @@ export async function saveDocumentAction(id: string | null, rawInput: unknown): 
 }
 
 export async function setDocumentVisibleAction(id: string, visible: boolean): Promise<ActionResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("documents");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
+  const session = auth.session;
   try {
     const record = await setDocumentVisible(id, visible, session.email);
     if (!record) {
@@ -71,11 +72,11 @@ export async function setDocumentVisibleAction(id: string, visible: boolean): Pr
 }
 
 export async function moveDocumentAction(id: string, delta: -1 | 1): Promise<ActionResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("documents");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
-  try {
+    try {
     await moveDocument(id, delta);
     revalidateTag(DOCUMENTS_CACHE_TAG);
     return { ok: true };
@@ -86,10 +87,11 @@ export async function moveDocumentAction(id: string, delta: -1 | 1): Promise<Act
 }
 
 export async function deleteDocumentAction(id: string): Promise<ActionResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("documents");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
+  const session = auth.session;
   try {
     const record = await deleteDocument(id);
     if (!record) {

@@ -2,6 +2,7 @@
 
 import { ObjectId } from "mongodb";
 import { logAudit } from "@/lib/audit";
+import { isArea, type Area } from "@/lib/auth/permissions";
 import { getVerifiedSession, type SessionUser } from "@/lib/auth/session";
 import {
   USER_ROLES,
@@ -13,6 +14,7 @@ import {
   isValidEmail,
   normalizeEmail,
   setUserActive,
+  setUserAreas,
   setUserPassword,
   setUserRole,
   type UserRole,
@@ -22,6 +24,10 @@ export type CreateUserState = {
   error?: string;
   created?: { name: string; email: string; role: UserRole; password: string };
 };
+
+function parseAreas(values: FormDataEntryValue[]): Area[] {
+  return values.map(String).filter(isArea);
+}
 
 export type UserActionResult = { ok: true; password?: string } | { ok: false; error: string };
 
@@ -46,6 +52,8 @@ export async function createUserAction(_previous: CreateUserState, formData: For
   const email = normalizeEmail(String(formData.get("email") ?? ""));
   const roleValue = String(formData.get("role") ?? "editor");
   const role: UserRole = (USER_ROLES as readonly string[]).includes(roleValue) ? (roleValue as UserRole) : "editor";
+  // Administrators always have everything; for editors the ticked sections apply.
+  const areas = role === "editor" ? parseAreas(formData.getAll("areas")) : null;
 
   if (name.length < 2) {
     return { error: "Enter the person's name." };
@@ -59,14 +67,14 @@ export async function createUserAction(_previous: CreateUserState, formData: For
       return { error: "There is already an account with that email address." };
     }
     const password = generatePassword();
-    const user = await createUser({ name, email, password, role });
+    const user = await createUser({ name, email, password, role, areas });
     await logAudit({
       userId: session.id,
       userEmail: session.email,
       action: "user.create",
       entity: "user",
       entityId: user._id.toHexString(),
-      summary: `${email} (${role})`,
+      summary: `${email} (${role}${areas ? `: ${areas.join(", ") || "no sections"}` : ""})`,
     });
     return { created: { name, email, role, password } };
   } catch (error) {
@@ -172,5 +180,34 @@ export async function setUserRoleAction(id: string, role: UserRole): Promise<Use
   } catch (error) {
     console.error("setUserRoleAction failed:", error);
     return { ok: false, error: "Could not update the role. Please try again." };
+  }
+}
+
+export async function setUserAreasAction(id: string, rawAreas: unknown): Promise<UserActionResult> {
+  const areas = Array.isArray(rawAreas) ? rawAreas.filter(isArea) : null;
+  if (!areas) {
+    return { ok: false, error: "Invalid permissions." };
+  }
+  try {
+    const loaded = await loadTarget(id);
+    if (!loaded.ok) {
+      return loaded;
+    }
+    if (loaded.target.role !== "editor") {
+      return { ok: false, error: "Administrators always have access to everything." };
+    }
+    await setUserAreas(loaded.target._id, areas);
+    await logAudit({
+      userId: loaded.session.id,
+      userEmail: loaded.session.email,
+      action: "user.permissions",
+      entity: "user",
+      entityId: id,
+      summary: `${loaded.target.email}: ${areas.join(", ") || "no sections"}`,
+    });
+    return { ok: true };
+  } catch (error) {
+    console.error("setUserAreasAction failed:", error);
+    return { ok: false, error: "Could not update the permissions. Please try again." };
   }
 }

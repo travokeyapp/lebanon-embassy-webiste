@@ -7,6 +7,7 @@ import {
   verifySessionToken,
   type SessionUser,
 } from "@/lib/auth/session-token";
+import { canAccess, normalizeAreas, type Area } from "@/lib/auth/permissions";
 import { findUserById, type UserDoc } from "@/lib/auth/users";
 
 export type { SessionUser } from "@/lib/auth/session-token";
@@ -25,6 +26,7 @@ export function sessionUserFromDoc(user: UserDoc): SessionUser {
     name: user.name,
     role: user.role,
     tokenVersion: user.tokenVersion ?? 0,
+    areas: normalizeAreas(user.areas),
   };
 }
 
@@ -94,7 +96,30 @@ export async function requireActiveUser(): Promise<SessionUser> {
 export async function requireAdmin(): Promise<SessionUser> {
   const session = await requireActiveUser();
   if (session.role !== "admin") {
-    redirect("/admin/news?denied=1");
+    redirect("/admin?denied=1");
   }
   return session;
+}
+
+// For pages: the signed-in person must be allowed to change this section.
+export async function requireArea(area: Area): Promise<SessionUser> {
+  const session = await requireActiveUser();
+  if (!canAccess(session, area)) {
+    redirect("/admin?denied=1");
+  }
+  return session;
+}
+
+export type Authorization = { ok: true; session: SessionUser } | { ok: false; error: string };
+
+// For server actions: same check, but reported back instead of redirecting.
+export async function authorizeArea(area: Area): Promise<Authorization> {
+  const session = await getVerifiedSession();
+  if (!session) {
+    return { ok: false, error: "Your session has expired. Please sign in again." };
+  }
+  if (!canAccess(session, area)) {
+    return { ok: false, error: "You do not have permission to change this section. Ask an administrator." };
+  }
+  return { ok: true, session };
 }

@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/auth/session";
 import { listUsers, type UserRecord } from "@/lib/auth/users";
 import { formatAdminDateTime } from "@/lib/news-dates";
 import CreateUserForm from "./create-user-form";
+import UserPermissions from "./user-permissions";
 import UserRowActions from "./user-row-actions";
 
 export default async function UsersPage() {
@@ -22,7 +23,7 @@ export default async function UsersPage() {
         <div>
           <h1>Staff accounts</h1>
           <p className="admMuted">
-            Editors manage website content. Administrators can also add and remove staff.
+            Editors change the sections they are given. Administrators can change everything and manage staff.
           </p>
         </div>
       </header>
@@ -41,6 +42,7 @@ export default async function UsersPage() {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th>Can change</th>
                 <th>Status</th>
                 <th>Last sign-in</th>
                 <th className="admColActions">Actions</th>
@@ -57,6 +59,9 @@ export default async function UsersPage() {
                     <span className={`admBadge admBadge-${user.role}`}>
                       {user.role === "admin" ? "Administrator" : "Editor"}
                     </span>
+                  </td>
+                  <td className="admPermissionsCell">
+                    <UserPermissions user={user} canEdit={user.id !== session.id} />
                   </td>
                   <td>
                     <span className={`admBadge ${user.active ? "admBadge-published" : "admBadge-inactive"}`}>
