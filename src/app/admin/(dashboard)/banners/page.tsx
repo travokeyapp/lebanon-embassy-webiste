@@ -3,8 +3,10 @@ import type { HeroContent } from "@/lib/content/hero-schema";
 import { getStoredHero } from "@/lib/content/hero-store";
 import { formatAdminDateTime } from "@/lib/news-dates";
 import HeroForm from "./hero-form";
+import { requireArea } from "@/lib/auth/session";
 
 export default async function BannersPage() {
+  await requireArea("banners");
   let content: HeroContent = HERO_DEFAULTS;
   let info: string | null = null;
   let loadError: string | null = null;

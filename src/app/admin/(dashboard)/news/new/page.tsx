@@ -1,7 +1,9 @@
 import { todayIsoDate } from "@/lib/news-dates";
 import NewsForm from "../news-form";
+import { requireArea } from "@/lib/auth/session";
 
-export default function NewNewsPage() {
+export default async function NewNewsPage() {
+  await requireArea("news");
   return (
     <>
       <header className="admPageHead">

@@ -1,6 +1,8 @@
 import GalleryForm from "../gallery-form";
+import { requireArea } from "@/lib/auth/session";
 
-export default function NewGalleryItemPage() {
+export default async function NewGalleryItemPage() {
+  await requireArea("gallery");
   return (
     <>
       <header className="admPageHead">

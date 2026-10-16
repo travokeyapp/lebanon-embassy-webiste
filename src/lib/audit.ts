@@ -55,6 +55,7 @@ const ACTION_LABELS: Record<string, string> = {
   "user.activate": "Reactivated a staff account",
   "user.deactivate": "Deactivated a staff account",
   "user.role-change": "Changed a staff role",
+  "user.permissions": "Changed staff permissions",
 };
 
 export function describeAuditAction(action: string): string {

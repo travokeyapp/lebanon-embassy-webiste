@@ -19,7 +19,7 @@ export default async function DashboardLayout({ children }: Readonly<{ children:
             <span>Website admin</span>
           </div>
         </div>
-        <AdminNav role={session.role} />
+        <AdminNav role={session.role} areas={session.areas} />
         <div className="admSidebarFooter">
           <div className="admUser">
             <strong>{session.name}</strong>

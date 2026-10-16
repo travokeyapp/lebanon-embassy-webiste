@@ -1,6 +1,8 @@
 import AnnouncementForm from "../announcement-form";
+import { requireArea } from "@/lib/auth/session";
 
-export default function NewAnnouncementPage() {
+export default async function NewAnnouncementPage() {
+  await requireArea("announcements");
   return (
     <>
       <header className="admPageHead">

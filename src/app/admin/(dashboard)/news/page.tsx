@@ -3,6 +3,7 @@ import { formatAdminDate, formatAdminDateTime } from "@/lib/news-dates";
 import { listAllNews, type NewsRecord } from "@/lib/news-store";
 import { refreshSiteCacheAction } from "./actions";
 import NewsRowActions from "./news-row-actions";
+import { requireArea } from "@/lib/auth/session";
 
 type SearchParams = {
   q?: string | string[];
@@ -10,7 +11,6 @@ type SearchParams = {
   saved?: string | string[];
   slug?: string | string[];
   refreshed?: string | string[];
-  denied?: string | string[];
 };
 
 type StatusFilter = "all" | "published" | "draft";
@@ -28,6 +28,7 @@ function matchesQuery(item: NewsRecord, needle: string): boolean {
 }
 
 export default async function AdminNewsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  await requireArea("news");
   const query = await searchParams;
   const q = first(query.q).trim();
   const statusParam = first(query.status);
@@ -36,7 +37,6 @@ export default async function AdminNewsPage({ searchParams }: { searchParams: Pr
   const saved = first(query.saved);
   const savedSlug = first(query.slug);
   const refreshed = first(query.refreshed) === "1";
-  const denied = first(query.denied) === "1";
 
   let items: NewsRecord[] = [];
   let loadError: string | null = null;
@@ -75,11 +75,6 @@ export default async function AdminNewsPage({ searchParams }: { searchParams: Pr
         </div>
       </header>
 
-      {denied ? (
-        <p className="admAlert admAlertError" role="alert">
-          Only administrators can open that page.
-        </p>
-      ) : null}
       {refreshed ? (
         <p className="admAlert admAlertSuccess" role="status">
           Website refreshed. The public pages now show exactly what is in the database.

@@ -1,4 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
+import { normalizeAreas, type AreaGrant } from "@/lib/auth/permissions";
 
 // Edge-safe: used by the middleware as well as server code. No Node-only imports here.
 
@@ -14,6 +15,8 @@ export type SessionUser = {
   role: "admin" | "editor";
   // Must match the user's current tokenVersion in the database; see users.ts.
   tokenVersion: number;
+  // Sections this person may change; administrators always have everything.
+  areas: AreaGrant;
 };
 
 function getSecretKey(): Uint8Array {
@@ -25,7 +28,7 @@ function getSecretKey(): Uint8Array {
 }
 
 export async function createSessionToken(user: SessionUser): Promise<string> {
-  return new SignJWT({ email: user.email, name: user.name, role: user.role, v: user.tokenVersion })
+  return new SignJWT({ email: user.email, name: user.name, role: user.role, v: user.tokenVersion, a: user.areas })
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(user.id)
     .setIssuer(ISSUER)
@@ -37,14 +40,14 @@ export async function createSessionToken(user: SessionUser): Promise<string> {
 export async function verifySessionToken(token: string): Promise<SessionUser | null> {
   try {
     const { payload } = await jwtVerify(token, getSecretKey(), { issuer: ISSUER, algorithms: ["HS256"] });
-    const { sub, email, name, role, v } = payload;
+    const { sub, email, name, role, v, a } = payload;
     if (typeof sub !== "string" || typeof email !== "string" || typeof name !== "string") {
       return null;
     }
     if (role !== "admin" && role !== "editor") {
       return null;
     }
-    return { id: sub, email, name, role, tokenVersion: typeof v === "number" ? v : 0 };
+    return { id: sub, email, name, role, tokenVersion: typeof v === "number" ? v : 0, areas: normalizeAreas(a) };
   } catch {
     return null;
   }

@@ -1,12 +1,14 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { AREAS, AREA_LABELS } from "@/lib/auth/permissions";
 import { createUserAction, type CreateUserState } from "./actions";
 
 const initialState: CreateUserState = {};
 
 export default function CreateUserForm() {
   const [state, formAction, pending] = useActionState(createUserAction, initialState);
+  const [role, setRole] = useState<"editor" | "admin">("editor");
 
   return (
     <section className="admCard">
@@ -23,11 +25,29 @@ export default function CreateUserForm() {
         </label>
         <label className="admField">
           <span className="admFieldLabel">Role</span>
-          <select className="admInput admSelect" name="role" defaultValue="editor">
+          <select className="admInput admSelect" name="role" value={role} onChange={(event) => setRole(event.target.value as "editor" | "admin")}>
             <option value="editor">Editor (manages content)</option>
             <option value="admin">Administrator (also manages staff)</option>
           </select>
         </label>
+        {role === "editor" ? (
+          <fieldset className="admFieldset admFieldWide">
+            <legend className="admFieldLabel">Sections this editor may change</legend>
+            <div className="admCheckGrid">
+              {AREAS.map((area) => (
+                <label className="admCheck admCheckInline" key={area}>
+                  <input type="checkbox" name="areas" value={area} defaultChecked />
+                  <span>
+                    <strong>{AREA_LABELS[area].label}</strong>
+                    <small className="admHint">{AREA_LABELS[area].description}</small>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        ) : (
+          <p className="admMuted admFieldWide">Administrators can change everything and manage staff accounts.</p>
+        )}
         <button className="admBtn admBtnPrimary" type="submit" disabled={pending}>
           {pending ? "Creating…" : "Create account"}
         </button>

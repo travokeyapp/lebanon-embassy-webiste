@@ -55,8 +55,11 @@ Pages start with the wording the site shipped with (`src/lib/content/defaults/*.
 someone saves a change. If the database is ever unreachable the public site falls back to that wording and to
 an empty news list, so it stays up.
 
-Roles: **editors** manage all content; **administrators** also manage staff accounts. Deactivating someone or
-resetting a password signs them out immediately.
+Roles and permissions: **administrators** can change everything and manage staff accounts. **Editors** can be
+limited to any combination of sections (News, Announcements, Home banners, Documents, Gallery, Pages, Contact &
+footer); an administrator sets this when creating the account and can change it later from *Staff accounts*. A
+limit applies to the menu, the pages and the save actions. Deactivating someone, resetting a password or changing
+permissions signs them out immediately.
 
 ### One-time setup
 1. **MongoDB**: create a free cluster on MongoDB Atlas, add a database user, and under *Network Access* allow

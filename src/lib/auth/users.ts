@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { ObjectId, type Collection, type WithId } from "mongodb";
 import { getDb } from "@/lib/db/mongo";
 import { hashPassword, validateNewPassword } from "@/lib/auth/password";
+import { normalizeAreas, type Area, type AreaGrant } from "@/lib/auth/permissions";
 
 export const USER_ROLES = ["admin", "editor"] as const;
 export type UserRole = (typeof USER_ROLES)[number];
@@ -13,8 +14,10 @@ export type UserDoc = {
   passwordHash: string;
   role: UserRole;
   active: boolean;
-  // Incremented whenever the password, role or active flag changes, which
-  // invalidates every session token issued before the change.
+  // Sections an editor may change. Absent means every section.
+  areas?: Area[];
+  // Incremented whenever the password, role, active flag or permissions
+  // change, which invalidates every session token issued before the change.
   tokenVersion?: number;
   createdAt: Date;
   updatedAt: Date;
@@ -27,6 +30,7 @@ export type UserRecord = {
   name: string;
   role: UserRole;
   active: boolean;
+  areas: AreaGrant;
   tokenVersion: number;
   createdAt: string;
   lastLoginAt: string | null;
@@ -47,6 +51,7 @@ export function toUserRecord(doc: WithId<UserDoc>): UserRecord {
     name: doc.name,
     role: doc.role,
     active: doc.active,
+    areas: normalizeAreas(doc.areas),
     tokenVersion: doc.tokenVersion ?? 0,
     createdAt: doc.createdAt.toISOString(),
     lastLoginAt: doc.lastLoginAt ? doc.lastLoginAt.toISOString() : null,
@@ -102,6 +107,8 @@ export async function createUser(input: {
   name: string;
   password: string;
   role: UserRole;
+  // Omit (or pass null) for every section.
+  areas?: Area[] | null;
 }): Promise<UserDoc> {
   await ensureUserIndexes();
   const users = await usersCollection();
@@ -112,6 +119,7 @@ export async function createUser(input: {
     passwordHash: await hashPassword(input.password),
     role: input.role,
     active: true,
+    ...(input.areas ? { areas: input.areas } : {}),
     tokenVersion: 0,
     createdAt: now,
     updatedAt: now,
@@ -137,6 +145,17 @@ export async function setUserActive(userId: ObjectId, active: boolean): Promise<
 export async function setUserRole(userId: ObjectId, role: UserRole): Promise<void> {
   const users = await usersCollection();
   await users.updateOne({ _id: userId }, { $set: { role, updatedAt: new Date() }, $inc: { tokenVersion: 1 } });
+}
+
+// null restores access to every section.
+export async function setUserAreas(userId: ObjectId, areas: Area[] | null): Promise<void> {
+  const users = await usersCollection();
+  await users.updateOne(
+    { _id: userId },
+    areas
+      ? { $set: { areas, updatedAt: new Date() }, $inc: { tokenVersion: 1 } }
+      : { $unset: { areas: "" }, $set: { updatedAt: new Date() }, $inc: { tokenVersion: 1 } },
+  );
 }
 
 export async function recordLogin(userId: ObjectId): Promise<void> {

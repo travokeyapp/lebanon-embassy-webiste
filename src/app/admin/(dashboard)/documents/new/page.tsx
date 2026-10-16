@@ -1,6 +1,8 @@
 import DocumentForm from "../document-form";
+import { requireArea } from "@/lib/auth/session";
 
-export default function NewDocumentPage() {
+export default async function NewDocumentPage() {
+  await requireArea("documents");
   return (
     <>
       <header className="admPageHead">

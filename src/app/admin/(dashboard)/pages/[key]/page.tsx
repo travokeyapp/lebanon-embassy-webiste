@@ -4,12 +4,15 @@ import { PAGE_DEFAULTS } from "@/lib/content/pages-public";
 import { getStoredPage } from "@/lib/content/pages-store";
 import { formatAdminDateTime } from "@/lib/news-dates";
 import PageContentForm from "./page-content-form";
+import { areaForPageKey } from "@/lib/auth/permissions";
+import { requireArea } from "@/lib/auth/session";
 
 export default async function EditPage({ params }: { params: Promise<{ key: string }> }) {
   const { key } = await params;
   if (!isPageKey(key)) {
     notFound();
   }
+  await requireArea(areaForPageKey(key));
   const def = PAGE_DEFS[key];
   const defaults = PAGE_DEFAULTS[key];
 

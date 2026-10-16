@@ -3,7 +3,7 @@
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { logAudit } from "@/lib/audit";
-import { getVerifiedSession } from "@/lib/auth/session";
+import { authorizeArea } from "@/lib/auth/session";
 import { NEWS_CACHE_TAG } from "@/lib/news-public";
 import {
   NEWS_STATUSES,
@@ -26,14 +26,14 @@ export type SaveNewsResult =
 
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
-const SESSION_EXPIRED = "Your session has expired. Please sign in again.";
 const GENERIC_FAILURE = "Something went wrong. Please try again.";
 
 export async function saveNewsAction(id: string | null, rawInput: unknown): Promise<SaveNewsResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("news");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
+  const session = auth.session;
 
   const parsed = newsInputSchema.safeParse(rawInput);
   if (!parsed.success) {
@@ -77,10 +77,11 @@ export async function saveNewsAction(id: string | null, rawInput: unknown): Prom
 }
 
 export async function setNewsStatusAction(id: string, status: NewsStatus): Promise<ActionResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("news");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
+  const session = auth.session;
   if (!NEWS_STATUSES.includes(status)) {
     return { ok: false, error: "Invalid status." };
   }
@@ -107,10 +108,11 @@ export async function setNewsStatusAction(id: string, status: NewsStatus): Promi
 }
 
 export async function deleteNewsAction(id: string): Promise<ActionResult> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    return { ok: false, error: SESSION_EXPIRED };
+  const auth = await authorizeArea("news");
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
+  const session = auth.session;
 
   try {
     const record = await deleteNews(id);
@@ -136,10 +138,11 @@ export async function deleteNewsAction(id: string): Promise<ActionResult> {
 // Clears the cached news on the public site so it re-reads the database on
 // the next visit. Useful after importing data outside the admin.
 export async function refreshSiteCacheAction(): Promise<void> {
-  const session = await getVerifiedSession();
-  if (!session) {
-    redirect("/admin/login");
+  const auth = await authorizeArea("news");
+  if (!auth.ok) {
+    redirect("/admin?denied=1");
   }
+  const session = auth.session;
   revalidateTag(NEWS_CACHE_TAG);
   await logAudit({
     userId: session.id,
