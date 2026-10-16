@@ -1,161 +1,26 @@
 import Link from "next/link";
+import HydrationSafeImage from "@/components/hydration-safe-image";
 import SiteShell from "@/components/site-shell";
+import { getPublicGalleryItems } from "@/lib/content/gallery-public";
+import { GALLERY_COLLECTIONS, GALLERY_COLLECTION_LABELS, type GalleryCollection } from "@/lib/content/gallery-schema";
 import { normalizeLocale } from "@/lib/locale";
 
-const collectionKeys = ["diplomatic", "national", "consular", "cultural"] as const;
-type GalleryCollectionKey = (typeof collectionKeys)[number];
-
-type GalleryItem = {
-  id: string;
-  collectionKey: GalleryCollectionKey;
-  collection: string;
-  date: string;
-  title: string;
-  caption: string;
-  toneClass: "galleryToneRed" | "galleryToneGreen" | "galleryToneCharcoal" | "galleryToneSand";
-};
-
-type GalleryCopy = {
-  title: string;
-  lead: string;
-  collections: string[];
-  allCollections: string;
-  noItems: string;
-  mediaContactLabel: string;
-  mediaContactLink: string;
-  items: GalleryItem[];
-};
-
-const content: Record<"en" | "ar", GalleryCopy> = {
+const copy = {
   en: {
     title: "Gallery",
     lead: "A visual archive of official engagements, community activities, and embassy programs.",
-    collections: ["Diplomatic Meetings", "National Events", "Consular Outreach", "Cultural Programs"],
     allCollections: "All",
     noItems: "No items found for this collection.",
     mediaContactLabel: "For media requests, event photos, or press material:",
     mediaContactLink: "Contact the Embassy",
-    items: [
-      {
-        id: "gallery-1",
-        collectionKey: "diplomatic",
-        collection: "Diplomatic Meetings",
-        date: "January 2026",
-        title: "Bilateral Consultation Session",
-        caption: "Delegation-level discussion focused on regional cooperation and institutional coordination.",
-        toneClass: "galleryToneRed",
-      },
-      {
-        id: "gallery-2",
-        collectionKey: "national",
-        collection: "National Events",
-        date: "December 2025",
-        title: "Independence Day Reception",
-        caption: "Formal reception hosted with diplomatic guests, officials, and Lebanese community members.",
-        toneClass: "galleryToneGreen",
-      },
-      {
-        id: "gallery-3",
-        collectionKey: "consular",
-        collection: "Consular Outreach",
-        date: "November 2025",
-        title: "Public Consular Briefing",
-        caption: "Open briefing covering document requirements, submission flow, and service timelines.",
-        toneClass: "galleryToneCharcoal",
-      },
-      {
-        id: "gallery-4",
-        collectionKey: "cultural",
-        collection: "Cultural Programs",
-        date: "October 2025",
-        title: "Lebanon Cultural Showcase",
-        caption: "Program featuring Lebanese heritage, language exchange, and student cultural participation.",
-        toneClass: "galleryToneSand",
-      },
-      {
-        id: "gallery-5",
-        collectionKey: "diplomatic",
-        collection: "Diplomatic Meetings",
-        date: "September 2025",
-        title: "Trade and Investment Roundtable",
-        caption: "Dialogue with public and private stakeholders on commercial partnerships and market access.",
-        toneClass: "galleryToneRed",
-      },
-      {
-        id: "gallery-6",
-        collectionKey: "consular",
-        collection: "Consular Outreach",
-        date: "August 2025",
-        title: "Community Service Day",
-        caption: "Focused consular support session for documentation queries and citizen assistance.",
-        toneClass: "galleryToneGreen",
-      },
-    ],
   },
   ar: {
     title: "معرض الصور",
     lead: "أرشيف بصري للفعاليات الرسمية وأنشطة الجالية والبرامج التي تنظمها السفارة.",
-    collections: ["اللقاءات الدبلوماسية", "الفعاليات الوطنية", "التواصل القنصلي", "البرامج الثقافية"],
     allCollections: "الكل",
     noItems: "لا توجد عناصر ضمن هذا التصنيف.",
     mediaContactLabel: "لطلبات الصور الإعلامية أو مواد التغطية الصحفية:",
     mediaContactLink: "تواصل مع السفارة",
-    items: [
-      {
-        id: "gallery-1",
-        collectionKey: "diplomatic",
-        collection: "اللقاءات الدبلوماسية",
-        date: "يناير 2026",
-        title: "جلسة مشاورات ثنائية",
-        caption: "مناقشات على مستوى الوفود ركزت على التعاون الإقليمي وآليات التنسيق المؤسسي.",
-        toneClass: "galleryToneRed",
-      },
-      {
-        id: "gallery-2",
-        collectionKey: "national",
-        collection: "الفعاليات الوطنية",
-        date: "ديسمبر 2025",
-        title: "حفل استقبال عيد الاستقلال",
-        caption: "استقبال رسمي بحضور ضيوف دبلوماسيين ومسؤولين وأبناء الجالية اللبنانية.",
-        toneClass: "galleryToneGreen",
-      },
-      {
-        id: "gallery-3",
-        collectionKey: "consular",
-        collection: "التواصل القنصلي",
-        date: "نوفمبر 2025",
-        title: "إحاطة قنصلية عامة",
-        caption: "جلسة مفتوحة حول متطلبات المعاملات وآلية التقديم وفترات الإنجاز.",
-        toneClass: "galleryToneCharcoal",
-      },
-      {
-        id: "gallery-4",
-        collectionKey: "cultural",
-        collection: "البرامج الثقافية",
-        date: "أكتوبر 2025",
-        title: "فعالية الثقافة اللبنانية",
-        caption: "برنامج تضمن تعريفًا بالتراث اللبناني ومشاركة طلابية في أنشطة ثقافية.",
-        toneClass: "galleryToneSand",
-      },
-      {
-        id: "gallery-5",
-        collectionKey: "diplomatic",
-        collection: "اللقاءات الدبلوماسية",
-        date: "سبتمبر 2025",
-        title: "مائدة مستديرة للتجارة والاستثمار",
-        caption: "حوار مع جهات رسمية وخاصة حول فرص الشراكات التجارية والوصول إلى الأسواق.",
-        toneClass: "galleryToneRed",
-      },
-      {
-        id: "gallery-6",
-        collectionKey: "consular",
-        collection: "التواصل القنصلي",
-        date: "أغسطس 2025",
-        title: "يوم خدمة الجالية",
-        caption: "جلسة دعم قنصلي مخصصة للاستفسارات المتعلقة بالمعاملات وخدمات المواطنين.",
-        toneClass: "galleryToneGreen",
-      },
-    ],
   },
 };
 
@@ -163,14 +28,19 @@ type GallerySearchParams = {
   collection?: string | string[];
 };
 
-function parseCollectionFilter(value: string | string[] | undefined): GalleryCollectionKey | "all" {
+function parseCollectionFilter(value: string | string[] | undefined): GalleryCollection | "all" {
   const raw = Array.isArray(value) ? value[0] : value;
   if (!raw) {
     return "all";
   }
-  return collectionKeys.includes(raw as GalleryCollectionKey) ? (raw as GalleryCollectionKey) : "all";
+  return (GALLERY_COLLECTIONS as readonly string[]).includes(raw) ? (raw as GalleryCollection) : "all";
 }
 
+function pick(text: { en: string; ar: string }, locale: "en" | "ar"): string {
+  return text[locale] || text.en;
+}
+
+// Photos are managed in the admin under Gallery.
 export default async function GalleryPage({
   params,
   searchParams,
@@ -180,22 +50,19 @@ export default async function GalleryPage({
 }) {
   const { locale: rawLocale } = await params;
   const locale = normalizeLocale(rawLocale);
-  const t = content[locale];
+  const t = copy[locale];
   const query = (await searchParams) ?? {};
+  const items = await getPublicGalleryItems();
 
   const activeCollection = parseCollectionFilter(query.collection);
   const filters = [
     { key: "all" as const, label: t.allCollections },
-    ...collectionKeys.map((key, index) => ({
-      key,
-      label: t.collections[index] ?? key,
-    })),
+    ...GALLERY_COLLECTIONS.map((key) => ({ key, label: GALLERY_COLLECTION_LABELS[key][locale] })),
   ];
 
-  const filteredItems =
-    activeCollection === "all" ? t.items : t.items.filter((item) => item.collectionKey === activeCollection);
+  const filteredItems = activeCollection === "all" ? items : items.filter((item) => item.collection === activeCollection);
 
-  const filterHref = (key: GalleryCollectionKey | "all") =>
+  const filterHref = (key: GalleryCollection | "all") =>
     key === "all" ? `/${locale}/gallery` : `/${locale}/gallery?collection=${key}`;
 
   return (
@@ -221,19 +88,32 @@ export default async function GalleryPage({
 
         {filteredItems.length > 0 ? (
           <div className="galleryGrid">
-            {filteredItems.map((item) => (
-              <article className="galleryCard" key={item.id}>
-                <div className={`galleryMedia ${item.toneClass}`}>
-                  <span className="galleryMediaTag">{item.collection}</span>
-                </div>
+            {filteredItems.map((item) => {
+              const collectionLabel = GALLERY_COLLECTION_LABELS[item.collection][locale];
+              return (
+                <article className="galleryCard" key={item.id}>
+                  <div className={`galleryMedia ${item.image ? "galleryMediaPhoto" : (item.toneClass ?? "galleryToneCharcoal")}`}>
+                    {item.image ? (
+                      <HydrationSafeImage
+                        className="galleryImage"
+                        src={item.image.src}
+                        alt={pick(item.image.alt, locale) || pick(item.title, locale)}
+                        width={item.image.width}
+                        height={item.image.height}
+                        sizes="(max-width: 720px) 92vw, 320px"
+                      />
+                    ) : null}
+                    <span className="galleryMediaTag">{collectionLabel}</span>
+                  </div>
 
-                <div className="galleryBody">
-                  <p className="galleryDate">{item.date}</p>
-                  <h3 className="galleryTitle">{item.title}</h3>
-                  <p className="galleryCaption">{item.caption}</p>
-                </div>
-              </article>
-            ))}
+                  <div className="galleryBody">
+                    {pick(item.date, locale) ? <p className="galleryDate">{pick(item.date, locale)}</p> : null}
+                    <h3 className="galleryTitle">{pick(item.title, locale)}</h3>
+                    {pick(item.caption, locale) ? <p className="galleryCaption">{pick(item.caption, locale)}</p> : null}
+                  </div>
+                </article>
+              );
+            })}
           </div>
         ) : (
           <p className="galleryEmpty">{t.noItems}</p>
