@@ -48,7 +48,7 @@ export default async function NewsPage({
   const locale = normalizeLocale(rawLocale);
   const t = copy[locale];
   const emptyNewsText = locale === "ar" ? "\u0644\u0627 \u062a\u0648\u062c\u062f \u0623\u062e\u0628\u0627\u0631 \u062d\u0627\u0644\u064a\u064b\u0627." : "No news for now.";
-  const newsItems = getNewsForLocale(locale);
+  const newsItems = await getNewsForLocale(locale);
   const query = (await searchParams) ?? {};
 
   const totalPages = Math.max(1, Math.ceil(newsItems.length / NEWS_ARCHIVE_PAGE_SIZE));

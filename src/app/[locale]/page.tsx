@@ -132,7 +132,7 @@ export default async function Home({
   const locale = normalizeLocale(rawLocale);
   const t = content[locale];
 
-  const newsItems = getNewsForLocale(locale);
+  const newsItems = await getNewsForLocale(locale);
   const query = (await searchParams) ?? {};
   const totalPages = Math.max(1, Math.ceil(newsItems.length / HOME_NEWS_PAGE_SIZE));
   const requestedPage = parsePageParam(query.newsPage);

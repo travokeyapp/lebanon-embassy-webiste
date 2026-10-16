@@ -1,5 +1,10 @@
 import type { Locale } from "@/lib/locale";
+import { formatNewsDate } from "@/lib/news-dates";
+import { getPublishedNewsCached } from "@/lib/news-public";
+import type { NewsImage, NewsRecord } from "@/lib/news-store";
 
+// Shape consumed by the public pages. News content itself is managed in the
+// admin portal (/admin/news) and stored in MongoDB.
 export type NewsItem = {
   slug: string;
   month: string;
@@ -24,271 +29,48 @@ export type NewsItem = {
   };
 };
 
-type LocalizedNewsItem = {
-  slug: string;
-  day: string;
-  month: Record<Locale, string>;
-  title: Record<Locale, string>;
-  excerpt: Record<Locale, string>;
-  image?: {
-    src: string;
-    width: number;
-    height: number;
-    alt: Record<Locale, string>;
-  };
-  // Extra photos shown under the main image on the news archive page.
-  gallery?: {
-    src: string;
-    width: number;
-    height: number;
-    alt: Record<Locale, string>;
-  }[];
-  attachment?: {
-    href: string;
-    label: Record<Locale, string>;
-  };
-};
-
-// Single source for all news. Add/remove items here.
-const newsCatalog: LocalizedNewsItem[] = [
-  {
-    slug: "lebanese-delegation-calls-on-pm-shehbaz-sharif-mou-september-2026",
-    day: "14",
-    month: {
-      en: "SEP",
-      ar: "سبتمبر",
-    },
-    title: {
-      en: "Lebanese delegation led by Minister of Interior and Municipalities Ahmad Al-Hajjar calls on Prime Minister Muhammad Shehbaz Sharif; Pakistan and Lebanon sign MoU on transfer of sentenced persons",
-      ar: "وفد لبناني برئاسة وزير الداخلية والبلديات أحمد الحجار يلتقي رئيس الوزراء محمد شهباز شريف؛ وباكستان ولبنان يوقّعان مذكرة تفاهم حول نقل الأشخاص المحكوم عليهم",
-    },
-    excerpt: {
-      en: "A Lebanese delegation led by Minister of Interior and Municipalities of Lebanon H.E. Mr. Ahmad Al-Hajjar called on Prime Minister Muhammad Shehbaz Sharif in Islamabad on 14 September 2026. Prime Minister Muhammad Shehbaz Sharif witnessed an MoU signing ceremony between Pakistan and Lebanon on transfer of sentenced persons.",
-      ar: "التقى وفد لبناني برئاسة وزير الداخلية والبلديات اللبناني معالي السيد أحمد الحجار رئيس الوزراء محمد شهباز شريف في إسلام آباد بتاريخ 14 سبتمبر 2026. وشهد رئيس الوزراء محمد شهباز شريف مراسم توقيع مذكرة تفاهم بين باكستان ولبنان حول نقل الأشخاص المحكوم عليهم.",
-    },
-    image: {
-      src: "/news/lebanese-delegation-pm-meeting-sep-2026-1.jpg",
-      width: 1196,
-      height: 796,
-      alt: {
-        en: "The Lebanese delegation in a meeting with Prime Minister Muhammad Shehbaz Sharif in Islamabad.",
-        ar: "الوفد اللبناني خلال لقائه رئيس الوزراء محمد شهباز شريف في إسلام آباد.",
-      },
-    },
-    gallery: [
-      {
-        src: "/news/lebanese-delegation-pm-meeting-sep-2026-2.jpg",
-        width: 1120,
-        height: 673,
-        alt: {
-          en: "The Lebanese and Pakistani delegations during the meeting with Prime Minister Muhammad Shehbaz Sharif.",
-          ar: "الوفدان اللبناني والباكستاني خلال اللقاء مع رئيس الوزراء محمد شهباز شريف.",
-        },
-      },
-      {
-        src: "/news/pakistan-lebanon-mou-signing-sep-2026-1.jpg",
-        width: 1280,
-        height: 864,
-        alt: {
-          en: "Prime Minister Muhammad Shehbaz Sharif witnesses the signing of the MoU between Pakistan and Lebanon on transfer of sentenced persons.",
-          ar: "رئيس الوزراء محمد شهباز شريف يشهد توقيع مذكرة التفاهم بين باكستان ولبنان حول نقل الأشخاص المحكوم عليهم.",
-        },
-      },
-      {
-        src: "/news/pakistan-lebanon-mou-signing-sep-2026-2.jpg",
-        width: 1280,
-        height: 879,
-        alt: {
-          en: "Exchange of the signed MoU documents between Pakistan and Lebanon at the ceremony in Islamabad.",
-          ar: "تبادل وثائق مذكرة التفاهم الموقّعة بين باكستان ولبنان خلال المراسم في إسلام آباد.",
-        },
-      },
-    ],
-  },
-  {
-    slug: "call-on-sapm-digital-media-fahd-haroon-august-2026",
-    day: "21",
-    month: {
-      en: "AUG",
-      ar: "أغسطس",
-    },
-    title: {
-      en: "Ambassador Abdul Aziz Issa calls on Minister of State Fahd Haroon, Special Assistant to the Prime Minister on Digital Media",
-      ar: "السفير عبد العزيز عيسى يزور وزير الدولة فهد هارون، المساعد الخاص لرئيس الوزراء لشؤون الإعلام الرقمي",
-    },
-    excerpt: {
-      en: "In Islamabad on 21 August 2026, the Ambassador of Lebanon to Pakistan, H.E. Abdul Aziz Issa, called on Minister of State and Special Assistant to the Prime Minister on Digital Media, Fahd Haroon, who also serves as President of the Institute of Regional Studies, at his office. The meeting covered matters of mutual interest, Pakistan's evolving digital landscape, opportunities for digital growth, and the broader role of digital media in Pakistan.",
-      ar: "في إسلام آباد، بتاريخ 21 أغسطس 2026، زار سفير لبنان لدى باكستان سعادة السيد عبد العزيز عيسى وزير الدولة والمساعد الخاص لرئيس الوزراء لشؤون الإعلام الرقمي، السيد فهد هارون، الذي يشغل أيضًا منصب رئيس معهد الدراسات الإقليمية، في مكتبه. وتناول اللقاء المسائل ذات الاهتمام المشترك، والمشهد الرقمي المتطور في باكستان، وفرص النمو الرقمي، والدور الأوسع للإعلام الرقمي في باكستان.",
-    },
-    image: {
-      src: "/news/fahd-haroon-meeting-aug-2026.jpeg",
-      width: 1599,
-      height: 1066,
-      alt: {
-        en: "Ambassador Abdul Aziz Issa in conversation with Minister of State Fahd Haroon during their meeting in Islamabad.",
-        ar: "السفير عبد العزيز عيسى في حديث مع وزير الدولة فهد هارون خلال لقائهما في إسلام آباد.",
-      },
-    },
-    attachment: {
-      href: "https://www.facebook.com/share/p/19CDUjuMEp/?mibextid=wwXIfr",
-      label: {
-        en: "View photos of the meeting on Facebook",
-        ar: "شاهد صور اللقاء على فيسبوك",
-      },
-    },
-  },
-  {
-    slug: "general-haykal-calls-on-field-marshal-asim-munir-june-2026",
-    day: "08",
-    month: {
-      en: "JUN",
-      ar: "يونيو",
-    },
-    title: {
-      en: "General Rodolphe Haykal, Commander-in-Chief of the Lebanese Armed Forces, calls on Field Marshal Syed Asim Munir at the General Headquarters in Rawalpindi",
-      ar: "العماد رودولف هيكل، قائد الجيش اللبناني، يلتقي المشير سيد عاصم منير في مقر القيادة العامة في روالبندي",
-    },
-    excerpt: {
-      en: "On 8 June 2026, General Rodolphe Haykal, Commander-in-Chief of the Lebanese Armed Forces, called on Field Marshal Syed Asim Munir, NI (M), HJ, COAS & CDF, at the General Headquarters in Rawalpindi.",
-      ar: "بتاريخ 8 يونيو 2026، التقى العماد رودولف هيكل، قائد الجيش اللبناني، المشير سيد عاصم منير، قائد الجيش ورئيس هيئة الأركان المشتركة، في مقر القيادة العامة في روالبندي.",
-    },
-    image: {
-      src: "/news/haykal-munir-meeting-jun-2026.jpeg",
-      width: 1600,
-      height: 898,
-      alt: {
-        en: "General Rodolphe Haykal in conversation with Field Marshal Syed Asim Munir during their meeting at the General Headquarters in Rawalpindi.",
-        ar: "العماد رودولف هيكل في حديث مع المشير سيد عاصم منير خلال لقائهما في مقر القيادة العامة في روالبندي.",
-      },
-    },
-  },
-  {
-    slug: "rooted-for-lebanon-campaign-june-2026",
-    day: "08",
-    month: {
-      en: "JUN",
-      ar: "يونيو",
-    },
-    title: {
-      en: 'Embassy of Lebanon in Islamabad launches support for the "Rooted for Lebanon" global humanitarian campaign',
-      ar: 'سفارة لبنان في إسلام آباد تطلق دعمها لحملة "Rooted for Lebanon" الإنسانية العالمية',
-    },
-    excerpt: {
-      en: 'Acting on the directives of the Secretary-General of the Ministry of Foreign Affairs and Emigrants, Ambassador Abdul Sattar Issa, the Embassy of Lebanon in Islamabad has mobilized in support of "Rooted for Lebanon" — a transparent international humanitarian alliance led by Lebanon\'s Ministry of Social Affairs with the International Organization for Migration (IOM) to deliver emergency cash assistance to affected and displaced Lebanese families. The Embassy calls on the Lebanese community in Pakistan and friends of Lebanon to contribute through the official IOM-managed donation portal.',
-      ar: "بناءً على توجيهات الأمين العام لوزارة الخارجية والمغتربين السفير عبد الستار عيسى، عبّأت سفارة لبنان في إسلام آباد جهودها لدعم حملة \"Rooted for Lebanon\"، وهي تحالف إنساني دولي شفاف تقوده وزارة الشؤون الاجتماعية اللبنانية بالشراكة مع المنظمة الدولية للهجرة (IOM) لتقديم مساعدات نقدية طارئة للعائلات اللبنانية المتضررة والنازحة. وتدعو السفارة الجالية اللبنانية في باكستان وأصدقاء لبنان إلى المساهمة عبر بوابة التبرعات الرسمية التي تديرها المنظمة الدولية للهجرة.",
-    },
-    attachment: {
-      href: "/documents/rooted-for-lebanon-campaign-2026.pdf",
-      label: {
-        en: "Read the full announcement (PDF)",
-        ar: "اقرأ البيان الكامل (PDF)",
-      },
-    },
-  },
-  {
-    slug: "eid-ul-adha-dinner-lebanese-community-may-2026",
-    day: "29",
-    month: {
-      en: "MAY",
-      ar: "مايو",
-    },
-    title: {
-      en: "Ambassador Abdul Aziz Issa hosted an Eid ul Adha dinner for the Lebanese community in Islamabad",
-      ar: "السفير عبد العزيز عيسى يقيم مأدبة عشاء بمناسبة عيد الأضحى للجالية اللبنانية في إسلام آباد",
-    },
-    excerpt: {
-      en: "On the occasion of Eid ul Adha, the Lebanese Ambassador to Pakistan, Abdul Aziz Issa, hosted a dinner for the Lebanese community in Islamabad at his official residence on May 29, 2026.",
-      ar: "بمناسبة عيد الأضحى، أقام السفير اللبناني لدى باكستان، عبد العزيز عيسى، مأدبة عشاء للجالية اللبنانية في إسلام آباد في مقر إقامته الرسمي في 29 مايو 2026.",
-    },
-  },
-  {
-    slug: "pakistan-day-congratulations-march-2026",
-    day: "23",
-    month: {
-      en: "MAR",
-      ar: "\u0645\u0627\u0631\u0633",
-    },
-    title: {
-      en: "Embassy of Lebanon in Pakistan congratulates Pakistan on National Day",
-      ar: "\u0633\u0641\u0627\u0631\u0629 \u0644\u0628\u0646\u0627\u0646 \u0641\u064a \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u062a\u0647\u0646\u0626 \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u0628\u0645\u0646\u0627\u0633\u0628\u0629 \u0627\u0644\u064a\u0648\u0645 \u0627\u0644\u0648\u0637\u0646\u064a",
-    },
-    excerpt: {
-      en: 'The Lebanese Embassy in Pakistan congratulates the government and people of Pakistan on the occasion of the National Day, "Pakistan Day," and wishes the brotherly Pakistani people all the best. Pakistan Zindabad.',
-      ar: "\u062a\u062a\u0642\u062f\u0645 \u0633\u0641\u0627\u0631\u0629 \u0644\u0628\u0646\u0627\u0646 \u0641\u064a \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u0628\u0623\u062d\u0631 \u0627\u0644\u062a\u0647\u0627\u0646\u064a \u0625\u0644\u0649 \u062d\u0643\u0648\u0645\u0629 \u0648\u0634\u0639\u0628 \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u0628\u0645\u0646\u0627\u0633\u0628\u0629 \u0627\u0644\u064a\u0648\u0645 \u0627\u0644\u0648\u0637\u0646\u064a\u060c \u0022\u064a\u0648\u0645 \u0628\u0627\u0643\u0633\u062a\u0627\u0646\u0022\u060c \u0648\u062a\u062a\u0645\u0646\u0649 \u0644\u0644\u0634\u0639\u0628 \u0627\u0644\u0628\u0627\u0643\u0633\u062a\u0627\u0646\u064a \u0627\u0644\u0634\u0642\u064a\u0642 \u0643\u0644 \u0627\u0644\u062e\u064a\u0631. \u0628\u0627\u0643\u0633\u062a\u0627\u0646 \u0632\u0646\u062f\u0647 \u0628\u0627\u062f.",
-    },
-  },
-  {
-    slug: "iftar-banquet-arab-ambassadors-march-2026",
-    day: "10",
-    month: {
-      en: "MAR",
-      ar: "\u0645\u0627\u0631\u0633",
-    },
-    title: {
-      en: "Ambassador Abdul Aziz Issa hosted an iftar banquet for Arab ambassadors in Islamabad",
-      ar: "\u0627\u0644\u0633\u0641\u064a\u0631\u0020\u0639\u0628\u062f\u0020\u0627\u0644\u0639\u0632\u064a\u0632\u0020\u0639\u064a\u0633\u0649\u0020\u0627\u0633\u062a\u0636\u0627\u0641\u0020\u0645\u0623\u062f\u0628\u0629\u0020\u0625\u0641\u0637\u0627\u0631\u0020\u0644\u0644\u0633\u0641\u0631\u0627\u0621\u0020\u0627\u0644\u0639\u0631\u0628\u0020\u0641\u064a\u0020\u0625\u0633\u0644\u0627\u0645\u0020\u0622\u0628\u0627\u062f",
-    },
-    excerpt: {
-      en: "On March 10, 2026, the Lebanese Ambassador to Pakistan, Mr. Abdul Aziz Issa, hosted an iftar banquet at his official residence in Islamabad in honor of the Arab ambassadors accredited to Pakistan.",
-      ar: "\u0641\u064a\u0020\u0031\u0030\u0020\u0645\u0627\u0631\u0633\u0020\u0032\u0030\u0032\u0036\u060c\u0020\u0627\u0633\u062a\u0636\u0627\u0641\u0020\u0633\u0641\u064a\u0631\u0020\u0644\u0628\u0646\u0627\u0646\u0020\u0644\u062f\u0649\u0020\u0628\u0627\u0643\u0633\u062a\u0627\u0646\u060c\u0020\u0627\u0644\u0633\u064a\u062f\u0020\u0639\u0628\u062f\u0020\u0627\u0644\u0639\u0632\u064a\u0632\u0020\u0639\u064a\u0633\u0649\u060c\u0020\u0645\u0623\u062f\u0628\u0629\u0020\u0625\u0641\u0637\u0627\u0631\u0020\u0641\u064a\u0020\u0645\u0642\u0631\u0020\u0625\u0642\u0627\u0645\u062a\u0647\u0020\u0627\u0644\u0631\u0633\u0645\u064a\u0020\u0641\u064a\u0020\u0625\u0633\u0644\u0627\u0645\u0020\u0622\u0628\u0627\u062f\u0020\u062a\u0643\u0631\u064a\u0645\u064b\u0627\u0020\u0644\u0644\u0633\u0641\u0631\u0627\u0621\u0020\u0627\u0644\u0639\u0631\u0628\u0020\u0627\u0644\u0645\u0639\u062a\u0645\u062f\u064a\u0646\u0020\u0644\u062f\u0649\u0020\u0628\u0627\u0643\u0633\u062a\u0627\u0646\u002e",
-    },
-  },
-  {
-    slug: "lt2462-hr-lebanon-2026-event-brochure",
-    day: "21",
-    month: {
-      en: "APR",
-      ar: "\u0623\u0628\u0631\u064a\u0644",
-    },
-    title: {
-      en: "HORECA Lebanon 2026: 21-24 April 2026 at Seaside Arena",
-      ar: "HORECA \u0644\u0628\u0646\u0627\u0646 2026: \u0645\u0646 21 \u0625\u0644\u0649 24 \u0623\u0628\u0631\u064a\u0644 2026 \u0641\u064a Seaside Arena",
-    },
-    excerpt: {
-      en: "The annual business meeting place for the hospitality and foodservice industries. Event timings are 3-9 PM. Download the official brochure for full details.",
-      ar: "\u0627\u0644\u0645\u0644\u062a\u0642\u0649 \u0627\u0644\u0633\u0646\u0648\u064a \u0644\u0642\u0637\u0627\u0639\u064a \u0627\u0644\u0636\u064a\u0627\u0641\u0629 \u0648\u062e\u062f\u0645\u0627\u062a \u0627\u0644\u0637\u0639\u0627\u0645. \u062a\u0648\u0642\u064a\u062a \u0627\u0644\u0641\u0639\u0627\u0644\u064a\u0629 \u0645\u0646 3 \u0625\u0644\u0649 9 \u0645\u0633\u0627\u0621\u064b. \u064a\u0631\u062c\u0649 \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0643\u062a\u064a\u0628 \u0627\u0644\u0631\u0633\u0645\u064a \u0644\u0645\u0632\u064a\u062f \u0645\u0646 \u0627\u0644\u062a\u0641\u0627\u0635\u064a\u0644.",
-    },
-    attachment: {
-      href: "/documents/lt2462-hr-lebanon-2026-brochure.pdf",
-      label: {
-        en: "Download Event Brochure (PDF)",
-        ar: "\u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0643\u062a\u064a\u0628 (PDF)",
-      },
-    },
-  },
-];
-
 export const HOME_NEWS_PAGE_SIZE = 3;
 export const NEWS_ARCHIVE_PAGE_SIZE = 6;
 
-export function getNewsForLocale(locale: Locale): NewsItem[] {
-  return newsCatalog.map((item) => ({
-    slug: item.slug,
-    month: item.month[locale],
-    day: item.day,
-    title: item.title[locale],
-    excerpt: item.excerpt[locale],
-    image: item.image
-      ? {
-          src: item.image.src,
-          width: item.image.width,
-          height: item.image.height,
-          alt: item.image.alt[locale],
-        }
+function pick(text: { en: string; ar: string }, locale: Locale): string {
+  return text[locale] || text.en;
+}
+
+export function toNewsItem(record: NewsRecord, locale: Locale): NewsItem {
+  const { day, month } = formatNewsDate(record.date, locale);
+  const title = pick(record.title, locale);
+  const localizeImage = (image: NewsImage) => ({
+    src: image.src,
+    width: image.width,
+    height: image.height,
+    alt: pick(image.alt, locale) || title,
+  });
+
+  return {
+    slug: record.slug,
+    month,
+    day,
+    title,
+    excerpt: pick(record.excerpt, locale),
+    image: record.image ? localizeImage(record.image) : undefined,
+    gallery: record.gallery.length > 0 ? record.gallery.map(localizeImage) : undefined,
+    attachment: record.attachment
+      ? { href: record.attachment.href, label: pick(record.attachment.label, locale) }
       : undefined,
-    gallery: item.gallery?.map((photo) => ({
-      src: photo.src,
-      width: photo.width,
-      height: photo.height,
-      alt: photo.alt[locale],
-    })),
-    attachment: item.attachment
-      ? {
-          href: item.attachment.href,
-          label: item.attachment.label[locale],
-        }
-      : undefined,
-  }));
+  };
+}
+
+export async function getNewsForLocale(locale: Locale): Promise<NewsItem[]> {
+  let records: NewsRecord[];
+  try {
+    records = await getPublishedNewsCached();
+  } catch (error) {
+    // Keep the public site up if the database is unreachable; the failure is
+    // not cached, so the next request tries again.
+    console.error("Loading published news failed:", error);
+    return [];
+  }
+  return records.map((record) => toNewsItem(record, locale));
 }
 
 export function parsePageParam(value: string | string[] | undefined): number {

@@ -32,7 +32,7 @@ Core pieces:
 
 | Concern | Choice | Why |
 |---|---|---|
-| Database | PostgreSQL (Neon or Supabase, free tier is enough) via **Prisma** | Typed schema + migrations, works with serverless hosting. MongoDB (as in the proposal) is an acceptable swap with the same architecture; the rest of this plan does not change. |
+| Database | **MongoDB Atlas** via the official `mongodb` driver (decided; see section 10). The implemented document shape lives in `src/lib/news-store.ts`. |
 | Auth | **Auth.js v5** (next-auth), Credentials provider (email + password, argon2/bcrypt hash), JWT session cookie, roles `ADMIN` / `EDITOR` | No public sign-up. Admin creates editor accounts. Middleware protects `/admin/*` and `/api/admin/*`. |
 | File uploads | **Vercel Blob** if hosted on Vercel; otherwise S3-compatible (Cloudflare R2) or local disk on a VPS | Images and PDFs must not live in `public/` any more (that needs a rebuild). `sharp` reads width/height at upload time (the news cards need them) and strips EXIF. |
 | Forms / mutations | Next.js **Server Actions** + `zod` validation | No separate REST layer to maintain; same-origin by default. |
@@ -60,7 +60,7 @@ Everything bilingual is stored as paired `*En` / `*Ar` columns. The month label 
 
 ---
 
-## 4) Data model (Prisma sketch)
+## 4) Data model (original Prisma sketch; implemented as MongoDB documents with the same fields, see `src/lib/news-store.ts` and `src/lib/auth/users.ts`)
 
 ```prisma
 enum Role   { ADMIN EDITOR }
@@ -261,15 +261,13 @@ Phase 1 alone already removes the "developer commits every news item" problem an
 
 ---
 
-## 10) Decisions needed from the embassy / project owner
+## 10) Decisions (confirmed 16 Oct 2026)
 
-1. **Hosting** (Vercel vs VPS) — decides DB + storage adapters.
-2. **Postgres (recommended) or MongoDB** (as in the original proposal). Either is fine; pick once.
-3. **How many staff accounts**, and who is the first admin.
-4. **Is Arabic typed by staff, or translated by the agency afterwards?** If the latter, AR fields should be optional with EN fallback and a "needs translation" flag in the list.
-5. **Do news items need a full detail page** (`/news/[slug]`) now, or does the current card + excerpt + attachment format stay? (Affects whether a rich-text body editor is in Phase 1 or Later.)
-
-Assumptions used in this plan until answered: Vercel hosting, Postgres, 2–3 editors + 1 admin, Arabic typed by staff, current card format kept.
+1. **Hosting**: Vercel. Storage adapters: MongoDB Atlas + Vercel Blob.
+2. **Database**: MongoDB (native driver, no ORM).
+3. **Users**: 1 or 2 editors for now; accounts are created with `npm run admin:create-user`, a user-management screen comes later.
+4. **Delivery order**: news editor first (done in Phase 1), everything else afterwards.
+5. Still open: whether Arabic is typed by staff (current assumption, both languages required to publish; drafts can be English-only) and whether news needs a full detail page.
 
 ---
 

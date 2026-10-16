@@ -1,0 +1,728 @@
+/* Admin portal styles. Scoped under .adm so nothing leaks into the public site. */
+
+.adm {
+  --adm-bg: #f3f4f6;
+  --adm-surface: #ffffff;
+  --adm-border: #e5e7eb;
+  --adm-text: #1f2937;
+  --adm-muted: #6b7280;
+  --adm-primary: var(--lebanon-red, #cf102d);
+  --adm-primary-dark: var(--lebanon-dark-red, #a8112a);
+  --adm-green: var(--lebanon-green, #00a651);
+  --adm-sidebar: #1f2430;
+  --adm-sidebar-text: #e5e7eb;
+  --adm-danger: #b91c1c;
+  --adm-radius: 10px;
+  min-height: 100vh;
+  background: var(--adm-bg);
+  color: var(--adm-text);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.adm h1,
+.adm h2,
+.adm h3 {
+  margin: 0;
+  line-height: 1.25;
+}
+
+.adm h1 {
+  font-size: 1.5rem;
+  font-weight: 650;
+}
+
+.adm a {
+  color: inherit;
+}
+
+.admMuted {
+  color: var(--adm-muted);
+  margin: 0.25rem 0 0;
+}
+
+.admMono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.92em;
+}
+
+.admNowrap {
+  white-space: nowrap;
+}
+
+/* Layout */
+
+.admShell {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.admSidebar {
+  background: var(--adm-sidebar);
+  color: var(--adm-sidebar-text);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.admBrand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 6px;
+}
+
+.admBrand img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 4px;
+}
+
+.admBrand div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.admBrand strong {
+  font-size: 0.95rem;
+}
+
+.admBrand span {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.admNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admNavLink {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--adm-sidebar-text);
+  font-weight: 500;
+}
+
+.admNavLink:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.admNavLink.isActive {
+  background: var(--adm-primary);
+  color: #ffffff;
+}
+
+.admNavLinkMuted {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.admSidebarFooter {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admUser {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+  overflow: hidden;
+}
+
+.admUser strong {
+  font-size: 0.9rem;
+}
+
+.admUser span {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admMain {
+  padding: 28px 32px 80px;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.admPageHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* Cards and tables */
+
+.admCard {
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius);
+  padding: 20px 22px;
+  margin-bottom: 18px;
+}
+
+.admCardTitle {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin-bottom: 12px;
+}
+
+.admEmpty {
+  text-align: center;
+  padding: 48px 20px;
+}
+
+.admEmpty p {
+  margin: 0 0 14px;
+  color: var(--adm-muted);
+}
+
+.admTableWrap {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.admTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.93rem;
+}
+
+.admTable th,
+.admTable td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--adm-border);
+  vertical-align: top;
+}
+
+.admTable th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--adm-muted);
+  background: #f9fafb;
+}
+
+.admTable tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.admRowTitle {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.admRowTitle:hover {
+  text-decoration: underline;
+}
+
+.admRowSub {
+  color: var(--adm-muted);
+  font-size: 0.88rem;
+  margin-top: 2px;
+}
+
+.admColActions {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.admRowActions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admBadge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.admBadge-published {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.admBadge-draft {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Buttons */
+
+.admBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--adm-border);
+  background: var(--adm-surface);
+  color: var(--adm-text);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.admBtn:hover {
+  background: #f3f4f6;
+}
+
+.admBtn:disabled,
+.admBtn.isDisabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.admBtnPrimary {
+  background: var(--adm-primary);
+  border-color: var(--adm-primary);
+  color: #ffffff;
+}
+
+.admBtnPrimary:hover {
+  background: var(--adm-primary-dark);
+}
+
+.admBtnGhost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.admSidebar .admBtnGhost {
+  color: var(--adm-sidebar-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.admSidebar .admBtnGhost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admBtnDanger {
+  color: var(--adm-danger);
+  border-color: transparent;
+  background: transparent;
+}
+
+.admBtnDanger:hover {
+  background: #fef2f2;
+}
+
+.admBtnSmall {
+  padding: 5px 10px;
+  font-size: 0.85rem;
+}
+
+.admBtnBlock {
+  width: 100%;
+}
+
+/* Forms */
+
+.admForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admFormNarrow {
+  max-width: 420px;
+}
+
+.admField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admFieldGrow {
+  flex: 1;
+}
+
+.admFieldLabel {
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admHint {
+  font-weight: 400;
+  color: var(--adm-muted);
+  font-size: 0.82rem;
+}
+
+.admInput,
+.admTextarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font: inherit;
+  color: var(--adm-text);
+  background: #ffffff;
+}
+
+.admInput:focus,
+.admTextarea:focus {
+  outline: 2px solid rgba(207, 16, 45, 0.35);
+  outline-offset: 1px;
+  border-color: var(--adm-primary);
+}
+
+.admTextarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+[dir="rtl"].admInput,
+[dir="rtl"].admTextarea {
+  font-size: 1.05em;
+}
+
+.admRow {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.admBilingual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.admLang {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admLang > span {
+  font-size: 0.8rem;
+  color: var(--adm-muted);
+  font-weight: 600;
+}
+
+.admFieldError {
+  color: var(--adm-danger);
+  font-size: 0.82rem;
+  font-style: normal;
+}
+
+.admInlineError {
+  color: var(--adm-danger);
+  font-size: 0.82rem;
+}
+
+.admAlert {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+
+.admAlertError {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.admAlertSuccess {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.admNewsForm .admCard {
+  margin-bottom: 0;
+}
+
+.admNewsForm .admCard > .admField + .admField,
+.admNewsForm .admCard > .admField + .admRow {
+  margin-top: 16px;
+}
+
+.admFormBar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.admFormBarActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Media */
+
+.admUploadBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 28px 16px;
+  border: 2px dashed #d1d5db;
+  border-radius: var(--adm-radius);
+  background: #fafafa;
+  cursor: pointer;
+  text-align: center;
+  color: var(--adm-muted);
+}
+
+.admUploadBox strong {
+  color: var(--adm-text);
+}
+
+.admUploadBox:hover {
+  border-color: var(--adm-primary);
+  background: #fff7f8;
+}
+
+.admUploadBox.isDisabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.admUploadBoxCompact {
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.admMediaItem {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.admMediaBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.admThumb {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--adm-border);
+  background: #f3f4f6;
+  flex-shrink: 0;
+}
+
+.admThumbLarge {
+  width: 220px;
+  height: 150px;
+}
+
+.admAltFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.admMediaActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admGalleryList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admGalleryList .admMediaItem {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--adm-border);
+}
+
+.admGalleryList .admMediaItem:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.admRadioRow {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 8px 0 14px;
+}
+
+.admRadio {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.admFileName {
+  margin: 0 0 8px;
+  font-size: 0.92rem;
+}
+
+.admFileName a {
+  color: var(--adm-primary);
+}
+
+/* Login */
+
+.admLogin {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    linear-gradient(180deg, rgba(207, 16, 45, 0.08), rgba(0, 166, 81, 0.06)),
+    var(--adm-bg);
+}
+
+.admLoginCard {
+  width: 100%;
+  max-width: 380px;
+  padding: 28px;
+}
+
+.admLoginBrand {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.admLoginBrand h1 {
+  font-size: 1.3rem;
+  margin-top: 10px;
+}
+
+.admLoginBrand p {
+  margin: 4px 0 0;
+  color: var(--adm-muted);
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+
+@media (max-width: 860px) {
+  .admShell {
+    grid-template-columns: 1fr;
+  }
+
+  .admSidebar {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 12px;
+  }
+
+  .admNav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .admNavLink {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+
+  .admSidebarFooter {
+    margin-top: 0;
+    margin-left: auto;
+    border-top: 0;
+    padding-top: 0;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .admUser span {
+    display: none;
+  }
+
+  .admMain {
+    padding: 20px 16px 80px;
+  }
+
+  .admPageHead {
+    flex-direction: column;
+  }
+
+  .admBilingual,
+  .admAltFields {
+    grid-template-columns: 1fr;
+  }
+
+  .admRow {
+    flex-direction: column;
+  }
+
+  .admMediaItem {
+    flex-direction: column;
+  }
+
+  .admThumbLarge {
+    width: 100%;
+    height: auto;
+    max-height: 260px;
+  }
+
+  .admFormBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admFormBarActions {
+    justify-content: stretch;
+  }
+
+  .admFormBarActions .admBtn {
+    flex: 1;
+  }
+}
