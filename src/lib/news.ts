@@ -1,64 +1,16 @@
 import type { Locale } from "@/lib/locale";
-import { formatNewsDate } from "@/lib/news-dates";
+import { toNewsItem, type NewsItem } from "@/lib/news-item";
 import { getPublishedNewsCached } from "@/lib/news-public";
-import type { NewsImage, NewsRecord } from "@/lib/news-store";
+import type { NewsRecord } from "@/lib/news-store";
 
-// Shape consumed by the public pages. News content itself is managed in the
-// admin portal (/admin/news) and stored in MongoDB.
-export type NewsItem = {
-  slug: string;
-  month: string;
-  day: string;
-  title: string;
-  excerpt: string;
-  image?: {
-    src: string;
-    width: number;
-    height: number;
-    alt: string;
-  };
-  gallery?: {
-    src: string;
-    width: number;
-    height: number;
-    alt: string;
-  }[];
-  attachment?: {
-    href: string;
-    label: string;
-  };
-};
+// News content is managed in the admin portal (/admin/news) and stored in
+// MongoDB. This module is the server-side entry point for the public pages.
+
+export type { NewsItem } from "@/lib/news-item";
+export { toNewsItem } from "@/lib/news-item";
 
 export const HOME_NEWS_PAGE_SIZE = 3;
 export const NEWS_ARCHIVE_PAGE_SIZE = 6;
-
-function pick(text: { en: string; ar: string }, locale: Locale): string {
-  return text[locale] || text.en;
-}
-
-export function toNewsItem(record: NewsRecord, locale: Locale): NewsItem {
-  const { day, month } = formatNewsDate(record.date, locale);
-  const title = pick(record.title, locale);
-  const localizeImage = (image: NewsImage) => ({
-    src: image.src,
-    width: image.width,
-    height: image.height,
-    alt: pick(image.alt, locale) || title,
-  });
-
-  return {
-    slug: record.slug,
-    month,
-    day,
-    title,
-    excerpt: pick(record.excerpt, locale),
-    image: record.image ? localizeImage(record.image) : undefined,
-    gallery: record.gallery.length > 0 ? record.gallery.map(localizeImage) : undefined,
-    attachment: record.attachment
-      ? { href: record.attachment.href, label: pick(record.attachment.label, locale) }
-      : undefined,
-  };
-}
 
 export async function getNewsForLocale(locale: Locale): Promise<NewsItem[]> {
   let records: NewsRecord[];

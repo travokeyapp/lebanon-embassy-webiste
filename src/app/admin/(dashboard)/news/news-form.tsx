@@ -2,7 +2,18 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useTransition, type ChangeEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+  type ChangeEvent,
+  type DragEvent,
+  type TextareaHTMLAttributes,
+} from "react";
+import NewsCard from "@/components/news-card";
+import type { Locale } from "@/lib/locale";
+import { toNewsItem } from "@/lib/news-item";
 import {
   MAX_GALLERY_IMAGES,
   collectFieldErrors,
@@ -15,11 +26,13 @@ import {
 import type { NewsRecord } from "@/lib/news-store";
 import { uploadDocumentFile, uploadImageFile } from "@/lib/upload-client";
 import { saveNewsAction } from "./actions";
+import { useUnsavedChangesWarning } from "./use-unsaved-changes";
 
 type Localized = { en: string; ar: string };
 type Lang = keyof Localized;
 type ImageValue = { src: string; width: number; height: number; alt: Localized };
 type AttachmentKind = "none" | "file" | "link";
+type UploadTarget = "image" | "gallery" | "file";
 
 type FormValues = {
   slug: string;
@@ -34,6 +47,11 @@ type FormValues = {
 };
 
 const emptyText = (): Localized => ({ en: "", ar: "" });
+
+const PREVIEW_PLACEHOLDERS: Record<Locale, { title: string; excerpt: string }> = {
+  en: { title: "News title", excerpt: "The news text will appear here." },
+  ar: { title: "عنوان الخبر", excerpt: "يظهر نص الخبر هنا." },
+};
 
 function looksLikeUploadedFile(href: string): boolean {
   return href.startsWith("/documents/") || /\.pdf(\?.*)?$/i.test(href) || href.includes(".blob.vercel-storage.com/");
@@ -94,30 +112,42 @@ function FieldError({ message }: { message?: string }) {
   return message ? <em className="admFieldError">{message}</em> : null;
 }
 
+type AutoGrowProps = TextareaHTMLAttributes<HTMLTextAreaElement> & { minRows?: number };
+
+// A textarea that grows with its content instead of scrolling.
+function AutoGrowTextarea({ minRows = 2, className = "", value, ...rest }: AutoGrowProps) {
+  const ref = useRef<HTMLTextAreaElement>(null);
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) {
+      return;
+    }
+    element.style.height = "auto";
+    element.style.height = `${element.scrollHeight}px`;
+  }, [value]);
+  return <textarea ref={ref} rows={minRows} className={`admTextarea admTextareaAuto ${className}`} value={value} {...rest} />;
+}
+
 type BilingualProps = {
   label: string;
   hint?: string;
   value: Localized;
   onChange: (lang: Lang, text: string) => void;
-  multiline?: boolean;
+  minRows: number;
   errors: FieldErrors;
   errorKey: string;
 };
 
-function BilingualField({ label, hint, value, onChange, multiline, errors, errorKey }: BilingualProps) {
-  const renderInput = (lang: Lang) => {
-    const shared = {
-      value: value[lang],
-      onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => onChange(lang, event.target.value),
-      dir: lang === "ar" ? ("rtl" as const) : ("ltr" as const),
-      lang,
-    };
-    return multiline ? (
-      <textarea className="admTextarea" rows={7} {...shared} />
-    ) : (
-      <input className="admInput" type="text" {...shared} />
-    );
-  };
+function BilingualField({ label, hint, value, onChange, minRows, errors, errorKey }: BilingualProps) {
+  const renderInput = (lang: Lang) => (
+    <AutoGrowTextarea
+      minRows={minRows}
+      value={value[lang]}
+      onChange={(event: ChangeEvent<HTMLTextAreaElement>) => onChange(lang, event.target.value)}
+      dir={lang === "ar" ? "rtl" : "ltr"}
+      lang={lang}
+    />
+  );
 
   return (
     <div className="admField">
@@ -141,13 +171,7 @@ function BilingualField({ label, hint, value, onChange, multiline, errors, error
   );
 }
 
-function AltFields({
-  value,
-  onChange,
-}: {
-  value: Localized;
-  onChange: (lang: Lang, text: string) => void;
-}) {
+function AltFields({ value, onChange }: { value: Localized; onChange: (lang: Lang, text: string) => void }) {
   return (
     <div className="admAltFields">
       <label className="admLang">
@@ -178,26 +202,34 @@ type NewsFormProps = {
 export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
   const router = useRouter();
   const [values, setValues] = useState<FormValues>(() => initialValues(initial, defaultDate));
+  const [savedSnapshot] = useState(() => JSON.stringify(initialValues(initial, defaultDate)));
   const [slugTouched, setSlugTouched] = useState(Boolean(initial));
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
-  const [uploading, setUploading] = useState<"image" | "gallery" | "file" | null>(null);
+  const [uploading, setUploading] = useState<UploadTarget | null>(null);
+  const [dragOver, setDragOver] = useState<UploadTarget | null>(null);
+  const [previewLang, setPreviewLang] = useState<Locale>("en");
   const [pending, startTransition] = useTransition();
+  const previewRef = useRef<HTMLElement>(null);
 
   const isPublished = initial?.status === "published";
   const locked = pending || uploading !== null;
+  const dirty = JSON.stringify(values) !== savedSnapshot;
+  useUnsavedChangesWarning(dirty && !pending);
 
   const update = (patch: Partial<FormValues>) => setValues((current) => ({ ...current, ...patch }));
 
-  const updateText = (key: "title" | "excerpt" | "attachmentLabel", lang: Lang, text: string) =>
+  const updateText = (key: "excerpt" | "attachmentLabel", lang: Lang, text: string) =>
     setValues((current) => ({ ...current, [key]: { ...current[key], [lang]: text } }));
 
-  const updateTitle = (lang: Lang, text: string) =>
+  const updateTitle = (lang: Lang, rawText: string) => {
+    const text = rawText.replace(/\s*[\r\n]+\s*/g, " ");
     setValues((current) => ({
       ...current,
       title: { ...current.title, [lang]: text },
       slug: lang === "en" && !slugTouched ? slugify(text) : current.slug,
     }));
+  };
 
   const submit = (status: NewsStatus) => {
     setFormError(null);
@@ -217,7 +249,7 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
         window.scrollTo({ top: 0, behavior: "smooth" });
         return;
       }
-      router.push("/admin/news");
+      router.push(`/admin/news?saved=${result.status}&slug=${encodeURIComponent(parsed.data.slug)}`);
       router.refresh();
     });
   };
@@ -225,10 +257,9 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
   const reportUploadError = (error: unknown) =>
     setFormError(error instanceof Error ? error.message : "Upload failed. Please try again.");
 
-  const pickMainImage = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) {
+  const handleMainImageFiles = async (files: File[]) => {
+    const file = files[0];
+    if (!file || locked) {
       return;
     }
     setUploading("image");
@@ -243,10 +274,8 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
     }
   };
 
-  const pickGalleryImages = async (event: ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files ?? []);
-    event.target.value = "";
-    if (files.length === 0) {
+  const handleGalleryFiles = async (files: File[]) => {
+    if (files.length === 0 || locked) {
       return;
     }
     const room = MAX_GALLERY_IMAGES - values.gallery.length;
@@ -271,10 +300,9 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
     }
   };
 
-  const pickDocument = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) {
+  const handleDocumentFiles = async (files: File[]) => {
+    const file = files[0];
+    if (!file || locked) {
       return;
     }
     setUploading("file");
@@ -289,6 +317,28 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
     }
   };
 
+  const fromInput = (handler: (files: File[]) => Promise<void>) => (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files ?? []);
+    event.target.value = "";
+    void handler(files);
+  };
+
+  // Drag-and-drop onto the upload boxes.
+  const dropZone = (target: UploadTarget, handler: (files: File[]) => Promise<void>) => ({
+    onDragOver: (event: DragEvent<HTMLElement>) => {
+      event.preventDefault();
+      if (!locked) {
+        setDragOver(target);
+      }
+    },
+    onDragLeave: () => setDragOver((current) => (current === target ? null : current)),
+    onDrop: (event: DragEvent<HTMLElement>) => {
+      event.preventDefault();
+      setDragOver(null);
+      void handler(Array.from(event.dataTransfer.files));
+    },
+  });
+
   const updateGalleryAlt = (index: number, lang: Lang, text: string) =>
     setValues((current) => ({
       ...current,
@@ -299,6 +349,27 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
 
   const removeGalleryImage = (index: number) =>
     setValues((current) => ({ ...current, gallery: current.gallery.filter((_, i) => i !== index) }));
+
+  const moveGalleryImage = (index: number, delta: -1 | 1) =>
+    setValues((current) => {
+      const target = index + delta;
+      if (target < 0 || target >= current.gallery.length) {
+        return current;
+      }
+      const gallery = [...current.gallery];
+      [gallery[index], gallery[target]] = [gallery[target], gallery[index]];
+      return { ...current, gallery };
+    });
+
+  const previewItem = toNewsItem(toInput(values, "draft"), previewLang);
+  const previewDisplay = {
+    ...previewItem,
+    title: previewItem.title || PREVIEW_PLACEHOLDERS[previewLang].title,
+    excerpt: previewItem.excerpt || PREVIEW_PLACEHOLDERS[previewLang].excerpt,
+  };
+
+  const boxClass = (base: string, target: UploadTarget) =>
+    `${base}${locked ? " isDisabled" : ""}${dragOver === target ? " isDragOver" : ""}`;
 
   return (
     <form
@@ -321,6 +392,7 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
           label="Title"
           value={values.title}
           onChange={updateTitle}
+          minRows={2}
           errors={errors}
           errorKey="title"
         />
@@ -330,7 +402,7 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
           hint="The paragraph shown under the title on the website."
           value={values.excerpt}
           onChange={(lang, text) => updateText("excerpt", lang, text)}
-          multiline
+          minRows={6}
           errors={errors}
           errorKey="excerpt"
         />
@@ -389,7 +461,13 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
               <div className="admMediaActions">
                 <label className={`admBtn admBtnSmall${locked ? " isDisabled" : ""}`}>
                   {uploading === "image" ? "Uploading…" : "Replace photo"}
-                  <input type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={pickMainImage} disabled={locked} />
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    hidden
+                    onChange={fromInput(handleMainImageFiles)}
+                    disabled={locked}
+                  />
                 </label>
                 <button
                   type="button"
@@ -406,10 +484,16 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
             </div>
           </div>
         ) : (
-          <label className={`admUploadBox${locked ? " isDisabled" : ""}`}>
-            <strong>{uploading === "image" ? "Uploading…" : "Choose a photo"}</strong>
+          <label className={boxClass("admUploadBox", "image")} {...dropZone("image", handleMainImageFiles)}>
+            <strong>{uploading === "image" ? "Uploading…" : "Choose a photo or drag it here"}</strong>
             <span>JPG, PNG or WEBP. Large photos are resized automatically.</span>
-            <input type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={pickMainImage} disabled={locked} />
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              hidden
+              onChange={fromInput(handleMainImageFiles)}
+              disabled={locked}
+            />
           </label>
         )}
         <FieldError message={errors.image} />
@@ -417,7 +501,7 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
 
       <section className="admCard">
         <h2 className="admCardTitle">More photos</h2>
-        <p className="admMuted">Shown as a small gallery under the main photo. Up to {MAX_GALLERY_IMAGES}.</p>
+        <p className="admMuted">Shown as a small gallery under the main photo, in this order. Up to {MAX_GALLERY_IMAGES}.</p>
         {values.gallery.length > 0 ? (
           <div className="admGalleryList">
             {values.gallery.map((photo, index) => (
@@ -429,12 +513,33 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
                   <div className="admMediaActions">
                     <button
                       type="button"
+                      className="admBtn admBtnSmall"
+                      onClick={() => moveGalleryImage(index, -1)}
+                      disabled={locked || index === 0}
+                      aria-label={`Move photo ${index + 1} up`}
+                    >
+                      Move up
+                    </button>
+                    <button
+                      type="button"
+                      className="admBtn admBtnSmall"
+                      onClick={() => moveGalleryImage(index, 1)}
+                      disabled={locked || index === values.gallery.length - 1}
+                      aria-label={`Move photo ${index + 1} down`}
+                    >
+                      Move down
+                    </button>
+                    <button
+                      type="button"
                       className="admBtn admBtnSmall admBtnDanger"
                       onClick={() => removeGalleryImage(index)}
                       disabled={locked}
                     >
                       Remove
                     </button>
+                    <small className="admMuted">
+                      {index + 1} of {values.gallery.length}
+                    </small>
                   </div>
                 </div>
               </div>
@@ -442,15 +547,18 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
           </div>
         ) : null}
         {values.gallery.length < MAX_GALLERY_IMAGES ? (
-          <label className={`admUploadBox admUploadBoxCompact${locked ? " isDisabled" : ""}`}>
-            <strong>{uploading === "gallery" ? "Uploading…" : "Add photos"}</strong>
+          <label
+            className={boxClass("admUploadBox admUploadBoxCompact", "gallery")}
+            {...dropZone("gallery", handleGalleryFiles)}
+          >
+            <strong>{uploading === "gallery" ? "Uploading…" : "Add photos or drag them here"}</strong>
             <span>You can select several at once.</span>
             <input
               type="file"
               accept="image/jpeg,image/png,image/webp"
               multiple
               hidden
-              onChange={pickGalleryImages}
+              onChange={fromInput(handleGalleryFiles)}
               disabled={locked}
             />
           </label>
@@ -475,7 +583,9 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
                 name="attachmentKind"
                 value={kind}
                 checked={values.attachmentKind === kind}
-                onChange={() => update({ attachmentKind: kind, attachmentHref: kind === "none" ? "" : values.attachmentHref })}
+                onChange={() =>
+                  update({ attachmentKind: kind, attachmentHref: kind === "none" ? "" : values.attachmentHref })
+                }
               />
               <span>{label}</span>
             </label>
@@ -492,9 +602,25 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
                 </a>
               </p>
             ) : null}
-            <label className={`admBtn admBtnSmall${locked ? " isDisabled" : ""}`}>
-              {uploading === "file" ? "Uploading…" : values.attachmentHref ? "Replace PDF" : "Choose PDF"}
-              <input type="file" accept="application/pdf,.pdf" hidden onChange={pickDocument} disabled={locked} />
+            <label
+              className={boxClass("admUploadBox admUploadBoxCompact", "file")}
+              {...dropZone("file", handleDocumentFiles)}
+            >
+              <strong>
+                {uploading === "file"
+                  ? "Uploading…"
+                  : values.attachmentHref
+                    ? "Replace PDF or drag it here"
+                    : "Choose a PDF or drag it here"}
+              </strong>
+              <span>PDF files up to 25 MB.</span>
+              <input
+                type="file"
+                accept="application/pdf,.pdf"
+                hidden
+                onChange={fromInput(handleDocumentFiles)}
+                disabled={locked}
+              />
             </label>
             <FieldError message={errors["attachment.href"]} />
           </div>
@@ -521,17 +647,60 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
             hint='For example "Read the full announcement (PDF)".'
             value={values.attachmentLabel}
             onChange={(lang, text) => updateText("attachmentLabel", lang, text)}
+            minRows={1}
             errors={errors}
             errorKey="attachment.label"
           />
         ) : null}
       </section>
 
+      <section className="admCard admPreviewCard" ref={previewRef} id="preview" aria-label="Preview">
+        <div className="admPreviewHead">
+          <div>
+            <h2 className="admCardTitle">Preview</h2>
+            <p className="admMuted">How this item will look on the website. Updates as you type.</p>
+          </div>
+          <div className="admTabs" role="tablist" aria-label="Preview language">
+            {(["en", "ar"] as const).map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                role="tab"
+                aria-selected={previewLang === lang}
+                className="admTab"
+                onClick={() => setPreviewLang(lang)}
+              >
+                {lang === "en" ? "English" : "العربية"}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div
+          className={`admPreviewFrame${previewLang === "ar" ? " rtl" : ""}`}
+          dir={previewLang === "ar" ? "rtl" : "ltr"}
+          lang={previewLang}
+        >
+          <div className="newsList">
+            <NewsCard item={previewDisplay} showGallery />
+          </div>
+        </div>
+      </section>
+
       <div className="admFormBar">
-        <Link href="/admin/news" className="admBtn admBtnGhost">
-          Cancel
-        </Link>
         <div className="admFormBarActions">
+          <Link href="/admin/news" className="admBtn admBtnGhost">
+            Cancel
+          </Link>
+          <button
+            type="button"
+            className="admBtn admBtnGhost"
+            onClick={() => previewRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          >
+            Preview
+          </button>
+        </div>
+        <div className="admFormBarActions">
+          {dirty && !pending ? <span className="admUnsavedHint">Unsaved changes</span> : null}
           {isPublished ? (
             <>
               <button type="button" className="admBtn" onClick={() => submit("draft")} disabled={locked}>

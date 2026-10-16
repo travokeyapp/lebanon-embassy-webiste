@@ -183,7 +183,23 @@
 .admCardTitle {
   font-size: 1.05rem;
   font-weight: 650;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.admCardHeader {
+  padding: 20px 22px 12px;
+}
+
+.admCardHeader .admCardTitle {
+  margin-bottom: 4px;
+}
+
+.admAlertInset {
+  margin: 0 22px 20px;
+}
+
+.admBreak {
+  word-break: break-word;
 }
 
 .admEmpty {
@@ -724,5 +740,136 @@
 
   .admFormBarActions .admBtn {
     flex: 1;
+  }
+}
+
+/* Auto-growing text boxes (titles, texts) */
+
+.admTextareaAuto {
+  resize: none;
+  overflow: hidden;
+  min-height: 0;
+  line-height: 1.45;
+}
+
+.admNewsForm .admCard > .admField + .admField,
+.admNewsForm .admCard > .admField + .admRow,
+.admNewsForm .admCard > .admRadioRow + .admField,
+.admNewsForm .admCard > .admField + .admRow + .admField {
+  margin-top: 18px;
+}
+
+/* Drag-and-drop state */
+
+.admUploadBox.isDragOver {
+  border-color: var(--adm-green);
+  background: #f0fdf4;
+}
+
+/* Live preview */
+
+.admPreviewHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.admPreviewHead .admCardTitle {
+  margin-bottom: 2px;
+}
+
+.admTabs {
+  display: inline-flex;
+  border: 1px solid var(--adm-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admTab {
+  padding: 7px 16px;
+  border: 0;
+  background: #ffffff;
+  color: var(--adm-muted);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admTab + .admTab {
+  border-left: 1px solid var(--adm-border);
+}
+
+.admTab[aria-selected="true"] {
+  background: var(--adm-primary);
+  color: #ffffff;
+}
+
+.admPreviewFrame {
+  background: #efefef;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.admPreviewFrame .newsList {
+  margin-top: 0;
+  max-width: 760px;
+}
+
+.admPreviewFrame .newsItem {
+  animation: none;
+}
+
+.admPreviewFrame .newsItem:hover,
+.admPreviewFrame .newsItem:focus-within {
+  transform: none;
+  box-shadow: none;
+  border-color: #e5e7eb;
+}
+
+.admUnsavedHint {
+  color: var(--adm-muted);
+  font-size: 0.85rem;
+  align-self: center;
+}
+
+/* List search and filter */
+
+.admFilterBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.admFilterSearch {
+  width: auto;
+  min-width: 260px;
+  flex: 1;
+  max-width: 420px;
+}
+
+.admSelect {
+  width: auto;
+  padding-right: 32px;
+}
+
+.admFilterCount {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 860px) {
+  .admFilterSearch {
+    min-width: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  .admPreviewFrame {
+    padding: 10px;
   }
 }
