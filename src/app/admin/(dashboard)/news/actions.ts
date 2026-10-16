@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 import { logAudit } from "@/lib/audit";
 import { getSession } from "@/lib/auth/session";
 import { NEWS_CACHE_TAG } from "@/lib/news-public";
@@ -130,4 +131,21 @@ export async function deleteNewsAction(id: string): Promise<ActionResult> {
     console.error("deleteNewsAction failed:", error);
     return { ok: false, error: GENERIC_FAILURE };
   }
+}
+
+// Clears the cached news on the public site so it re-reads the database on
+// the next visit. Useful after importing data outside the admin.
+export async function refreshSiteCacheAction(): Promise<void> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/admin/login");
+  }
+  revalidateTag(NEWS_CACHE_TAG);
+  await logAudit({
+    userId: session.id,
+    userEmail: session.email,
+    action: "news.cache-refresh",
+    entity: "news",
+  });
+  redirect("/admin/news?refreshed=1");
 }
