@@ -1,0 +1,142 @@
+{
+  "pakistan": [
+    {
+      "image": {
+        "src": "/hero-pakistan-monument.jpg",
+        "height": 3080,
+        "width": 6016
+      },
+      "fit": "cover",
+      "position": "center",
+      "title": {
+        "en": "Pakistan Monument",
+        "ar": "النصب التذكاري لباكستان"
+      },
+      "subtitle": {
+        "en": "National monument at Shakarparian, Islamabad.",
+        "ar": "معلم وطني في شاكرباريان، إسلام أباد."
+      }
+    },
+    {
+      "image": {
+        "src": "/hero-faisal-mosque-alt-1.jpg",
+        "height": 805,
+        "width": 1280
+      },
+      "fit": "cover",
+      "position": "center",
+      "title": {
+        "en": "Faisal Mosque",
+        "ar": "مسجد فيصل"
+      },
+      "subtitle": {
+        "en": "Iconic mosque at the foothills of Margalla Hills.",
+        "ar": "مسجد أيقوني عند سفوح تلال مرجلا."
+      }
+    },
+    {
+      "image": {
+        "src": "/hero-pakistan-monument.jpg",
+        "height": 3080,
+        "width": 6016
+      },
+      "fit": "cover",
+      "position": "center",
+      "title": {
+        "en": "Pakistan Monument",
+        "ar": "النصب التذكاري لباكستان"
+      },
+      "subtitle": {
+        "en": "National monument at Shakarparian, Islamabad.",
+        "ar": "معلم وطني في شاكرباريان، إسلام أباد."
+      }
+    },
+    {
+      "image": {
+        "src": "/hero-faisal-mosque-alt-1.jpg",
+        "height": 805,
+        "width": 1280
+      },
+      "fit": "cover",
+      "position": "center",
+      "title": {
+        "en": "Faisal Mosque",
+        "ar": "مسجد فيصل"
+      },
+      "subtitle": {
+        "en": "Iconic mosque at the foothills of Margalla Hills.",
+        "ar": "مسجد أيقوني عند سفوح تلال مرجلا."
+      }
+    }
+  ],
+  "lebanon": [
+    {
+      "image": {
+        "src": "/hero-lebanon-baalbek.jpg",
+        "height": 1080,
+        "width": 1920
+      },
+      "fit": "contain",
+      "position": "center 62%",
+      "title": {
+        "en": "Baalbek Ruins",
+        "ar": "آثار بعلبك"
+      },
+      "subtitle": {
+        "en": "Roman-era temples in one of Lebanon's historic sites.",
+        "ar": "معابد رومانية في أحد أبرز المواقع التاريخية في لبنان."
+      }
+    },
+    {
+      "image": {
+        "src": "/hero-lebanon-byblos-port.jpg",
+        "height": 1080,
+        "width": 1920
+      },
+      "fit": "contain",
+      "position": "center 64%",
+      "title": {
+        "en": "Byblos Old Port",
+        "ar": "مرفأ جبيل القديم"
+      },
+      "subtitle": {
+        "en": "Ancient coastal harbor in one of the oldest cities.",
+        "ar": "ميناء ساحلي عريق في واحدة من أقدم المدن."
+      }
+    },
+    {
+      "image": {
+        "src": "/hero-lebanon-castle.jpg",
+        "height": 923,
+        "width": 1280
+      },
+      "fit": "cover",
+      "position": "center",
+      "title": {
+        "en": "Byblos Castle",
+        "ar": "قلعة جبيل"
+      },
+      "subtitle": {
+        "en": "Historic stone fortress overlooking the Lebanese coast.",
+        "ar": "قلعة حجرية تاريخية تطل على ساحل لبنان."
+      }
+    },
+    {
+      "image": {
+        "src": "/hero-lebanon-zaitunay-bay.jpg",
+        "height": 1080,
+        "width": 1920
+      },
+      "fit": "contain",
+      "position": "center 58%",
+      "title": {
+        "en": "Zaitunay Bay",
+        "ar": "زيتونة باي"
+      },
+      "subtitle": {
+        "en": "Contemporary waterfront promenade in Beirut.",
+        "ar": "واجهة بحرية عصرية في بيروت."
+      }
+    }
+  ]
+}

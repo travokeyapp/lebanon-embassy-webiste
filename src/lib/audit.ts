@@ -38,6 +38,7 @@ const ACTION_LABELS: Record<string, string> = {
   "announcement.activate": "Switched an announcement on",
   "announcement.deactivate": "Switched an announcement off",
   "announcement.delete": "Deleted an announcement",
+  "hero.update": "Updated the home banners",
   "media.upload": "Uploaded a file",
   "user.create": "Created a staff account",
   "user.password-reset": "Reset a staff password",
