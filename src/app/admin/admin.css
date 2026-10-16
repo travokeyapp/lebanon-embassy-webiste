@@ -1071,3 +1071,51 @@
   width: 72px;
   height: 54px;
 }
+
+/* Dashboard */
+
+.admStatGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.admStat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 18px;
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius);
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.admStat:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
+}
+
+.admStatValue {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--adm-primary);
+}
+
+.admStatLabel {
+  font-weight: 600;
+}
+
+.admStatDetail {
+  color: var(--adm-muted);
+  font-size: 0.85rem;
+}
+
+.admQuickActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
