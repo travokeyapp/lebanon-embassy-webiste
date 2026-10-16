@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HydrationSafeImage from "@/components/hydration-safe-image";
+import NewsCard from "@/components/news-card";
 import SiteShell from "@/components/site-shell";
 import { normalizeLocale } from "@/lib/locale";
 import {
@@ -132,7 +133,7 @@ export default async function Home({
   const locale = normalizeLocale(rawLocale);
   const t = content[locale];
 
-  const newsItems = getNewsForLocale(locale);
+  const newsItems = await getNewsForLocale(locale);
   const query = (await searchParams) ?? {};
   const totalPages = Math.max(1, Math.ceil(newsItems.length / HOME_NEWS_PAGE_SIZE));
   const requestedPage = parsePageParam(query.newsPage);
@@ -202,36 +203,7 @@ export default async function Home({
             <div className="newsList">
               {pagedNews.length > 0 ? (
                 pagedNews.map((item) => (
-                  <article className="newsItem" key={item.slug}>
-                    <div className="dateBox">
-                      <span>{item.month}</span>
-                      <strong>{item.day}</strong>
-                    </div>
-
-                    <div>
-                      <h4>
-                        <Link className="newsTitleLink" href={`/${locale}/news?item=${item.slug}#${item.slug}`}>
-                          {item.title}
-                        </Link>
-                      </h4>
-                      <p>{item.excerpt}</p>
-                      {item.image ? (
-                        <HydrationSafeImage
-                          className="newsImage"
-                          src={item.image.src}
-                          alt={item.image.alt}
-                          width={item.image.width}
-                          height={item.image.height}
-                          sizes="(max-width: 720px) 92vw, 620px"
-                        />
-                      ) : null}
-                      {item.attachment ? (
-                        <a className="newsAttachmentLink" href={item.attachment.href} target="_blank" rel="noreferrer">
-                          {item.attachment.label}
-                        </a>
-                      ) : null}
-                    </div>
-                  </article>
+                  <NewsCard key={item.slug} item={item} titleHref={`/${locale}/news?item=${item.slug}#${item.slug}`} />
                 ))
               ) : (
                 <div className="noticeBox">

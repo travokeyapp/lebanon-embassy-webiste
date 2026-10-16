@@ -1,5 +1,5 @@
 import Link from "next/link";
-import HydrationSafeImage from "@/components/hydration-safe-image";
+import NewsCard from "@/components/news-card";
 import SiteShell from "@/components/site-shell";
 import { normalizeLocale } from "@/lib/locale";
 import {
@@ -48,7 +48,7 @@ export default async function NewsPage({
   const locale = normalizeLocale(rawLocale);
   const t = copy[locale];
   const emptyNewsText = locale === "ar" ? "\u0644\u0627 \u062a\u0648\u062c\u062f \u0623\u062e\u0628\u0627\u0631 \u062d\u0627\u0644\u064a\u064b\u0627." : "No news for now.";
-  const newsItems = getNewsForLocale(locale);
+  const newsItems = await getNewsForLocale(locale);
   const query = (await searchParams) ?? {};
 
   const totalPages = Math.max(1, Math.ceil(newsItems.length / NEWS_ARCHIVE_PAGE_SIZE));
@@ -76,46 +76,7 @@ export default async function NewsPage({
         <div className="newsList newsArchiveList">
           {pageItems.length > 0 ? (
             pageItems.map((item) => (
-              <article className="newsItem" key={item.slug} id={item.slug}>
-                <div className="dateBox">
-                  <span>{item.month}</span>
-                  <strong>{item.day}</strong>
-                </div>
-                <div>
-                  <h4>{item.title}</h4>
-                  <p>{item.excerpt}</p>
-                  {item.image ? (
-                    <HydrationSafeImage
-                      className="newsImage"
-                      src={item.image.src}
-                      alt={item.image.alt}
-                      width={item.image.width}
-                      height={item.image.height}
-                      sizes="(max-width: 720px) 92vw, 620px"
-                    />
-                  ) : null}
-                  {item.gallery && item.gallery.length > 0 ? (
-                    <div className="newsGallery">
-                      {item.gallery.map((photo) => (
-                        <HydrationSafeImage
-                          className="newsImage"
-                          key={photo.src}
-                          src={photo.src}
-                          alt={photo.alt}
-                          width={photo.width}
-                          height={photo.height}
-                          sizes="(max-width: 720px) 31vw, 200px"
-                        />
-                      ))}
-                    </div>
-                  ) : null}
-                  {item.attachment ? (
-                    <a className="newsAttachmentLink" href={item.attachment.href} target="_blank" rel="noreferrer">
-                      {item.attachment.label}
-                    </a>
-                  ) : null}
-                </div>
-              </article>
+              <NewsCard key={item.slug} id={item.slug} item={item} showGallery />
             ))
           ) : (
             <div className="noticeBox">
