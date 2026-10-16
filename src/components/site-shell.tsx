@@ -1,10 +1,12 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import AnnouncementBar from "@/components/announcement-bar";
 import HydrationSafeImage from "@/components/hydration-safe-image";
 import ResponsiveNav from "@/components/responsive-nav";
 import ScrollEffects from "@/components/scroll-effects";
 import UiModeToggle from "@/components/ui-mode-toggle";
 import { tx } from "@/lib/content/page-schema";
+import { getLiveAnnouncements } from "@/lib/content/announcements-public";
 import { getPageContent } from "@/lib/content/pages-public";
 
 type ActiveNav = "home" | "ambassador" | "consular" | "visas" | "relations" | "gallery" | "contact";
@@ -126,7 +128,7 @@ export default async function SiteShell({
   const t = copy[locale];
   const agency = agencyCopy[locale];
   const isArabic = locale === "ar";
-  const settings = await getPageContent("settings");
+  const [settings, announcements] = await Promise.all([getPageContent("settings"), getLiveAnnouncements()]);
   const site = {
     ribbon: tx(settings.fields.ribbon, locale) || t.ribbon,
     address: tx(settings.fields.address, locale) || t.footer.address,
@@ -188,6 +190,8 @@ export default async function SiteShell({
           <ResponsiveNav navItems={navItems} activeNav={activeNav} menuLabel={t.menu} />
         </nav>
       </header>
+
+      <AnnouncementBar items={announcements} locale={locale} />
 
       <div className="siteContent">{children}</div>
 
