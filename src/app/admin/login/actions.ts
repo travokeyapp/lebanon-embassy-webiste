@@ -5,8 +5,7 @@ import { redirect } from "next/navigation";
 import { logAudit } from "@/lib/audit";
 import { clearFailedLogins, isLoginBlocked, recordFailedLogin } from "@/lib/auth/login-rate-limit";
 import { verifyPassword } from "@/lib/auth/password";
-import { setSessionCookie } from "@/lib/auth/session";
-import { createSessionToken } from "@/lib/auth/session-token";
+import { issueSessionCookie } from "@/lib/auth/session";
 import { findUserByEmail, recordLogin } from "@/lib/auth/users";
 
 export type LoginState = { error?: string };
@@ -58,14 +57,14 @@ export async function loginAction(_previous: LoginState, formData: FormData): Pr
   clearFailedLogins(key);
   await recordLogin(user._id);
 
-  const sessionUser = { id: user._id.toHexString(), email: user.email, name: user.name, role: user.role };
-  await setSessionCookie(await createSessionToken(sessionUser));
+  await issueSessionCookie(user);
+  const userId = user._id.toHexString();
   await logAudit({
-    userId: sessionUser.id,
-    userEmail: sessionUser.email,
+    userId,
+    userEmail: user.email,
     action: "auth.login",
     entity: "user",
-    entityId: sessionUser.id,
+    entityId: userId,
   });
 
   redirect(nextPath);

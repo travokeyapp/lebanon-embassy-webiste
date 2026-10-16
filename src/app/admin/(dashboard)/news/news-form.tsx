@@ -26,7 +26,7 @@ import {
 import type { NewsRecord } from "@/lib/news-store";
 import { uploadDocumentFile, uploadImageFile } from "@/lib/upload-client";
 import { saveNewsAction } from "./actions";
-import { useUnsavedChangesWarning } from "./use-unsaved-changes";
+import { useUnsavedChangesWarning } from "@/components/admin/use-unsaved-changes";
 
 type Localized = { en: string; ar: string };
 type Lang = keyof Localized;
@@ -265,7 +265,7 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
     setUploading("image");
     setFormError(null);
     try {
-      const uploaded = await uploadImageFile(file);
+      const uploaded = await uploadImageFile(file, { folder: "news" });
       setValues((current) => ({ ...current, image: { ...uploaded, alt: current.image?.alt ?? emptyText() } }));
     } catch (error) {
       reportUploadError(error);
@@ -287,7 +287,7 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
     setFormError(null);
     try {
       for (const file of files.slice(0, room)) {
-        const uploaded = await uploadImageFile(file);
+        const uploaded = await uploadImageFile(file, { folder: "news" });
         setValues((current) => ({ ...current, gallery: [...current.gallery, { ...uploaded, alt: emptyText() }] }));
       }
       if (files.length > room) {
@@ -308,7 +308,7 @@ export default function NewsForm({ initial, defaultDate }: NewsFormProps) {
     setUploading("file");
     setFormError(null);
     try {
-      const { href } = await uploadDocumentFile(file);
+      const { href } = await uploadDocumentFile(file, { folder: "news" });
       update({ attachmentHref: href });
     } catch (error) {
       reportUploadError(error);
