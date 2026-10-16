@@ -1053,3 +1053,16 @@
 .admNewsForm .admCard > .admField + .admField {
   margin-top: 16px;
 }
+
+.admCheck {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.admCheck input {
+  width: 18px;
+  height: 18px;
+}
