@@ -1018,3 +1018,38 @@
     align-items: stretch;
   }
 }
+
+/* Generic page editors */
+
+.admSmall {
+  font-size: 0.85rem;
+}
+
+.admItemList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.admItemBlock {
+  border: 1px solid var(--adm-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admItemBlockHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admNewsForm .admCard > .admField + .admField {
+  margin-top: 16px;
+}

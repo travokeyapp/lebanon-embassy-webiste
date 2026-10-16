@@ -32,6 +32,7 @@ const ACTION_LABELS: Record<string, string> = {
   "news.unpublish": "Unpublished news item",
   "news.delete": "Deleted news item",
   "news.cache-refresh": "Refreshed the website cache",
+  "page.update": "Updated a page",
   "media.upload": "Uploaded a file",
   "user.create": "Created a staff account",
   "user.password-reset": "Reset a staff password",

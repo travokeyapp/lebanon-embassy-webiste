@@ -2,6 +2,8 @@ import Link from "next/link";
 import HydrationSafeImage from "@/components/hydration-safe-image";
 import NewsCard from "@/components/news-card";
 import SiteShell from "@/components/site-shell";
+import { tx } from "@/lib/content/page-schema";
+import { getPageContent } from "@/lib/content/pages-public";
 import { normalizeLocale } from "@/lib/locale";
 import {
   HOME_NEWS_PAGE_SIZE,
@@ -133,7 +135,12 @@ export default async function Home({
   const locale = normalizeLocale(rawLocale);
   const t = content[locale];
 
-  const newsItems = await getNewsForLocale(locale);
+  const [newsItems, ambassador] = await Promise.all([getNewsForLocale(locale), getPageContent("ambassador")]);
+  const mission = {
+    name: tx(ambassador.fields.name, locale) || t.missionName,
+    role: tx(ambassador.fields.role, locale) || t.missionRole,
+    portrait: ambassador.images.homePortrait ?? ambassador.images.portrait ?? null,
+  };
   const query = (await searchParams) ?? {};
   const totalPages = Math.max(1, Math.ceil(newsItems.length / HOME_NEWS_PAGE_SIZE));
   const requestedPage = parsePageParam(query.newsPage);
@@ -239,17 +246,19 @@ export default async function Home({
 
           <aside className="missionCard">
             <h4>{t.headOfMission}</h4>
-            <div className="ambassadorPortraitWrap missionPortraitWrap">
-              <HydrationSafeImage
-                src="/lebanon_ambassador.jpeg"
-                alt={t.missionName}
-                width={900}
-                height={1200}
-                className="ambassadorPortrait"
-              />
-            </div>
-            <p className="missionName">{t.missionName}</p>
-            <p className="muted">{t.missionRole}</p>
+            {mission.portrait ? (
+              <div className="ambassadorPortraitWrap missionPortraitWrap">
+                <HydrationSafeImage
+                  src={mission.portrait.src}
+                  alt={tx(mission.portrait.alt, locale) || mission.name}
+                  width={mission.portrait.width}
+                  height={mission.portrait.height}
+                  className="ambassadorPortrait"
+                />
+              </div>
+            ) : null}
+            <p className="missionName">{mission.name}</p>
+            <p className="muted">{mission.role}</p>
             <Link className="relationsBioButton" href={`/${locale}/ambassador`}>
               {t.missionCta}
             </Link>

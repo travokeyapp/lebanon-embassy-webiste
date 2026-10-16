@@ -1,5 +1,7 @@
 import SiteShell from "@/components/site-shell";
 import ContactInquiryForm from "@/components/contact-inquiry-form";
+import { linesOf, plainLines, tx } from "@/lib/content/page-schema";
+import { getPageContent } from "@/lib/content/pages-public";
 
 const text = {
   en: {
@@ -87,6 +89,17 @@ export default async function Contact({
   const t = text[locale] ?? text.en;
   const query = (await searchParams) ?? {};
   const initialStatus = parseContactStatus(query.contactStatus);
+  // Values come from the admin (Pages → Contact & footer); labels stay in `text` above.
+  const settings = await getPageContent("settings");
+  const details = {
+    address: tx(settings.fields.address, locale) || t.address,
+    phones: plainLines(settings.plain.phones).length > 0 ? plainLines(settings.plain.phones) : t.phones,
+    fax: settings.plain.fax ?? t.fax,
+    email: settings.plain.email || t.email,
+    officeHours: linesOf(settings.fields.officeHours, locale).length > 0 ? linesOf(settings.fields.officeHours, locale) : t.officeHours,
+    mapEmbedUrl:
+      settings.plain.mapEmbedUrl || "https://www.google.com/maps?q=33.714478914901754,73.04048619705408&z=16&output=embed",
+  };
 
   return (
     <SiteShell locale={locale} activeNav="contact">
@@ -97,28 +110,30 @@ export default async function Contact({
 
             <div className="contactBlock">
               <h3 className="contactLabel">{t.addressLabel}</h3>
-              <p className="contactText">{t.address}</p>
+              <p className="contactText">{details.address}</p>
             </div>
 
             <div className="contactBlock">
               <h3 className="contactLabel">{t.phoneLabel}</h3>
               <ul className="contactPlainList">
-                {t.phones.map((phone) => (
+                {details.phones.map((phone) => (
                   <li key={phone}>{phone}</li>
                 ))}
               </ul>
             </div>
 
-            <div className="contactBlock">
-              <h3 className="contactLabel">{t.faxLabel}</h3>
-              <p className="contactText">{t.fax}</p>
-            </div>
+            {details.fax ? (
+              <div className="contactBlock">
+                <h3 className="contactLabel">{t.faxLabel}</h3>
+                <p className="contactText">{details.fax}</p>
+              </div>
+            ) : null}
 
             <div className="contactBlock">
               <h3 className="contactLabel">{t.emailLabel}</h3>
               <p className="contactText">
-                <a className="contactLink" href={`mailto:${t.email}`}>
-                  {t.email}
+                <a className="contactLink" href={`mailto:${details.email}`}>
+                  {details.email}
                 </a>
               </p>
             </div>
@@ -126,7 +141,7 @@ export default async function Contact({
             <div className="contactBlock">
               <h3 className="contactLabel">{t.officeHoursLabel}</h3>
               <ul className="contactPlainList">
-                {t.officeHours.map((slot) => (
+                {details.officeHours.map((slot) => (
                   <li key={slot}>{slot}</li>
                 ))}
               </ul>
@@ -164,7 +179,7 @@ export default async function Contact({
               title={t.mapFrameTitle}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps?q=33.714478914901754,73.04048619705408&z=16&output=embed"
+              src={details.mapEmbedUrl}
             />
           </div>
         </section>

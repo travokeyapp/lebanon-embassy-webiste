@@ -4,6 +4,8 @@ import HydrationSafeImage from "@/components/hydration-safe-image";
 import ResponsiveNav from "@/components/responsive-nav";
 import ScrollEffects from "@/components/scroll-effects";
 import UiModeToggle from "@/components/ui-mode-toggle";
+import { tx } from "@/lib/content/page-schema";
+import { getPageContent } from "@/lib/content/pages-public";
 
 type ActiveNav = "home" | "ambassador" | "consular" | "visas" | "relations" | "gallery" | "contact";
 
@@ -110,7 +112,9 @@ const agencyCopy = {
   },
 } as const;
 
-export default function SiteShell({
+// Contact details, the ribbon and the footer come from the admin (Pages →
+// Contact & footer); the labels around them stay in `copy` above.
+export default async function SiteShell({
   locale,
   activeNav,
   children,
@@ -122,6 +126,16 @@ export default function SiteShell({
   const t = copy[locale];
   const agency = agencyCopy[locale];
   const isArabic = locale === "ar";
+  const settings = await getPageContent("settings");
+  const site = {
+    ribbon: tx(settings.fields.ribbon, locale) || t.ribbon,
+    address: tx(settings.fields.address, locale) || t.footer.address,
+    phone: settings.plain.footerPhone || t.footer.phone,
+    email: settings.plain.email || t.footer.email,
+    aboutText: tx(settings.fields.footerAbout, locale) || t.footer.aboutText,
+    copyright: tx(settings.fields.copyright, locale) || t.footer.copyright,
+    links: (settings.links.footerLinks ?? []).map((link) => ({ label: tx(link.label, locale), href: link.href })),
+  };
   const navItems: Array<{ key: ActiveNav; href: string; label: string }> = [
     { key: "home", href: `/${locale}`, label: t.nav.home },
     { key: "ambassador", href: `/${locale}/ambassador`, label: t.nav.ambassador },
@@ -136,7 +150,7 @@ export default function SiteShell({
       <ScrollEffects />
       <div className="topRibbon">
         <div className="container ribbonRow">
-          <span>{t.ribbon}</span>
+          <span>{site.ribbon}</span>
           <div className="ribbonControls">
             <div className="langInline" aria-label="Language switcher">
               <Link href="/en" className={locale === "en" ? "active" : ""}>
@@ -181,20 +195,20 @@ export default function SiteShell({
         <div className="container footerColumns">
           <section className="footerCard">
             <h4>{t.footer.contactTitle}</h4>
-            <p>{t.footer.address}</p>
+            <p>{site.address}</p>
             <p>
-              <strong>Phone:</strong> {t.footer.phone}
+              <strong>Phone:</strong> {site.phone}
             </p>
             <p>
-              <strong>Email:</strong> {t.footer.email}
+              <strong>Email:</strong> {site.email}
             </p>
           </section>
 
           <section className="footerCard">
             <h4>{t.footer.linksTitle}</h4>
             <ul className="footerLinks">
-              {t.footer.links.map((item) => (
-                <li key={item.label}>
+              {site.links.map((item) => (
+                <li key={`${item.href}-${item.label}`}>
                   <a href={item.href} target="_blank" rel="noreferrer">
                     {item.label}
                   </a>
@@ -205,7 +219,7 @@ export default function SiteShell({
 
           <section className="footerCard">
             <h4>{t.footer.aboutTitle}</h4>
-            <p>{t.footer.aboutText}</p>
+            <p>{site.aboutText}</p>
           </section>
 
           <section className="footerCard">
@@ -237,7 +251,7 @@ export default function SiteShell({
           </section>
         </div>
 
-        <div className="container footerBottom">(c) {new Date().getFullYear()} {t.footer.copyright}</div>
+        <div className="container footerBottom">(c) {new Date().getFullYear()} {site.copyright}</div>
       </footer>
     </main>
   );

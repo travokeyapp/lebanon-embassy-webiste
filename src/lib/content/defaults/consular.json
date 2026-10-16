@@ -1,0 +1,77 @@
+{
+  "fields": {
+    "title": {
+      "en": "Consular Affairs",
+      "ar": "الشؤون القنصلية"
+    },
+    "lead": {
+      "en": "The Embassy of Lebanon in Islamabad is committed to providing efficient and professional services to Lebanese nationals and the public in Pakistan.",
+      "ar": "تلتزم سفارة لبنان في إسلام أباد بتقديم خدمات قنصلية فعالة ومهنية للمواطنين اللبنانيين وللجمهور في باكستان."
+    },
+    "workflowTitle": {
+      "en": "Application Workflow",
+      "ar": "آلية تقديم المعاملات"
+    },
+    "workflowLead": {
+      "en": "To avoid delays, please follow the standard legalization process:",
+      "ar": "لتجنب التأخير، يرجى اتباع التسلسل المعتمد للتصديق:"
+    },
+    "workflowSteps": {
+      "en": "Prepare complete originals and supporting copies.\nObtain prior attestation from the Ministry of Foreign Affairs (MOFA) of Pakistan.\nSubmit documents to the Consular Section during working hours.\nCollect legalized documents on the advised date.",
+      "ar": "تحضير المستندات الأصلية وكافة المرفقات المطلوبة.\nالحصول على تصديق مسبق من وزارة الخارجية الباكستانية.\nتقديم المعاملة لدى القسم القنصلي ضمن أوقات الدوام.\nاستلام المستندات المصدقة في الموعد المحدد."
+    },
+    "notice": {
+      "en": "Important: Documents issued by Pakistani authorities must be attested by MOFA Pakistan before embassy legalization.",
+      "ar": "مهم: يجب أن تكون المستندات الصادرة عن الجهات الباكستانية مصدقة من وزارة الخارجية الباكستانية قبل تصديقها في السفارة."
+    }
+  },
+  "plain": {},
+  "cards": {
+    "cards": [
+      {
+        "title": {
+          "en": "Passport Services",
+          "ar": "خدمات جوازات السفر"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "Renewal processing for biometric and 2003-model passports.\nIssuance of emergency travel documents (laissez-passer).\nReporting and replacement procedures for lost passports.",
+          "ar": "معاملات تجديد الجوازات البيومترية وجوازات نموذج 2003.\nإصدار وثائق سفر اضطرارية (laissez-passer).\nإجراءات الإبلاغ عن فقدان الجواز واستبداله."
+        }
+      },
+      {
+        "title": {
+          "en": "Civil Status Registration",
+          "ar": "تسجيل الأحوال الشخصية"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "Birth registration for children born in Pakistan.\nMarriage and divorce registration for official records.\nDeath registration and repatriation support procedures.",
+          "ar": "تسجيل الولادات للأطفال المولودين في باكستان.\nتسجيل الزواج والطلاق في السجلات الرسمية.\nإجراءات تسجيل الوفاة ودعم نقل الجثمان عند الحاجة."
+        }
+      },
+      {
+        "title": {
+          "en": "Attestation and Power of Attorney",
+          "ar": "التصديقات والوكالات"
+        },
+        "body": {
+          "en": "",
+          "ar": ""
+        },
+        "items": {
+          "en": "General and special powers of attorney for use in Lebanon.\nCommercial document legalization (invoices, certificates of origin).\nAttestation of educational and medical documents.",
+          "ar": "تنظيم الوكالات العامة والخاصة للاستعمال في لبنان.\nتصديق المستندات التجارية مثل الفواتير وشهادات المنشأ.\nتصديق الشهادات التعليمية والتقارير الطبية."
+        }
+      }
+    ]
+  },
+  "links": {},
+  "images": {}
+}
