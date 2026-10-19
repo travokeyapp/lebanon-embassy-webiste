@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import { getNewsById } from "@/lib/news-store";
 import NewsForm from "../news-form";
+import { requireArea } from "@/lib/auth/session";
 
 export default async function EditNewsPage({ params }: { params: Promise<{ id: string }> }) {
+  await requireArea("news");
   const { id } = await params;
   const record = await getNewsById(id);
   if (!record) {

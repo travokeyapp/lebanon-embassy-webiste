@@ -1,0 +1,65 @@
+{
+  "fields": {
+    "ribbon": {
+      "en": "Official Website of the Embassy of the Republic of Lebanon in Islamabad - Pakistan",
+      "ar": "الموقع الرسمي لسفارة الجمهورية اللبنانية في إسلام أباد - باكستان"
+    },
+    "address": {
+      "en": "House No. 4, Street No. 10, F-8/3, Islamabad, Pakistan",
+      "ar": "المنزل رقم 4، الشارع رقم 10، F-8/3، إسلام أباد، باكستان"
+    },
+    "officeHours": {
+      "en": "Monday - Thursday: 09:00 AM - 03:00 PM\nFriday: 09:00 AM - 01:00 PM",
+      "ar": "الاثنين - الخميس: 09:00 ص - 03:00 م\nالجمعة: 09:00 ص - 01:00 م"
+    },
+    "footerAbout": {
+      "en": "The Embassy of Lebanon in Pakistan is the sole diplomatic representation of the Lebanese Republic in Pakistan, dedicated to serving Lebanese citizens and fostering bilateral relations.",
+      "ar": "سفارة لبنان في باكستان هي التمثيل الدبلوماسي الرسمي للجمهورية اللبنانية، وتعمل على خدمة المواطنين اللبنانيين وتعزيز العلاقات الثنائية."
+    },
+    "copyright": {
+      "en": "Embassy of Lebanon in Islamabad. All Rights Reserved.",
+      "ar": "سفارة لبنان في إسلام أباد. جميع الحقوق محفوظة."
+    }
+  },
+  "plain": {
+    "phones": "051-2278338\n051-2278565",
+    "footerPhone": "+92 51 227 8338",
+    "fax": "051-2826410",
+    "email": "lebanonembassypakistan@gmail.com",
+    "mapEmbedUrl": "https://www.google.com/maps?q=33.714478914901754,73.04048619705408&z=16&output=embed"
+  },
+  "cards": {},
+  "links": {
+    "footerLinks": [
+      {
+        "label": {
+          "en": "Forms & Documents",
+          "ar": "النماذج والمستندات"
+        },
+        "href": "/downloads"
+      },
+      {
+        "label": {
+          "en": "Ministry of Foreign Affairs",
+          "ar": "وزارة الخارجية"
+        },
+        "href": "https://mfa.gov.lb/"
+      },
+      {
+        "label": {
+          "en": "Invest in Lebanon",
+          "ar": "استثمر في لبنان"
+        },
+        "href": "https://investinlebanon.gov.lb/"
+      },
+      {
+        "label": {
+          "en": "Ministry of Tourism",
+          "ar": "وزارة السياحة"
+        },
+        "href": "https://mot.gov.lb/"
+      }
+    ]
+  },
+  "images": {}
+}

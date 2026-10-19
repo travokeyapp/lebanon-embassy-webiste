@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { logAudit } from "@/lib/audit";
 import { validateNewPassword, verifyPassword } from "@/lib/auth/password";
-import { clearSessionCookie, getSession } from "@/lib/auth/session";
+import { clearSessionCookie, getSession, getVerifiedSession, issueSessionCookie } from "@/lib/auth/session";
 import { findUserById, setUserPassword } from "@/lib/auth/users";
 
 export async function logoutAction(): Promise<void> {
@@ -24,7 +24,7 @@ export async function logoutAction(): Promise<void> {
 export type PasswordState = { error?: string; success?: string };
 
 export async function changePasswordAction(_previous: PasswordState, formData: FormData): Promise<PasswordState> {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session) {
     redirect("/admin/login");
   }
@@ -53,6 +53,11 @@ export async function changePasswordAction(_previous: PasswordState, formData: F
   }
 
   await setUserPassword(user._id, next);
+  // The password change invalidates every session, including this one, so re-issue it.
+  const refreshed = await findUserById(user._id.toHexString());
+  if (refreshed) {
+    await issueSessionCookie(refreshed);
+  }
   await logAudit({
     userId: session.id,
     userEmail: session.email,

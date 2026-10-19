@@ -1,13 +1,16 @@
 import Link from "next/link";
 import { formatAdminDate, formatAdminDateTime } from "@/lib/news-dates";
 import { listAllNews, type NewsRecord } from "@/lib/news-store";
+import { refreshSiteCacheAction } from "./actions";
 import NewsRowActions from "./news-row-actions";
+import { requireArea } from "@/lib/auth/session";
 
 type SearchParams = {
   q?: string | string[];
   status?: string | string[];
   saved?: string | string[];
   slug?: string | string[];
+  refreshed?: string | string[];
 };
 
 type StatusFilter = "all" | "published" | "draft";
@@ -25,6 +28,7 @@ function matchesQuery(item: NewsRecord, needle: string): boolean {
 }
 
 export default async function AdminNewsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  await requireArea("news");
   const query = await searchParams;
   const q = first(query.q).trim();
   const statusParam = first(query.status);
@@ -32,6 +36,7 @@ export default async function AdminNewsPage({ searchParams }: { searchParams: Pr
     statusParam === "published" || statusParam === "draft" ? statusParam : "all";
   const saved = first(query.saved);
   const savedSlug = first(query.slug);
+  const refreshed = first(query.refreshed) === "1";
 
   let items: NewsRecord[] = [];
   let loadError: string | null = null;
@@ -58,10 +63,23 @@ export default async function AdminNewsPage({ searchParams }: { searchParams: Pr
             {items.length} item{items.length === 1 ? "" : "s"}, {publishedCount} published on the website.
           </p>
         </div>
-        <Link href="/admin/news/new" className="admBtn admBtnPrimary">
-          + New news item
-        </Link>
+        <div className="admHeadActions">
+          <form action={refreshSiteCacheAction}>
+            <button type="submit" className="admBtn admBtnGhost" title="Make the public website re-read the news from the database">
+              Refresh website
+            </button>
+          </form>
+          <Link href="/admin/news/new" className="admBtn admBtnPrimary">
+            + New news item
+          </Link>
+        </div>
       </header>
+
+      {refreshed ? (
+        <p className="admAlert admAlertSuccess" role="status">
+          Website refreshed. The public pages now show exactly what is in the database.
+        </p>
+      ) : null}
 
       {saved === "published" ? (
         <p className="admAlert admAlertSuccess" role="status">

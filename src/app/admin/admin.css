@@ -873,3 +873,306 @@
     padding: 10px;
   }
 }
+
+.admHeadActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Navigation groups */
+
+.admNavGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.admNavGroupTitle {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+  padding: 6px 12px 4px;
+}
+
+.admSidebar {
+  overflow-y: auto;
+}
+
+/* Staff accounts */
+
+.admFormInline {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.admFormInline .admField {
+  min-width: 180px;
+}
+
+.admFormInline .admBtn {
+  height: 42px;
+}
+
+.admCredentials {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #14532d;
+}
+
+.admCredentials p {
+  margin: 4px 0 10px;
+}
+
+.admCredentials dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  margin: 0;
+}
+
+.admCredentials dt {
+  font-weight: 600;
+}
+
+.admCredentials dd {
+  margin: 0;
+  word-break: break-all;
+}
+
+.admCredentialSecret {
+  font-size: 1.05em;
+  background: #ffffff;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #bbf7d0;
+}
+
+.admCredentialsCompact {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+}
+
+.admRowActionsStack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.admRowInactive td {
+  color: var(--adm-muted);
+}
+
+.admBadge-admin {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.admBadge-editor {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.admBadge-inactive {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.admAlertInfo {
+  background: #eff6ff;
+  color: #1e3a8a;
+  border: 1px solid #bfdbfe;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 860px) {
+  .admSidebar {
+    overflow: visible;
+  }
+
+  .admNavGroup {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+
+  .admNavGroupTitle {
+    display: none;
+  }
+
+  .admFormInline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Generic page editors */
+
+.admSmall {
+  font-size: 0.85rem;
+}
+
+.admItemList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.admItemBlock {
+  border: 1px solid var(--adm-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admItemBlockHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admNewsForm .admCard > .admField + .admField {
+  margin-top: 16px;
+}
+
+.admCheck {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.admCheck input {
+  width: 18px;
+  height: 18px;
+}
+
+.admThumbSmall {
+  width: 72px;
+  height: 54px;
+}
+
+/* Dashboard */
+
+.admStatGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.admStat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 18px;
+  background: var(--adm-surface);
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius);
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.admStat:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
+}
+
+.admStatValue {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--adm-primary);
+}
+
+.admStatLabel {
+  font-weight: 600;
+}
+
+.admStatDetail {
+  color: var(--adm-muted);
+  font-size: 0.85rem;
+}
+
+.admQuickActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Permissions */
+
+.admFieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.admFieldWide {
+  flex-basis: 100%;
+}
+
+.admCheckGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px 16px;
+  margin-top: 8px;
+}
+
+.admCheckInline {
+  margin-top: 0;
+  align-items: flex-start;
+}
+
+.admCheckInline input {
+  margin-top: 3px;
+}
+
+.admCheckInline span {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.admPermissions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.admPermissionsEditing {
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 260px;
+}
+
+.admPermissionsEditing .admCheckGrid {
+  grid-template-columns: 1fr 1fr;
+  margin-top: 0;
+}
+
+.admPermissionsCell {
+  max-width: 320px;
+}

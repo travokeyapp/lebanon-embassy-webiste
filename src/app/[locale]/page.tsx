@@ -2,6 +2,10 @@ import Link from "next/link";
 import HydrationSafeImage from "@/components/hydration-safe-image";
 import NewsCard from "@/components/news-card";
 import SiteShell from "@/components/site-shell";
+import { getHeroContent } from "@/lib/content/hero-public";
+import type { HeroSlide } from "@/lib/content/hero-schema";
+import { tx } from "@/lib/content/page-schema";
+import { getPageContent } from "@/lib/content/pages-public";
 import { normalizeLocale } from "@/lib/locale";
 import {
   HOME_NEWS_PAGE_SIZE,
@@ -16,42 +20,6 @@ const content = {
     heroPlacesLabel: "Hero places",
     heroPakistan: "Pakistan",
     heroLebanon: "Lebanon",
-    heroPakistanSlides: [
-      {
-        title: "Pakistan Monument",
-        subtitle: "National monument at Shakarparian, Islamabad.",
-      },
-      {
-        title: "Faisal Mosque",
-        subtitle: "Iconic mosque at the foothills of Margalla Hills.",
-      },
-      {
-        title: "Pakistan Monument",
-        subtitle: "National monument at Shakarparian, Islamabad.",
-      },
-      {
-        title: "Faisal Mosque",
-        subtitle: "Iconic mosque at the foothills of Margalla Hills.",
-      },
-    ],
-    heroLebanonSlides: [
-      {
-        title: "Baalbek Ruins",
-        subtitle: "Roman-era temples in one of Lebanon's historic sites.",
-      },
-      {
-        title: "Byblos Old Port",
-        subtitle: "Ancient coastal harbor in one of the oldest cities.",
-      },
-      {
-        title: "Byblos Castle",
-        subtitle: "Historic stone fortress overlooking the Lebanese coast.",
-      },
-      {
-        title: "Zaitunay Bay",
-        subtitle: "Contemporary waterfront promenade in Beirut.",
-      },
-    ],
     sectionTitle: "Latest News & Events",
     headOfMission: "Head of Mission",
     missionName: "H.E. Abdulaziz ISSA",
@@ -68,42 +36,6 @@ const content = {
     heroPlacesLabel: "\u0623\u0645\u0627\u0643\u0646 \u0627\u0644\u0635\u0648\u0631 \u0641\u064a \u0627\u0644\u0648\u0627\u062c\u0647\u0629",
     heroPakistan: "\u0628\u0627\u0643\u0633\u062a\u0627\u0646",
     heroLebanon: "\u0644\u0628\u0646\u0627\u0646",
-    heroPakistanSlides: [
-      {
-        title: "\u0627\u0644\u0646\u0635\u0628 \u0627\u0644\u062a\u0630\u0643\u0627\u0631\u064a \u0644\u0628\u0627\u0643\u0633\u062a\u0627\u0646",
-        subtitle: "\u0645\u0639\u0644\u0645 \u0648\u0637\u0646\u064a \u0641\u064a \u0634\u0627\u0643\u0631\u0628\u0627\u0631\u064a\u0627\u0646\u060c \u0625\u0633\u0644\u0627\u0645 \u0623\u0628\u0627\u062f.",
-      },
-      {
-        title: "\u0645\u0633\u062c\u062f \u0641\u064a\u0635\u0644",
-        subtitle: "\u0645\u0633\u062c\u062f \u0623\u064a\u0642\u0648\u0646\u064a \u0639\u0646\u062f \u0633\u0641\u0648\u062d \u062a\u0644\u0627\u0644 \u0645\u0631\u062c\u0644\u0627.",
-      },
-      {
-        title: "\u0627\u0644\u0646\u0635\u0628 \u0627\u0644\u062a\u0630\u0643\u0627\u0631\u064a \u0644\u0628\u0627\u0643\u0633\u062a\u0627\u0646",
-        subtitle: "\u0645\u0639\u0644\u0645 \u0648\u0637\u0646\u064a \u0641\u064a \u0634\u0627\u0643\u0631\u0628\u0627\u0631\u064a\u0627\u0646\u060c \u0625\u0633\u0644\u0627\u0645 \u0623\u0628\u0627\u062f.",
-      },
-      {
-        title: "\u0645\u0633\u062c\u062f \u0641\u064a\u0635\u0644",
-        subtitle: "\u0645\u0633\u062c\u062f \u0623\u064a\u0642\u0648\u0646\u064a \u0639\u0646\u062f \u0633\u0641\u0648\u062d \u062a\u0644\u0627\u0644 \u0645\u0631\u062c\u0644\u0627.",
-      },
-    ],
-    heroLebanonSlides: [
-      {
-        title: "\u0622\u062b\u0627\u0631 \u0628\u0639\u0644\u0628\u0643",
-        subtitle: "\u0645\u0639\u0627\u0628\u062f \u0631\u0648\u0645\u0627\u0646\u064a\u0629 \u0641\u064a \u0623\u062d\u062f \u0623\u0628\u0631\u0632 \u0627\u0644\u0645\u0648\u0627\u0642\u0639 \u0627\u0644\u062a\u0627\u0631\u064a\u062e\u064a\u0629 \u0641\u064a \u0644\u0628\u0646\u0627\u0646.",
-      },
-      {
-        title: "\u0645\u0631\u0641\u0623 \u062c\u0628\u064a\u0644 \u0627\u0644\u0642\u062f\u064a\u0645",
-        subtitle: "\u0645\u064a\u0646\u0627\u0621 \u0633\u0627\u062d\u0644\u064a \u0639\u0631\u064a\u0642 \u0641\u064a \u0648\u0627\u062d\u062f\u0629 \u0645\u0646 \u0623\u0642\u062f\u0645 \u0627\u0644\u0645\u062f\u0646.",
-      },
-      {
-        title: "\u0642\u0644\u0639\u0629 \u062c\u0628\u064a\u0644",
-        subtitle: "\u0642\u0644\u0639\u0629 \u062d\u062c\u0631\u064a\u0629 \u062a\u0627\u0631\u064a\u062e\u064a\u0629 \u062a\u0637\u0644 \u0639\u0644\u0649 \u0633\u0627\u062d\u0644 \u0644\u0628\u0646\u0627\u0646.",
-      },
-      {
-        title: "\u0632\u064a\u062a\u0648\u0646\u0629 \u0628\u0627\u064a",
-        subtitle: "\u0648\u0627\u062c\u0647\u0629 \u0628\u062d\u0631\u064a\u0629 \u0639\u0635\u0631\u064a\u0629 \u0641\u064a \u0628\u064a\u0631\u0648\u062a.",
-      },
-    ],
     sectionTitle: "\u0622\u062e\u0631 \u0627\u0644\u0623\u062e\u0628\u0627\u0631 \u0648\u0627\u0644\u0641\u0639\u0627\u0644\u064a\u0627\u062a",
     headOfMission: "\u0631\u0626\u064a\u0633 \u0627\u0644\u0628\u0639\u062b\u0629",
     missionName: "\u0633\u0639\u0627\u062f\u0629 \u0627\u0644\u0633\u0641\u064a\u0631 \u0639\u0628\u062f \u0627\u0644\u0639\u0632\u064a\u0632 \u0639\u064a\u0633\u0649",
@@ -133,7 +65,22 @@ export default async function Home({
   const locale = normalizeLocale(rawLocale);
   const t = content[locale];
 
-  const newsItems = await getNewsForLocale(locale);
+  const [newsItems, ambassador, hero] = await Promise.all([
+    getNewsForLocale(locale),
+    getPageContent("ambassador"),
+    getHeroContent(),
+  ]);
+  const slideStyle = (slide: HeroSlide) => ({
+    backgroundImage: `url("${slide.image.src}")`,
+    backgroundSize: slide.fit,
+    backgroundPosition: slide.position,
+    backgroundColor: slide.fit === "cover" ? "transparent" : undefined,
+  });
+  const mission = {
+    name: tx(ambassador.fields.name, locale) || t.missionName,
+    role: tx(ambassador.fields.role, locale) || t.missionRole,
+    portrait: ambassador.images.homePortrait ?? ambassador.images.portrait ?? null,
+  };
   const query = (await searchParams) ?? {};
   const totalPages = Math.max(1, Math.ceil(newsItems.length / HOME_NEWS_PAGE_SIZE));
   const requestedPage = parsePageParam(query.newsPage);
@@ -153,37 +100,35 @@ export default async function Home({
         <div className="heroSplitVisuals">
           <div className="heroVisual heroVisualPakistan" role="img" aria-label={t.heroPakistan}>
             <div className="heroSlides" aria-hidden="true">
-              <div className="heroSlide heroSlidePakistan1" />
-              <div className="heroSlide heroSlidePakistan2" />
-              <div className="heroSlide heroSlidePakistan3" />
-              <div className="heroSlide heroSlidePakistan4" />
+              {hero.pakistan.map((slide, index) => (
+                <div className={`heroSlide heroSlidePakistan${index + 1}`} style={slideStyle(slide)} key={`pk-${index}`} />
+              ))}
             </div>
           </div>
           <div className="heroVisual heroVisualLebanon" role="img" aria-label={t.heroLebanon}>
             <div className="heroSlides" aria-hidden="true">
-              <div className="heroSlide heroSlideLebanon1" />
-              <div className="heroSlide heroSlideLebanon2" />
-              <div className="heroSlide heroSlideLebanon3" />
-              <div className="heroSlide heroSlideLebanon4" />
+              {hero.lebanon.map((slide, index) => (
+                <div className={`heroSlide heroSlideLebanon${index + 1}`} style={slideStyle(slide)} key={`lb-${index}`} />
+              ))}
             </div>
           </div>
         </div>
         <div className="heroPlacesBar" aria-label={t.heroPlacesLabel}>
           <div className="heroPlaceTrack">
-            {t.heroPakistanSlides.map((item, index) => (
-              <div className={`heroPlaceItem heroPlaceFrame${index + 1}`} key={`${item.title}-${index}`}>
+            {hero.pakistan.map((item, index) => (
+              <div className={`heroPlaceItem heroPlaceFrame${index + 1}`} key={`pk-caption-${index}`}>
                 <span className="heroPlaceCountry">{t.heroPakistan}</span>
-                <span className="heroPlaceName">{item.title}</span>
-                <span className="heroPlaceSub">{item.subtitle}</span>
+                <span className="heroPlaceName">{tx(item.title, locale)}</span>
+                <span className="heroPlaceSub">{tx(item.subtitle, locale)}</span>
               </div>
             ))}
           </div>
           <div className="heroPlaceTrack">
-            {t.heroLebanonSlides.map((item, index) => (
-              <div className={`heroPlaceItem heroPlaceFrame${index + 1}`} key={`${item.title}-${index}`}>
+            {hero.lebanon.map((item, index) => (
+              <div className={`heroPlaceItem heroPlaceFrame${index + 1}`} key={`lb-caption-${index}`}>
                 <span className="heroPlaceCountry">{t.heroLebanon}</span>
-                <span className="heroPlaceName">{item.title}</span>
-                <span className="heroPlaceSub">{item.subtitle}</span>
+                <span className="heroPlaceName">{tx(item.title, locale)}</span>
+                <span className="heroPlaceSub">{tx(item.subtitle, locale)}</span>
               </div>
             ))}
           </div>
@@ -239,17 +184,19 @@ export default async function Home({
 
           <aside className="missionCard">
             <h4>{t.headOfMission}</h4>
-            <div className="ambassadorPortraitWrap missionPortraitWrap">
-              <HydrationSafeImage
-                src="/lebanon_ambassador.jpeg"
-                alt={t.missionName}
-                width={900}
-                height={1200}
-                className="ambassadorPortrait"
-              />
-            </div>
-            <p className="missionName">{t.missionName}</p>
-            <p className="muted">{t.missionRole}</p>
+            {mission.portrait ? (
+              <div className="ambassadorPortraitWrap missionPortraitWrap">
+                <HydrationSafeImage
+                  src={mission.portrait.src}
+                  alt={tx(mission.portrait.alt, locale) || mission.name}
+                  width={mission.portrait.width}
+                  height={mission.portrait.height}
+                  className="ambassadorPortrait"
+                />
+              </div>
+            ) : null}
+            <p className="missionName">{mission.name}</p>
+            <p className="muted">{mission.role}</p>
             <Link className="relationsBioButton" href={`/${locale}/ambassador`}>
               {t.missionCta}
             </Link>

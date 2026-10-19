@@ -8,11 +8,23 @@ import { slugify } from "@/lib/news-schema";
 const HANDLE_UPLOAD_URL = "/api/blob-upload";
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_IMAGE_INPUT_BYTES = 40 * 1024 * 1024;
-const MAX_PDF_BYTES = 25 * 1024 * 1024;
-const MAX_IMAGE_EDGE = 1800;
+const MAX_DOCUMENT_BYTES = 25 * 1024 * 1024;
 const JPEG_QUALITY = 0.86;
 
 export type UploadedImage = { src: string; width: number; height: number };
+export type UploadedDocument = { href: string; name: string; contentType: string; size: number };
+
+type ImageUploadOptions = {
+  // Sub-folder in the store, for example "news" or "banners".
+  folder?: string;
+  // Longest edge after resizing. Banners need more pixels than news photos.
+  maxEdge?: number;
+};
+
+function safeFolder(folder: string | undefined): string {
+  const cleaned = (folder ?? "misc").toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
+  return cleaned || "misc";
+}
 
 function baseName(fileName: string): string {
   return slugify(fileName.replace(/\.[^.]+$/, "")) || "file";
@@ -32,7 +44,7 @@ function friendlyUploadError(error: unknown): Error {
 // Re-encodes the photo as JPEG at web size. This also applies the camera
 // orientation and drops EXIF metadata (location etc.) before anything leaves
 // the browser.
-async function prepareImage(file: File): Promise<{ blob: Blob; width: number; height: number }> {
+async function prepareImage(file: File, maxEdge: number): Promise<{ blob: Blob; width: number; height: number }> {
   let bitmap: ImageBitmap;
   try {
     bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
@@ -41,7 +53,7 @@ async function prepareImage(file: File): Promise<{ blob: Blob; width: number; he
   }
 
   try {
-    const scale = Math.min(1, MAX_IMAGE_EDGE / Math.max(bitmap.width, bitmap.height));
+    const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
     const width = Math.max(1, Math.round(bitmap.width * scale));
     const height = Math.max(1, Math.round(bitmap.height * scale));
 
@@ -67,7 +79,7 @@ async function prepareImage(file: File): Promise<{ blob: Blob; width: number; he
   }
 }
 
-export async function uploadImageFile(file: File): Promise<UploadedImage> {
+export async function uploadImageFile(file: File, options: ImageUploadOptions = {}): Promise<UploadedImage> {
   if (!IMAGE_TYPES.includes(file.type)) {
     throw new Error("Only JPG, PNG or WEBP photos can be uploaded.");
   }
@@ -75,9 +87,9 @@ export async function uploadImageFile(file: File): Promise<UploadedImage> {
     throw new Error("That photo is too large (maximum 40 MB).");
   }
 
-  const { blob, width, height } = await prepareImage(file);
+  const { blob, width, height } = await prepareImage(file, options.maxEdge ?? 1800);
   try {
-    const result = await upload(`news/images/${Date.now()}-${baseName(file.name)}.jpg`, blob, {
+    const result = await upload(`uploads/images/${safeFolder(options.folder)}/${Date.now()}-${baseName(file.name)}.jpg`, blob, {
       access: "public",
       handleUploadUrl: HANDLE_UPLOAD_URL,
       contentType: "image/jpeg",
@@ -88,21 +100,26 @@ export async function uploadImageFile(file: File): Promise<UploadedImage> {
   }
 }
 
-export async function uploadDocumentFile(file: File): Promise<{ href: string; name: string }> {
-  if (file.type !== "application/pdf" && !/\.pdf$/i.test(file.name)) {
-    throw new Error("Only PDF files can be attached.");
+// PDFs (and, for the documents library, JPG/PNG scans) uploaded as they are.
+export async function uploadDocumentFile(file: File, options: { folder?: string; allowImages?: boolean } = {}): Promise<UploadedDocument> {
+  const isPdf = file.type === "application/pdf" || /\.pdf$/i.test(file.name);
+  const isImage = IMAGE_TYPES.includes(file.type);
+  if (!isPdf && !(options.allowImages && isImage)) {
+    throw new Error(options.allowImages ? "Only PDF, JPG or PNG files can be uploaded." : "Only PDF files can be attached.");
   }
-  if (file.size > MAX_PDF_BYTES) {
-    throw new Error("That PDF is too large (maximum 25 MB).");
+  if (file.size > MAX_DOCUMENT_BYTES) {
+    throw new Error("That file is too large (maximum 25 MB).");
   }
 
+  const extension = isPdf ? "pdf" : file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+  const contentType = isPdf ? "application/pdf" : file.type;
   try {
-    const result = await upload(`news/documents/${Date.now()}-${baseName(file.name)}.pdf`, file, {
-      access: "public",
-      handleUploadUrl: HANDLE_UPLOAD_URL,
-      contentType: "application/pdf",
-    });
-    return { href: result.url, name: file.name };
+    const result = await upload(
+      `uploads/documents/${safeFolder(options.folder)}/${Date.now()}-${baseName(file.name)}.${extension}`,
+      file,
+      { access: "public", handleUploadUrl: HANDLE_UPLOAD_URL, contentType },
+    );
+    return { href: result.url, name: file.name, contentType, size: file.size };
   } catch (error) {
     throw friendlyUploadError(error);
   }

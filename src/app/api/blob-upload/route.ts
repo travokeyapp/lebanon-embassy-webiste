@@ -3,8 +3,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { logAudit } from "@/lib/audit";
 import { SESSION_COOKIE, verifySessionToken, type SessionUser } from "@/lib/auth/session-token";
 
-const IMAGE_PREFIX = "news/images/";
-const DOCUMENT_PREFIX = "news/documents/";
+const IMAGE_PREFIXES = ["uploads/images/", "news/images/"];
+const DOCUMENT_PREFIXES = ["uploads/documents/", "news/documents/"];
 const MAX_IMAGE_BYTES = 12 * 1024 * 1024;
 const MAX_DOCUMENT_BYTES = 25 * 1024 * 1024;
 
@@ -40,13 +40,15 @@ export async function POST(request: NextRequest) {
         if (!session) {
           throw new Error("Unauthorized");
         }
-        const isImage = pathname.startsWith(IMAGE_PREFIX);
-        const isDocument = pathname.startsWith(DOCUMENT_PREFIX);
+        const isImage = IMAGE_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+        const isDocument = DOCUMENT_PREFIXES.some((prefix) => pathname.startsWith(prefix));
         if (!isImage && !isDocument) {
-          throw new Error("Uploads are only allowed into the news folders.");
+          throw new Error("Uploads are only allowed into the uploads folders.");
         }
         return {
-          allowedContentTypes: isImage ? ["image/jpeg", "image/png", "image/webp"] : ["application/pdf"],
+          allowedContentTypes: isImage
+            ? ["image/jpeg", "image/png", "image/webp"]
+            : ["application/pdf", "image/jpeg", "image/png", "image/webp"],
           maximumSizeInBytes: isImage ? MAX_IMAGE_BYTES : MAX_DOCUMENT_BYTES,
           addRandomSuffix: true,
           tokenPayload: JSON.stringify({ userId: session.id, userEmail: session.email }),
