@@ -142,8 +142,9 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
           </article>
         </div>
 
+        {/* Recommended agency: agreed with the Embassy and intentionally not editable from the admin. */}
         <article className="card stack visaSupportCard">
-          <h3>{t("contactTitle")}</h3>
+          <h3>{locale === "en" ? "Need Assistance?" : "بحاجة إلى مساعدة؟"}</h3>
           {locale === "en" ? (
             <p>
               The Embassy of Lebanon in Islamabad recommends{" "}
@@ -153,7 +154,13 @@ export default async function VisasPage({ params }: { params: Promise<{ locale: 
               , an agency officially authorised by the Embassy, for visa application processing and document attestation services.
             </p>
           ) : (
-            <p>{t("contactBody")}</p>
+            <p>
+              توصي سفارة لبنان في إسلام آباد بشركة{" "}
+              <a href="https://www.crownintltravels.com/" target="_blank" rel="noreferrer" className="contactLink">
+                Crown International Travels Pvt. Ltd.
+              </a>
+              ، وهي وكالة معتمدة رسمياً من السفارة، لخدمات إجراءات التأشيرات والتصديق على المستندات.
+            </p>
           )}
 
           <div>

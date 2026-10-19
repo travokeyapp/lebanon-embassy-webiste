@@ -46,7 +46,7 @@ photos/PDFs in Vercel Blob; every save updates the public site within seconds, n
 | Home banners | The two slideshows at the top of the home page (4 Pakistan + 4 Lebanon pictures with captions) |
 | Documents & forms | Files on the Forms & Documents page (`/downloads`); visa forms also appear on the Visas page |
 | Gallery | Photos on the Gallery page, by collection |
-| Pages | Text of Services, Consular, Visas, The Ambassador (and portraits), Relations, About |
+| Pages | Text of Services, Consular, Visas, The Ambassador (and portraits), Relations, About. The recommended-agency (Crown International Travels) cards and footer block are fixed in code and not editable |
 | Contact & footer | Address, phones, fax, email, office hours, map, top ribbon, footer text and related links |
 | Staff accounts | Administrators add editors/administrators, reset passwords, deactivate accounts |
 | My account | Change your own password; full activity log |

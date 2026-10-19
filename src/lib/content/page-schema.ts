@@ -109,7 +109,7 @@ export const PAGE_DEFS: Record<PageKey, PageDef> = {
   visas: {
     key: "visas",
     label: "Visas page",
-    description: "Visa categories, requirements, fees, process and notes. Forms are managed under Documents & forms.",
+    description: "Visa categories, requirements, fees, process and notes. Forms are managed under Documents & forms. The recommended-agency card is fixed.",
     publicPath: "/visas",
     fields: [
       { name: "title", label: "Page title", kind: "text" },
@@ -128,8 +128,8 @@ export const PAGE_DEFS: Record<PageKey, PageDef> = {
       { name: "notes", label: "Important notes", kind: "lines", hint: ONE_PER_LINE },
       { name: "downloadTitle", label: "Heading: forms download", kind: "text" },
       { name: "downloadHint", label: "Forms download text", kind: "multiline" },
-      { name: "contactTitle", label: "Heading: need assistance", kind: "text" },
-      { name: "contactBody", label: "Need assistance text (Arabic version; the English one names the agency)", kind: "multiline" },
+      // The "Need assistance" card naming the Embassy's recommended agency is
+      // deliberately not editable; it lives in the page code.
     ],
     plain: [],
     cards: [
